@@ -1,0 +1,9 @@
+/node_modules
+
+.log
+npm-debug.log
+
+# Ignore vim tmp files
+*.swp
+
+yarn.lock
