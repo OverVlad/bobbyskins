@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import EmojiPicker from 'emojione-picker';
 
-import Message from './Message'
+import Message from './Message.jsx'
 
 class Messages extends Component {
 

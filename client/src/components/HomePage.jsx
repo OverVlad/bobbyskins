@@ -1,17 +1,18 @@
 import React from 'react';
-import Chat from './Chat'
-import Roulette from './Roulette'
+import Chat from './Chat/'
+import Roulette from './Roulette/'
+import Layout from 'material-ui/Layout';
 
 
 const HomePage = () => (
-  <div className="row">
-    <div className="col-md-3">
-      <Chat />
-    </div>
-    <div className="col-md-9">
-      <Roulette />
-    </div>
-  </div>
+  <Layout container gutter={16}>
+    <Layout item xs={3}>
+        <Chat />
+    </Layout>
+    <Layout item xs={9}>
+        <Roulette />
+    </Layout>
+  </Layout>
 );
 
 export default HomePage;

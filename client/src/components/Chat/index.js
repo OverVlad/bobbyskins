@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 
-import Message from './Message'
-import Messages from './Messages'
-import ChatInput from './ChatInput'
+import Message from './Message.jsx'
+import Messages from './Messages.jsx'
+import ChatInput from './ChatInput.jsx'
 
 class Chat extends Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      data: []
+    }
 
     this.addMessage = this.addMessage.bind(this);
   }
@@ -29,7 +33,7 @@ class Chat extends Component {
     return (
       <div className="chat">
         <div className="chat-room">English room</div>
-        <Messages messages={this.props.chat.data} />
+        <Messages messages={this.state.data} />
 
         <ChatInput addMessage={this.addMessage}/>
       </div>
