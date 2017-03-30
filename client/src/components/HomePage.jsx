@@ -5,12 +5,12 @@ import Layout from 'material-ui/Layout';
 
 
 const HomePage = () => (
-  <Layout container gutter={16}>
-    <Layout item xs={3}>
-        <Chat />
+  <Layout container>
+    <Layout item xs={12} sm={3}>
+      <Chat />
     </Layout>
-    <Layout item xs={9}>
-        <Roulette />
+    <Layout item xs={12} sm={9}>
+      <Roulette />
     </Layout>
   </Layout>
 );

@@ -1,19 +1,19 @@
 import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
-
+import Layout from 'material-ui/Layout';
 
 const Base = ({ children }) => (
-  <div>
-    <div className="top-bar">
-      <div className="top-bar-left">
+  <Layout container gutter={8}>
+    <Layout item xs={12}>
+      <header>
         <IndexLink to="/">BobbySkins</IndexLink>
-      </div>
+      </header>
+    </Layout>
 
-    </div>
-
-    {children}
-
-  </div>
+    <Layout item xs={12}>
+      {children}
+    </Layout>
+  </Layout>
 );
 
 Base.propTypes = {
