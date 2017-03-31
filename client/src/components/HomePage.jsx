@@ -1,6 +1,6 @@
 import React from 'react';
-import Chat from './Chat/'
-import Roulette from './Roulette/'
+import Chat from '../containers/Chat/'
+import Roulette from '../containers/Roulette/'
 import Layout from 'material-ui/Layout';
 
 

@@ -1,6 +1,7 @@
 .chat {
     width: 100%;
-    background: #eee;
+    margin: 10px 0;
+    background: $block-color;
     border-radius: 5px;
 }
 
@@ -39,7 +40,7 @@
     display: inline-block;
     width: 80%;
     padding: 5px;
-    background: #fff;
+    background: $message-color;
     border-radius: 5px;
     font-size: 0.85rem;
 }
@@ -77,7 +78,7 @@
     }
 
     .message-container {
-        background: #a1a1ec;
+        background: $own-message;
     }
 }
 

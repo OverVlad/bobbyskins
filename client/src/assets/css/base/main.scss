@@ -2,14 +2,26 @@
     box-sizing: border-box;
 }
 
+*:focus {
+    outline: none;
+}
+
 html {
     font-size: 16px;
 }
 
 body {
     font-family: $font-main;
-    font-weight: 300;
     color: #000;
     line-height: 1;
     overflow-x: hidden;
+    font-size: 14px;
+    line-height: 1.2;
+    background-color: $bg-color;
+    color: $font-color;
+}
+
+a {
+    text-decoration: none;
+    color:inherit;
 }

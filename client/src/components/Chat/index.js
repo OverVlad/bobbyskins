@@ -17,7 +17,7 @@ class Chat extends Component {
   }
 
   addMessage(text) {
-    const { addMessage } = this.props.chatActions;
+      const { addMessage } = this.props.chatActions;
 
     const message = {
       name: this.props.user.name,
@@ -33,7 +33,7 @@ class Chat extends Component {
     return (
       <div className="chat">
         <div className="chat-room">English room</div>
-        <Messages messages={this.state.data} />
+        <Messages messages={this.props.chat.data} />
 
         <ChatInput addMessage={this.addMessage}/>
       </div>

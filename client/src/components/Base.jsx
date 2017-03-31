@@ -2,12 +2,12 @@ import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 import Layout from 'material-ui/Layout';
 
+import Header from './Header.jsx'
+
 const Base = ({ children }) => (
-  <Layout container gutter={8}>
+  <Layout container gutter={16}>
     <Layout item xs={12}>
-      <header>
-        <IndexLink to="/">BobbySkins</IndexLink>
-      </header>
+      <Header />
     </Layout>
 
     <Layout item xs={12}>

@@ -48,15 +48,25 @@ table {
 * {
   box-sizing: border-box; }
 
+*:focus {
+  outline: none; }
+
 html {
   font-size: 16px; }
 
 body {
-  font-family: "Open Sans", "Arial", sans-serif;
-  font-weight: 300;
+  font-family: "Roboto", "Arial", sans-serif;
   color: #000;
   line-height: 1;
-  overflow-x: hidden; }
+  overflow-x: hidden;
+  font-size: 14px;
+  line-height: 1.2;
+  background-color: #2a475e;
+  color: #fff; }
+
+a {
+  text-decoration: none;
+  color: inherit; }
 
 .emoji-dialog {
   width: 276px;
@@ -200,9 +210,71 @@ body {
 .emoji-dialog .emoji {
   width: 12.5%; }
 
+.top-bar {
+  padding-bottom: 20px; }
+
+.header {
+  height: 80px;
+  padding: 20px 0;
+  color: #fff;
+  background-image: linear-gradient(0deg, #121b27 0%, #1e2e42 100%); }
+
+.logo {
+  display: inline-block; }
+
+.menu {
+  display: inline-block; }
+
+.menu__container {
+  padding-top: 5px; }
+
+.menu__i {
+  float: left; }
+  .menu__i + .menu__i {
+    padding-left: 15px; }
+
+.menu__link {
+  padding: 5px 8px; }
+  .menu__link:hover {
+    border-bottom: 2px solid #3ebaf4; }
+
+.profile__name {
+  display: inline-block;
+  white-space: nowrap;
+  padding-top: 7px;
+  vertical-align: top;
+  padding-left: 5px; }
+
+.profile-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%; }
+
+.lang-img {
+  padding-top: 4px; }
+
+.lang-name {
+  padding-left: 5px;
+  display: inline-block;
+  padding-top: 7px;
+  vertical-align: top; }
+
+.games {
+  color: #fff;
+  background: #193145;
+  text-align: center; }
+
+.game-name {
+  display: inline-block;
+  padding-top: 4px;
+  padding-left: 4px;
+  vertical-align: top;
+  font-size: 1.2rem; }
+
 .chat {
   width: 100%;
-  background: #eee;
+  margin: 10px 0;
+  background: #1b2838;
   border-radius: 5px; }
 
 .chat-room {
@@ -238,7 +310,7 @@ body {
   display: inline-block;
   width: 80%;
   padding: 5px;
-  background: #fff;
+  background: #2c425c;
   border-radius: 5px;
   font-size: 0.85rem; }
 
@@ -268,7 +340,7 @@ body {
   .message-own .message__avatar {
     float: right; }
   .message-own .message-container {
-    background: #a1a1ec; }
+    background: #275282; }
 
 .message-form {
   position: relative; }
@@ -283,6 +355,25 @@ body {
   position: absolute;
   right: -85%;
   bottom: 30px; }
+
+.progress-bar {
+  width: 90%;
+  margin: 10px auto;
+  height: 40px;
+  background-color: #2a475e; }
+
+.bar {
+  height: 100%;
+  text-align: center;
+  line-height: 22px;
+  /* same as #progressBar height if we want text middle aligned */
+  width: 0;
+  background-color: #ff5248;
+  box-sizing: border-box; }
+
+.progress {
+  position: fixed;
+  left: 50%; }
 
 .roulette-img {
   width: 100%; }
