@@ -45,6 +45,37 @@ table {
   border-collapse: collapse;
   border-spacing: 0; }
 
+/* Base */
+body {
+  color: green;
+  font-family: "Georgia", serif;
+  font-size: 24px;
+  line-height: 1.5; }
+
+/* Reset `button` and button-style `input` default styles */
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button {
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  line-height: normal;
+  overflow: visible;
+  padding: 0;
+  -ms-user-select: none; }
+
+input::-moz-focus-inner,
+button::-moz-focus-inner {
+  border: 0;
+  padding: 0; }
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed; }
+
 * {
   box-sizing: border-box; }
 
@@ -331,9 +362,10 @@ a {
   padding: 5px 10px;
   border: 0;
   border-radius: 5px;
-  background: #d4d4d4;
   font-size: 0.9rem;
-  color: #000; }
+  color: #fff;
+  background-color: #2a475e;
+  border: 1px solid #3a6a91; }
 
 .message-own {
   margin-left: 10%; }
@@ -356,24 +388,134 @@ a {
   right: -85%;
   bottom: 30px; }
 
-.progress-bar {
-  width: 90%;
-  margin: 10px auto;
+#progress-bar {
+  width: 100%;
   height: 40px;
-  background-color: #2a475e; }
+  background-color: #2a475e;
+  border-radius: 5px;
+  border: 1px solid #3a6a91; }
 
 .bar {
   height: 100%;
   text-align: center;
   line-height: 22px;
-  /* same as #progressBar height if we want text middle aligned */
   width: 0;
+  border-radius: 5px 0 0 5px;
   background-color: #ff5248;
   box-sizing: border-box; }
 
-.progress {
-  position: fixed;
-  left: 50%; }
+.banner {
+  position: absolute;
+  top: 10px;
+  left: 30%;
+  font-size: 1rem;
+  color: #fff;
+  width: 40%;
+  text-align: center; }
 
-.roulette-img {
+.progress {
+  position: relative;
+  width: 90%;
+  margin: 10px auto; }
+
+.roulette {
+  margin: 18px 0;
+  background: #1b2838;
+  border-radius: 5px; }
+
+.wheel__img {
+  width: 85%;
+  margin: 20px auto 0;
+  overflow: hidden;
+  height: 255px; }
+
+.wheel-img {
   width: 100%; }
+
+#wheel {
+  transition-duration: 3s; }
+
+.wheel {
+  position: relative; }
+
+.poiner {
+  position: absolute;
+  top: 25%;
+  right: 49%;
+  width: 25px; }
+
+.poiner-img {
+  width: 100%; }
+
+.balance {
+  margin: 15px;
+  text-align: center; }
+
+.btn-bet {
+  font-size: 1rem;
+  border: 1px solid #000;
+  border-radius: 3px;
+  margin: 5px;
+  padding: 5px 20px;
+  transition: all 0.4s; }
+
+.btn-red {
+  border-color: #ff3b30;
+  color: #ff3b30; }
+  .btn-red:hover {
+    color: #fff;
+    background: #ff3b30; }
+
+.btn-blue {
+  border-color: #3ebaf4;
+  color: #3ebaf4; }
+  .btn-blue:hover {
+    color: #fff;
+    background: #3ebaf4; }
+
+.input-bet {
+  font-size: 0.9rem;
+  width: 125px;
+  background-color: transparent; }
+  .input-bet:hover {
+    background: transparent;
+    color: #3ebaf4; }
+
+.Bets {
+  justify-content: center; }
+
+.betBlock {
+  width: 19%;
+  margin: 0 5px;
+  background: #1b2838;
+  border-radius: 5px; }
+
+.btn-block {
+  width: 100%;
+  padding: 13px 0;
+  border-radius: 5px;
+  margin: 5px auto; }
+
+.btn-odd {
+  background: #83aac4; }
+
+.btn-even {
+  background: #9190d9; }
+
+.btn-1-7 {
+  background: #ff3b30; }
+
+.btn-8-14 {
+  background: #000; }
+
+.btn-zero {
+  background: #4cd964; }
+
+.own-bet {
+  width: 90%;
+  padding: 5px 0;
+  margin: 10px auto;
+  background-color: #2a475e;
+  border-radius: 5px;
+  border: 1px solid #3a6a91;
+  text-align: center; }

@@ -1,0 +1,44 @@
+.balance {
+    margin: 15px;
+    text-align: center;
+}
+
+.btn-bet {
+    font-size: 1rem;
+    border: 1px solid $black;
+    border-radius: 3px;
+    margin: 5px;
+    padding: 5px 20px;
+    transition: all 0.4s;
+}
+
+.btn-red {
+    border-color: $red;
+    color: $red;
+
+    &:hover {
+        color: $white;
+        background: $red;
+    }
+}
+
+.btn-blue {
+    border-color: $blue;
+    color: $blue;
+
+    &:hover {
+        color: $white;
+        background: $blue;
+    }
+}
+
+.input-bet {
+    font-size: 0.9rem;
+    width: 125px;
+    background-color: transparent;
+
+    &:hover {
+        background: transparent;
+        color: $blue
+    }
+}

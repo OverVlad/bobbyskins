@@ -49,3 +49,38 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
+
+/* Base */
+body {
+    color: green;
+    font-family: "Georgia", serif;
+    font-size: 24px;
+    line-height: 1.5;
+}
+
+/* Reset `button` and button-style `input` default styles */
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+button {
+    background: none;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    line-height: normal;
+    overflow: visible;
+    padding: 0;
+    -ms-user-select: none;
+}
+
+input::-moz-focus-inner,
+button::-moz-focus-inner {
+    border: 0;
+    padding: 0;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

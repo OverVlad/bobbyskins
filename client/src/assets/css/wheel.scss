@@ -1,0 +1,29 @@
+.wheel__img {
+    width: 85%;
+    margin: 20px auto 0;
+    overflow: hidden;
+    height: 255px;
+}
+
+.wheel-img {
+    width: 100%;
+}
+
+#wheel {
+    transition-duration: 3s;
+}
+
+.wheel {
+    position: relative;
+}
+
+.poiner {
+    position: absolute;
+    top: 25%;
+    right: 49%;
+    width: 25px;
+}
+
+.poiner-img {
+    width: 100%;
+}
