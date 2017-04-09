@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Layout from 'material-ui/Layout';
+import { Row, Col } from 'react-flexbox-grid';
 
 import ProgressBar from './ProgressBar.jsx'
 import Wheel from './Wheel.jsx'
@@ -20,7 +20,7 @@ class Roulette extends Component {
       bet: {
         count: 0,
         type: ''
-      }
+      },
     };
 
     this.progressBar = this.progressBar.bind(this);
@@ -31,6 +31,7 @@ class Roulette extends Component {
   }
 
   progressBar(timeleft, timetotal) {
+    $('.btn-block').prop("disabled", false);
     const $elem = $('#progress-bar');
     let progressBarWidth = timeleft * 100 / timetotal;
     $elem.find('div').width(progressBarWidth + '%');
@@ -47,6 +48,7 @@ class Roulette extends Component {
   }
 
   roll() {
+    $('.btn-block').prop("disabled", true);
 
     this.probability.Lot = new Array (
 
@@ -157,8 +159,8 @@ class Roulette extends Component {
   addBet(event) {
     const type = event.target.dataset.bet;
     event.target.disabled = true;
-
-    console.log(this.state.bet);
+    const betList = event.target.parentNode.lastChild.lastChild;
+    betList.appendChild();
 
     this.setState({
       bet: {
@@ -166,8 +168,6 @@ class Roulette extends Component {
         type: type
       }
     });
-
-    console.log(this.state.bet);
   }
 
   handleChange(event) {
@@ -188,8 +188,8 @@ class Roulette extends Component {
 
   render() {
     return (
-      <Layout container>
-        <Layout item xs={12} className="roulette">
+      <Row>
+        <Col xs={12} className="roulette">
           <ProgressBar />
           <Wheel />
           <Balance
@@ -198,10 +198,12 @@ class Roulette extends Component {
             handleClick={this.handleBetClick}
             handleChange={this.handleChange}
             />
-        </Layout>
+        </Col>
 
-        <BetBlock bet={this.state.bet} addBet={this.addBet} />
-      </Layout>
+        <Col xs={12}>
+          <BetBlock bet={this.state.bet} addBet={this.addBet} />
+        </Col>
+      </Row>
     );
   }
 }

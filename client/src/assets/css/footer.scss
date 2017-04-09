@@ -1,0 +1,22 @@
+.footer {
+    margin-top: 25px;
+    height: 65px;
+    padding: 20px 0;
+    text-align: center;
+    color: $white;
+    background-image: linear-gradient( 0deg, rgb(18,27,39) 0%, rgb(30,46,66) 100%);
+}
+
+.footer-icon {
+    max-width: 100%;
+}
+
+.footer-social {
+    width: 25%;
+    padding: 0 5px;
+}
+
+.copyright {
+    padding-top: 5px;
+    opacity: 0.7;
+}

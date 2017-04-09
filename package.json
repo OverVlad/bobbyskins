@@ -28,6 +28,9 @@
     "emojione-picker": "^2.0.1",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^2.1.0",
+    "file-loader": "^0.11.1",
+    "font-awesome": "^4.7.0",
+    "import-glob-loader": "^1.1.0",
     "json-loader": "^0.5.4",
     "material-ui": "next",
     "react": "^15.4.1",
@@ -40,6 +43,7 @@
     "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.2.0",
+    "url-loader": "^0.5.8",
     "validator": "^6.2.0"
   }
 }

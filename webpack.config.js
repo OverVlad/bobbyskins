@@ -7,6 +7,7 @@ const options = {
   entry: {
     css: path.join(__dirname, '/client/src/assets/css/main.scss'),
     js: path.join(__dirname,'/client/assets/'),
+    fonts: path.join(__dirname,'/client/assets/fonts/'),
     app: path.join(__dirname, '/client/src/app.jsx')
   },
   output: {
@@ -27,11 +28,17 @@ module.exports = {
       {
         test: /\.(js|jsx)$/,
         include: path.join(__dirname, '/client/src'),
-        loader: 'babel-loader',
-        query: {
-          presets: ["react", "es2015"]
-        },
+        use: [{
+          loader: 'babel-loader',
+          options: {
+            presets: ["react", "es2015"]
+          }
+        }],
         exclude: /node_modules/,
+      },
+      {
+        test: /\.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+        loader: 'file-loader?name=../fonts/[name].[ext]'
       },
       {
         test: /\.json$/,
@@ -39,10 +46,10 @@ module.exports = {
       },
       {
         test: /\.(css|scss|sass)$/,
-        include: options.entry.css,
+        include: [options.entry.css, /flexboxgrid/],
         loader: ExtractTextPlugin.extract({
           fallback: "style-loader",
-          use: ['css-loader', 'sass-loader']
+          use: ['css-loader', 'sass-loader', 'import-glob-loader']
         }),
       },
     ],

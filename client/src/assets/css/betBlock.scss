@@ -1,9 +1,5 @@
-.Bets {
-    justify-content: center;
-}
-
 .betBlock {
-    width: 19%;
+    min-width: 19%;
     margin: 0 5px;
     background: $block-color;
     border-radius: 5px;
@@ -44,4 +40,25 @@
     border-radius: 5px;
     border: 1px solid $border-bar;
     text-align: center;
+}
+
+.total-people {
+    float: left;
+    padding-left: 5px;
+
+    i {
+        padding: 0 5px;
+    }
+}
+
+.total-bets {
+    float:right;
+
+    i {
+        padding: 0 5px;
+    }
+}
+
+.list-bets {
+    padding: 15px 5px;
 }

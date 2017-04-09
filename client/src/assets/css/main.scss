@@ -1,11 +1,13 @@
 @import 'helpers/variables';
 @import 'helpers/mixins';
+@import 'helpers/font-awesome';
 
 @import 'base/reset';
 @import 'base/main';
 @import 'base/emoji-picker';
 
 @import 'header';
+@import 'footer';
 
 @import 'chat';
 @import 'progressbar';
@@ -13,3 +15,6 @@
 @import 'wheel';
 @import 'balance';
 @import 'betBlock';
+
+$fa-font-path: "~font-awesome/fonts";
+@import "~font-awesome/scss/font-awesome";
