@@ -797,6 +797,11 @@ a {
   text-decoration: none;
   color: inherit; }
 
+.fa-diamond {
+  color: #ca5a18;
+  font-size: 1.05rem;
+  padding: 0 5px; }
+
 .emoji-dialog {
   width: 276px;
   height: 220px;
