@@ -26047,29 +26047,93 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _roll = __webpack_require__(322);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ProgressBar = function ProgressBar() {
-  return _react2.default.createElement(
-    "div",
-    { className: "progress" },
-    _react2.default.createElement(
-      "div",
-      { className: "banner" },
-      "End of raund after ",
-      _react2.default.createElement("span", { id: "timer" })
-    ),
-    _react2.default.createElement(
-      "div",
-      { id: "progress-bar" },
-      _react2.default.createElement("div", { className: "bar" })
-    )
-  );
-};
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ProgressBar = function (_Component) {
+  _inherits(ProgressBar, _Component);
+
+  function ProgressBar(props) {
+    _classCallCheck(this, ProgressBar);
+
+    var _this = _possibleConstructorReturn(this, (ProgressBar.__proto__ || Object.getPrototypeOf(ProgressBar)).call(this, props));
+
+    _this.state = {
+      timeTotal: 20.00,
+      timeLeft: 20.00,
+      text: 'Prepare to start'
+    };
+    return _this;
+  }
+
+  _createClass(ProgressBar, [{
+    key: 'startProgressBar',
+    value: function startProgressBar() {
+      this.progressBar();
+    }
+  }, {
+    key: 'progressBar',
+    value: function progressBar() {
+      var _this2 = this;
+
+      if (this.state.timeLeft > 0.00) {
+        var timer = setTimeout(function () {
+          _this2.decreaseTime();
+          _this2.progressBar(_this2.state.timeLeft);
+        }, 10);
+      } else {
+        this.setState({ text: 'Rolling!' });
+        (0, _roll.roll)();
+      }
+    }
+  }, {
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      this.startProgressBar();
+    }
+  }, {
+    key: 'decreaseTime',
+    value: function decreaseTime() {
+      this.setState({
+        timeLeft: (this.state.timeLeft - 0.01).toFixed(2),
+        text: 'End of raund after ' + this.state.timeLeft
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'progress' },
+        _react2.default.createElement(
+          'div',
+          { className: 'banner' },
+          this.state.text
+        ),
+        _react2.default.createElement(
+          'div',
+          { id: 'progress-bar' },
+          _react2.default.createElement('div', { className: 'bar', style: { width: this.state.timeLeft * 100 / this.state.timeTotal + '%' } })
+        )
+      );
+    }
+  }]);
+
+  return ProgressBar;
+}(_react.Component);
 
 exports.default = ProgressBar;
 
@@ -26133,8 +26197,6 @@ var _reactFlexboxGrid = __webpack_require__(20);
 var _reactAlert = __webpack_require__(535);
 
 var _reactAlert2 = _interopRequireDefault(_reactAlert);
-
-var _progressBar = __webpack_require__(321);
 
 var _ProgressBar = __webpack_require__(310);
 
@@ -26300,16 +26362,6 @@ var Roulette = function (_Component) {
           count: event.target.value
         }
       });
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      (0, _progressBar.progressBar)(20.00, 20.00);
-    }
-  }, {
-    key: 'componentWillReceiveProps',
-    value: function componentWillReceiveProps() {
-      stopProgressbar();
     }
   }, {
     key: 'render',
@@ -26656,44 +26708,7 @@ function configureStore(initialState) {
 }
 
 /***/ }),
-/* 321 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.stopProgressbar = exports.progressBar = undefined;
-
-var _roll = __webpack_require__(322);
-
-var progressBar = function progressBar(timeleft, timetotal) {
-  $('.btn-block').prop("disabled", false);
-  var $elem = $('#progress-bar');
-  var progressBarWidth = timeleft * 100 / timetotal;
-  $elem.find('div').width(progressBarWidth + '%');
-  $('#timer').html(timeleft);
-  if (timeleft > 0.00) {
-    var timer = setTimeout(function () {
-      progressBar((timeleft - 0.01).toFixed(2), timetotal);
-    }, 10);
-  }
-  if (timeleft <= 0.00) {
-    $('.banner').html('Rolling!');
-    (0, _roll.roll)();
-  }
-};
-
-var stopProgressbar = function stopProgressbar() {
-  clearTimeout(timer);
-};
-
-exports.progressBar = progressBar;
-exports.stopProgressbar = stopProgressbar;
-
-/***/ }),
+/* 321 */,
 /* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 

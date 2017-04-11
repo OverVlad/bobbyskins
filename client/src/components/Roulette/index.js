@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import AlertContainer from 'react-alert';
 
-import { progressBar } from '../../utils/progressBar';
-
 import ProgressBar from './ProgressBar.jsx'
 import Wheel from './Wheel.jsx'
 import Balance from './Balance.jsx'
@@ -144,15 +142,6 @@ class Roulette extends Component {
       }
     });
   }
-
-  componentDidMount() {
-    progressBar(20.00, 20.00);
-  }
-
-  componentWillReceiveProps() {
-    stopProgressbar();
-  }
-
 
   render() {
     return (
