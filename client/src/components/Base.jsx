@@ -1,19 +1,28 @@
 import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
-import Layout from 'material-ui/Layout';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 
 import Header from './Header.jsx'
+import Footer from './Footer.jsx'
 
 const Base = ({ children }) => (
-  <Layout container gutter={16}>
-    <Layout item xs={12}>
+  <Row>
+    <Col xs={12}>
       <Header />
-    </Layout>
+    </Col>
 
-    <Layout item xs={12}>
-      {children}
-    </Layout>
-  </Layout>
+    <Grid fluid>
+      <Row>
+        <Col xs={12}>
+          {children}
+        </Col>
+      </Row>
+    </Grid>
+
+    <Col xs={12}>
+      <Footer />
+    </Col>
+  </Row>
 );
 
 Base.propTypes = {

@@ -1,15 +1,24 @@
 import Base from './components/Base.jsx';
 import HomePage from './components/HomePage.jsx';
+import DepositPage from './components/DepositPage.jsx';
+import WithdrawPage from './components/WithdrawPage.jsx';
 
 
 const routes = {
-  // base component (wrapper for the whole application).
   component: Base,
   childRoutes: [
     {
       path: '/',
       component: HomePage
     },
+    {
+      path: '/deposit',
+      component: DepositPage
+    },
+    {
+      path: '/withdraw',
+      component: WithdrawPage
+    }
   ]
 };
 

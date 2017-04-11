@@ -1,0 +1,50 @@
+.item-wrapper {
+    padding: 5px;
+}
+
+.item {
+    background: $bg-color;
+    border: 1px solid $border-bar;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom: 10px;
+    height: 135px;
+}
+
+.item__name {
+    height: 43px;
+    display: block;
+    overflow: hidden;
+    font-size: 0.77rem;
+}
+
+.item__img {
+    display: block;
+    height: 65px;
+    margin: 0 auto;
+}
+
+.item__price {
+    font-size: 0.9rem;
+}
+
+.junk {
+    opacity: 0.55;
+    cursor: not-allowed;
+    position: relative;
+    overflow: hidden;
+}
+
+.junk__text {
+    background: $red;
+    position: absolute;
+    padding: 2px 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.select {
+    opacity: 0.55;
+    cursor: not-allowed;
+}

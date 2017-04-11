@@ -51,7 +51,7 @@ class ChatInput extends Component {
         <input
           type="text"
           id="message-enter"
-          className="message-enter"
+          className="message-enter field"
           value={this.state.value}
           autoComplete="off"
           onChange={this.handleChange}

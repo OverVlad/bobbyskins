@@ -1,0 +1,63 @@
+.deposit {
+    padding-bottom: 0;
+}
+
+.deposit__filter {
+    padding: 15px 0;
+    width: 100%;
+    text-align: left;
+}
+
+.deposit__search {
+    position: relative;
+    margin-left: 20px;
+    display: inline-block;
+}
+
+.deposit-search__icon {
+    position: absolute;
+    left: 8px;
+    top: 6px;
+    color: $placeholder;
+}
+
+.deposit-search {
+    height: 27px;
+    padding-left: 25px;
+}
+
+.deposit__sorting {
+    margin-right: 20px;
+    float: right;
+}
+
+.deposit-sorting {
+    height: 27px;
+}
+
+.items {
+    padding: 10px 20px;
+    width: 100%;
+    border-top: 1px solid $border-bar;
+    background: $items;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+
+.total-panel {
+    padding: 25px 0 10px;
+    width: 100%;
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+.total-items {
+    margin-left: 40px;
+    display: inline-block;
+}
+
+.total-sum {
+    margin-right: 20px;
+    float: right;
+}

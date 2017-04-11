@@ -31,7 +31,7 @@ class Chat extends Component {
 
   render() {
     return (
-      <div className="chat">
+      <div className="chat wrapper">
         <div className="chat-room">English room</div>
         <Messages messages={this.props.chat.data} />
 

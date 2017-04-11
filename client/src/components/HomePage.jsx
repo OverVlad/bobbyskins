@@ -1,18 +1,18 @@
 import React from 'react';
 import Chat from '../containers/Chat/'
 import Roulette from '../containers/Roulette/'
-import Layout from 'material-ui/Layout';
+import { Grid, Row, Col } from 'react-flexbox-grid';
 
 
 const HomePage = () => (
-  <Layout container>
-    <Layout item xs={12} sm={3}>
+  <Row>
+    <Col xs={12} sm={3}>
       <Chat />
-    </Layout>
-    <Layout item xs={12} sm={9}>
+    </Col>
+    <Col xs={12} sm={9}>
       <Roulette />
-    </Layout>
-  </Layout>
+    </Col>
+  </Row>
 );
 
 export default HomePage;
