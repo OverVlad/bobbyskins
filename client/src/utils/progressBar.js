@@ -7,7 +7,7 @@ const progressBar = (timeleft, timetotal) => {
   $elem.find('div').width(progressBarWidth + '%');
   $('#timer').html( timeleft );
   if(timeleft > 0.00) {
-    setTimeout(() => {
+    var timer = setTimeout(() => {
       progressBar((timeleft - 0.01).toFixed(2), timetotal);
     }, 10);
   }
@@ -17,6 +17,11 @@ const progressBar = (timeleft, timetotal) => {
   }
 }
 
+const stopProgressbar = () => {
+  clearTimeout(timer);
+}
+
 export {
-  progressBar
+  progressBar,
+  stopProgressbar
 };

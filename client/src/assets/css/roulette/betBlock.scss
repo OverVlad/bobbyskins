@@ -1,8 +1,7 @@
 .betBlock {
     min-width: 19%;
     margin: 0 5px;
-    background: $block-color;
-    border-radius: 5px;
+    padding: 5px 10px;
 }
 
 .btn-block {
@@ -36,10 +35,6 @@
     width: 90%;
     padding: 5px 0;
     margin: 10px auto;
-    background-color: $field-color;
-    border-radius: 5px;
-    border: 1px solid $border-bar;
-    text-align: center;
 }
 
 .total-people {
@@ -60,5 +55,36 @@
 }
 
 .list-bets {
-    padding: 15px 5px;
+    padding-top: 25px;
+    line-height: 34px;
+}
+
+.list-bets__info {
+    width: 80%;
+    display: inline-block;
+    text-align: left;
+    vertical-align: top;
+}
+
+.list-bets__sum {
+    display: inline-block;
+    text-align: right;
+    width: 20%;
+}
+
+
+.list-bets__avatar {
+    display: inline-block;
+    border-radius: 50%;
+    width: 20%;
+}
+
+.list-bets__name {
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 9px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 80%;
 }

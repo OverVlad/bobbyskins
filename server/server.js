@@ -1,16 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const path = require('path');
 
 const app = express();
 
-app.use(express.static('./server/static/'));
-app.use(express.static('./client/dist/'));
+app.use(express.static(path.join(__dirname, 'static/')));
+app.use(express.static(path.join(__dirname, '../client/dist/')));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// routes
-const authRoutes = require('./server/routes/auth');
-app.use('/auth', authRoutes);
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './static/index.html'));
+});
 
 // start the server
 app.listen(3000, () => {

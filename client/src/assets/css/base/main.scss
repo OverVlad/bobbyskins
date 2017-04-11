@@ -7,10 +7,12 @@
 }
 
 html {
-    font-size: 16px;
+    min-height: 100%;
+    position: relative;
 }
 
 body {
+    padding-bottom: 6rem;
     font-family: $font-main;
     color: #000;
     line-height: 1;
@@ -26,8 +28,51 @@ a {
     color:inherit;
 }
 
+.footer {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+}
+
+.wrapper {
+    margin: 18px 0;
+    padding: 10px 0;
+    background: $block-color;
+    border-radius: 5px;
+}
+
 .fa-diamond {
     color: $dimond;
     font-size: 1.05rem;
     padding: 0 5px;
+}
+
+.title {
+    text-align: center;
+    width: 100%;
+    font-size: 1.1rem;
+}
+
+.field {
+    border: 0;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: $white;
+    background-color: $field-color;
+    border: 1px solid $border-bar;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: $placeholder;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    color: $placeholder;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    color: $placeholder;
+}
+:-moz-placeholder { /* Firefox 18- */
+    color: $placeholder;
 }

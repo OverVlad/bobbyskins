@@ -10,11 +10,15 @@
 @import 'footer';
 
 @import 'chat';
-@import 'progressbar';
-@import 'roulette';
-@import 'wheel';
-@import 'balance';
-@import 'betBlock';
+
+@import 'roulette/progressbar';
+@import 'roulette/roulette';
+@import 'roulette/wheel';
+@import 'roulette/balance';
+@import 'roulette/betBlock';
+
+@import 'deposit';
+@import 'item';
 
 $fa-font-path: "~font-awesome/fonts";
 @import "~font-awesome/scss/font-awesome";
