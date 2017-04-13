@@ -1,9 +1,27 @@
-const initialState = {
-    name: "Vlad",
-    imgUrl: "http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/b5/b5e1535a97051598fbe25906a052188ba88920e1_full.jpg",
-    role: 'user',
-  };
+import initialState from './initialState';
+import { UPDATE_USER, KILL_USER } from '../constants/userConstants';
 
-export default function user(state = initialState) {
-  return state
+function userReducer(state = initialState.user, action) {
+  switch(action.type) {
+    case UPDATE_USER:
+      return {
+        ...state,
+        id: action.id,
+        username: action.username,
+        avatar: action.avatar,
+        role: user.role
+      };
+    case KILL_USER:
+      return {
+        id: '',
+        username: '',
+        avatar: '',
+        role: user.role
+      };
+
+    default:
+      return state;
+  }
 }
+
+export default userReducer;

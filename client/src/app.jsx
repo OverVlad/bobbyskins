@@ -3,11 +3,13 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { browserHistory, Router } from 'react-router';
+import axios from 'axios';
 
-import configureStore from './store';
+// Heroku fix
+axios.defaults.headers.post['Access-Control-Allow-Methods'] = 'PATCH, DELETE, POST, GET, OPTIONS';
+
+import store from './store';
 import routes from './routes.js';
-
-const store = configureStore();
 
 render(
   <Provider store={store}>

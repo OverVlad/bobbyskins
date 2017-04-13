@@ -1,12 +1,11 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Chat from '../../components/Chat';
-import * as chatActions from '../../actions/chat';
+import * as chatActions from '../../actions/chatroomActions';
 
-const mapStateToProps = (state) => ({
-    chat: state.chat,
-    user: state.user
-});
+import socket from '../../utils/socket';
+
+const mapStateToProps = ({ user, chatroom }) => ({ user, chatroom });
 
 const mapDispatchToProps = (dispatch) => ({
     chatActions: bindActionCreators(chatActions, dispatch)

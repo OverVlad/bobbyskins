@@ -6,14 +6,12 @@ import Message from './Message.jsx'
 class Messages extends Component {
 
 componentDidUpdate() {
-  // get the messagelist container and set the scrollTop to the height of the container
-  const objDiv = document.getElementById('chat-container');
-  objDiv.scrollTop = objDiv.scrollHeight;
+  this.list.scrollTop = this.list.scrollHeight;
 }
 
   render() {
     return (
-      <div className="chat-container" id="chat-container">
+      <div className="chat-container" id="chat-container" ref={list => this.list = list}>
         {this.props.messages.map((message, i) =>
           <Message
             key={i}

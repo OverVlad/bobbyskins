@@ -9,10 +9,6 @@ class Chat extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      data: []
-    }
-
     this.addMessage = this.addMessage.bind(this);
   }
 
@@ -30,10 +26,12 @@ class Chat extends Component {
   }
 
   render() {
+    const { messages } = this.props.chatroom
+
     return (
       <div className="chat wrapper">
         <div className="chat-room">English room</div>
-        <Messages messages={this.props.chat.data} />
+        <Messages messages={messages} />
 
         <ChatInput addMessage={this.addMessage}/>
       </div>
