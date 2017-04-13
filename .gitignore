@@ -1,7 +1,7 @@
 /node_modules
 /config
 
-.log
+*.log
 npm-debug.log
 
 # Ignore vim tmp files

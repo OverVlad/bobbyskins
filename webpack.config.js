@@ -9,17 +9,13 @@ const options = {
     js: path.join(__dirname,'/client/assets/'),
     fonts: path.join(__dirname,'/client/assets/fonts/'),
     app: path.join(__dirname, '/client/src/app.jsx')
-  },
-  output: {
-    css: path.join(__dirname,'/server/static/css/style.css'),
-    js: path.join(__dirname, '/server/static/js/[name].js'),
   }
 }
 
 module.exports = {
   entry: [options.entry.app, options.entry.css],
   output: {
-    path: path.join(__dirname, '/client/dist/js'),
+    path: path.join(__dirname, '/client/public/js'),
     filename: '[name].js',
   },
 

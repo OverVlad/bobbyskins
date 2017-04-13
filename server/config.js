@@ -3,15 +3,10 @@
 * */
 module.exports = {
   db: {
-    url: "mongodb://localhost:27017/retube_chat"
+    url: "mongodb://localhost:27017/bobby-skins"
   },
   session: {
-    secret: "your favorite secret word"
-  },
-  facebook: {
-    clientID: "your fb client id",
-    clientSecret: "your fb client secret",
-    callbackURL: "http://localhost:3000/auth/facebook/callback"
+    secret: "bobby"
   },
   port: 3000
 };
