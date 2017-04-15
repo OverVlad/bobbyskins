@@ -13,10 +13,13 @@ const session = require('express-session');
 const compression = require('compression');
 const MongoStore = require('connect-mongo')(session);
 const { checkAuth } = require('./utils/middlewares');
+const passport = require('passport');
+require('./utils/passport-init')(passport);
 
 // Routes
 const index = require('./routes/index');
 const api = require('./routes/api');
+const auth = require('./routes/auth');
 
 const app = express();
 const server = http.createServer(app);
@@ -39,9 +42,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(sessionMiddleware);
 
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
 // Init auth by paasport package
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Compress content
 app.use(compression({ threshold: 0 }));
@@ -50,6 +57,7 @@ app.use(compression({ threshold: 0 }));
 app.use(express.static(path.join(__dirname, '../client/public/')));
 
 // dynamic content
+app.use('/auth', auth);
 app.use('/api', checkAuth, api);
 app.use('/', index);
 

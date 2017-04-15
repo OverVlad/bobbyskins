@@ -8,5 +8,8 @@ module.exports = {
   session: {
     secret: "bobby"
   },
+  steam: {
+    apiKey: "F0A98183CD55EDEF23206E8FA0D6EAE3"
+  },
   port: 3000
 };

@@ -4,10 +4,10 @@ const initialState = {
     error: null
   },
   user: {
-    id: 1,
-    username: 'Vlad',
-    avatar: '"http://cdn.akamai.steamstatic.com/steamcommunity/public/images/avatars/b5/b5e1535a97051598fbe25906a052188ba88920e1_full.jpg',
-    role: 'user'
+    id: '',
+    username: '',
+    avatar: '',
+    role: ''
   },
   rooms: {
     visibilityFilter: 'all',
@@ -18,8 +18,8 @@ const initialState = {
     error: null
   },
   chatroom: {
-    id: '',
-    name: '',
+    id: '1',
+    name: 'English rooms',
     messages: [],
     users: [],
     done: false,
@@ -27,6 +27,16 @@ const initialState = {
     error: null,
     counter: ''
   },
+  roulette: {
+    isRoll: false,
+    round: {
+      id: '1',
+      bets: [],
+      totalBets: [],
+      startTime: ''
+    },
+    hostoryRolls: []
+  }
 };
 
 export default initialState;

@@ -15,10 +15,10 @@ componentDidUpdate() {
         {this.props.messages.map((message, i) =>
           <Message
             key={i}
-            name={message.name}
+            name={this.props.user.username}
             text={message.text}
-            imgUrl={message.imgUrl}
-            role={message.role}
+            imgUrl={this.props.user.avatar}
+            role={this.props.user.name}
             isYou={message.own}
             />
         )}

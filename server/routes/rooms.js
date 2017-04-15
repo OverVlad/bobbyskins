@@ -20,31 +20,6 @@ router.post('/', function (req, res, next) {
   }
 });
 
-router.get('/favorites/:roomId', function (req, res, next) {
-  const roomId = req.params.roomId;
-  const isFavorite = req.user.favoriteChatrooms.indexOf(roomId) >= 0;
-
-  User.toggleFavoriteRoom(req.user._id, roomId, isFavorite)
-    .then(() => {
-      if (isFavorite) {
-        req.user.favoriteChatrooms = req.user.favoriteChatrooms.filter(room => room !== roomId);
-      } else {
-        req.user.favoriteChatrooms.push(roomId);
-      }
-      
-      req.login(req.user, function (error) {
-        if (!error) {
-          return res.status(isFavorite ? 200 : 201).json({
-            favoriteChatrooms: req.user.favoriteChatrooms
-          });
-        }
-      });
-    })
-    .catch(error => {
-      return res.status(error instanceof ServerError ? 500 : 400).json(error.message);
-    });
-});
-
 router.delete('/:roomId', function (req, res, next) {
   const roomId = req.params.roomId;
   const createdBy = req.user._id;

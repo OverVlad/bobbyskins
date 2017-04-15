@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 
 
@@ -13,10 +14,10 @@ const BetBlock = ({ addBet, totalBets, ownBets }) => (
           <div className="total-bets">{totalBets['odd'].count}<i className="fa fa-diamond" aria-hidden="true"></i></div>
           <div className="list-bets">
             {totalBets['odd'].users.map((user) =>
-              <div className="list-users" key={user.bet.id}>
+              <div className="list-users" key={user.id}>
                 <div className="list-bets__info">
-                  <img className="list-bets__avatar" src={user.imgUrl} alt=""/>
-                  <b className="list-bets__name">{user.name}</b>
+                  <img className="list-bets__avatar" src={user.avatar} alt=""/>
+                  <b className="list-bets__name">{user.username}</b>
                 </div>
                 <div className="list-bets__sum">{user.bet.count}</div>
               </div>

@@ -9,14 +9,16 @@ function userReducer(state = initialState.user, action) {
         id: action.id,
         username: action.username,
         avatar: action.avatar,
-        role: user.role
+        role: action.role,
+        steamId: action.steamId
       };
     case KILL_USER:
       return {
         id: '',
         username: '',
         avatar: '',
-        role: user.role
+        role: user.role,
+        steamId: ''
       };
 
     default:

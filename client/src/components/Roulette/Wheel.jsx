@@ -1,4 +1,5 @@
-import React, { PropsType } from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
 
 const Wheel = () => (
   <div className="wheel">

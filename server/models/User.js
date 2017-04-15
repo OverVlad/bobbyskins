@@ -4,21 +4,28 @@ const AuthError = require('../errors/AuthError');
 const ServerError = require('../errors/ServerError');
 
 const userSchema = new mongoose.Schema({
-  username: {
+  steamId: {
     type: String,
     unique: true,
-    required: true,
-    lowercase: true
+    required: true
   },
-  hashedPassword: {
-    type: String
-  },
-  salt: {
-    type: String
+  username: {
+    type: String,
+    require: true,
   },
   avatar: {
     type: String
   },
+  balance: {
+    type: Number,
+    require: true,
+    default: 0
+  },
+  role: {
+    type: String,
+    require: true,
+    default: 'user'
+  }
 });
 
 userSchema.set('timestamps', true);

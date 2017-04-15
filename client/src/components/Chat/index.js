@@ -1,39 +1,51 @@
 import React, { Component } from 'react';
+import AlertContainer from 'react-alert';
 
 import Message from './Message.jsx'
 import Messages from './Messages.jsx'
 import ChatInput from './ChatInput.jsx'
+import Rooms from '../Rooms';
+
+import socket from '../../utils/socket';
 
 class Chat extends Component {
 
   constructor(props) {
     super(props);
 
-    this.addMessage = this.addMessage.bind(this);
+    socket.connect(this.props.user);
+
+    this.sendMessage = this.sendMessage.bind(this);
   }
 
-  addMessage(text) {
-      const { addMessage } = this.props.chatActions;
+  componentDidMount() {
+    const ChatroomId = this.props.chatroom.id;
+    this.props.chatroomActions.joinChatroom(this.props.user);
+    socket.emit('join chatroom', {id: ChatroomId});
+  }
 
-    const message = {
-      name: this.props.user.name,
-      text: text,
-      imgUrl: this.props.user.imgUrl,
-      role: this.props.user.role,
-      own: true
-    };
-    addMessage(message);
+  errorHandler(error) {
+    msg.error(error);
+  }
+
+  sendMessage(text) {
+    socket.emit('message', text);
   }
 
   render() {
-    const { messages } = this.props.chatroom
+    const { messages } = this.props.chatroom;
+    const { error } = this.props.rooms;
+    const user = this.props.user;
+
+    if(error) this.errorHandler(error);
 
     return (
       <div className="chat wrapper">
-        <div className="chat-room">English room</div>
-        <Messages messages={messages} />
+        <Rooms />
+        <Messages messages={messages} user={user} />
 
-        <ChatInput addMessage={this.addMessage}/>
+        <ChatInput addMessage={this.sendMessage}/>
+        <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
       </div>
     );
   }

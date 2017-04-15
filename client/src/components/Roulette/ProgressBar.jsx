@@ -1,5 +1,6 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { roll } from '../../utils/roll';
+import PropTypes from 'prop-types';
 
 class ProgressBar extends Component {
   constructor(props) {
@@ -23,9 +24,18 @@ class ProgressBar extends Component {
         this.progressBar(this.state.timeLeft);
       }, 10);
     } else {
+      this.
       this.setState({ text: 'Rolling!' });
       roll();
+      setTimeout(() => {
+        this.zeroing();
+        this.progressBar();
+      }, 5000);
     }
+  }
+
+  zeroing() {
+    this.setState({timeLeft: 5});
   }
 
   componentDidMount() {
@@ -43,7 +53,7 @@ class ProgressBar extends Component {
     return (
       <div className="progress">
         <div className="banner">{this.state.text}</div>
-        <div id="progress-bar"><div className="bar" style={{ width: `${this.state.timeLeft * 100 / this.state.timeTotal}%` }}></div></div>
+        <div id="progress-bar"><div className="bar" ref={(progress) => this.progress = progress} style={{ width: `${this.state.timeLeft * 100 / this.state.timeTotal}%` }}></div></div>
       </div>
     );
   }

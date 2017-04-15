@@ -5,6 +5,7 @@ module.exports = (server) => (sessionMiddleware) => {
   const { formatChatMessage } = require('../utils/format');
 
   const Message = require('../models/Message');
+  const Bet = require('../models/Bet');
 
   io.use(applySessionMiddleware);
   io.use(checkAuth);
@@ -49,6 +50,19 @@ module.exports = (server) => (sessionMiddleware) => {
       newMessage.save();
 
       io.to(socket.currentChatroomId).emit('message', tempMessage); // send a message right away without waiting for DB
+    });
+
+    socket.on('bet', function (bet) {
+      const newBet = new Bet({
+        user_id: bet.userId,
+        round_id: bet.roundId,
+        amount: bet.amount,
+        type: bet.type
+      });
+
+      newBet.save().then((bet) => console.log('Hello: ', bet)).catch((error) => console.log(error));
+
+      io.emit('bet', bet);
     });
 
     socket.on('disconnect', function () {

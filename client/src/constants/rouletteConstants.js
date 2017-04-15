@@ -1,0 +1,7 @@
+export const ADD_BET = 'ADD_BET';
+
+export const FETCH_ROUND_START = 'FETCH_ROUND_START';
+export const FETCH_ROUND_ERROR = 'FETCH_ROUND_ERROR';
+export const FETCH_ROUND_SUCCESS = 'FETCH_ROUND_SUCCESS';
+
+export const END_ROUND = 'END_ROUND';

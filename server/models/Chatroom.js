@@ -14,8 +14,7 @@ const chatroomSchema = mongoose.Schema({
     required: true
   },
   users: {
-    type: String,
-    required: true
+    type: String
   },
   creator_id: {
     type: String,
@@ -30,9 +29,6 @@ chatroomSchema.set('timestamps', true);
  * */
 chatroomSchema.statics.getRooms = function (req, res) {
   const findQuery = queryManager(req.query, req.user);
-  const sortBy = {createdAt: req.query.sortBy === 'date_desc' ? -1 : 1};
-  const sortByPopular = req.query.sortBy === 'popular';
-  const offset = req.query.offset ? parseInt(req.query.offset) : 0;
   const limit = 10;
 
   const Chatroom = this;
@@ -44,39 +40,14 @@ chatroomSchema.statics.getRooms = function (req, res) {
     {
       $project: {
         name: true,
-        description: true,
-        tags: true,
         creator_id: true,
-        createdAt: true,
-        count: {
-          $cond: {
-            if: sortByPopular,
-            then: {
-              $size: "$total_messages"
-            },
-            else: false
-          }
-        }
+        createdAt: true
       }
-    },
-    {
-      $sort: sortByPopular ? {count: -1} : sortBy
-    },
-    {
-      $skip: offset
     },
     {
       $limit: limit
     }
   ];
-
-  if (sortByPopular) {
-    pipeline.splice(1, 0, {
-      $lookup: {
-        from: "messages", localField: "_id", foreignField: "chatroom_id", as: "total_messages"
-      }
-    });
-  }
 
   Chatroom
     .aggregate(pipeline)

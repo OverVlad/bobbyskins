@@ -1,5 +1,11 @@
 var probability = {};
 
+var numbers = [4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12, 4, 0, 11, 5, 10, 6, 9, 7, 8, 11, 14, 2, 13, 3, 12, 4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12];
+
+var currentPosition = 0;
+var stepDeg = 360 / numbers.length;
+var prevTransform = 0;
+
 const roll = () => {
   $('.btn-block').prop("disabled", true);
   probability.Lot = new Array (
@@ -38,15 +44,52 @@ const roll = () => {
 
   console.log(number, parity, sector);
 
-  const N = probability.Lot.length * 3; //Число секторов
-  const stRad = 360/N;	//!!!Целое число градусов!!!;
-  console.log('stRad', stRad);
-  const delta_random = -14 + 28 * Math.random();
-  const itogCorner = 6982 + Math.floor(delta_random) - stRad * number;
-  console.log('itogCorner', itogCorner);
-
-  $('#wheel').css('transform', `rotate(${itogCorner}deg)`);
+  animation(number, 3);
 };
+
+const animation = (number, rounds = 1) => {
+  if (numbers.indexOf(number) === -1) {
+    throw new Error('Числа нет на панели');
+  }
+
+  let targetPosition = currentPosition + 1;
+  for (let i of numbers) {
+    if (numbers[targetPosition] == number) {
+      break;
+    }
+
+    targetPosition = (targetPosition + 1) % numbers.length;
+  }
+
+  let difference = 0;
+  for (let i of numbers) {
+    if (numbers[difference] == number) {
+      break;
+    }
+
+    difference = (difference + targetPosition + 1) % numbers.length;
+  }
+
+  currentPosition = targetPosition;
+
+  let transform = difference ? 360 * rounds + difference * stepDeg : rounds;
+
+  let prevTransformDiff = prevTransform % 360;
+
+  console.log(prevTransformDiff);
+
+  // if (transform >= prevTransformDiff) {
+  //   transform += (prevTransform - prevTransformDiff);
+  // } else {
+    transform += (prevTransform + (360 - prevTransformDiff));
+  // }
+
+  console.log(numbers[currentPosition], transform, prevTransform);
+
+  prevTransform = transform;
+
+  $('#wheel').css('transform', `rotate(${-transform}deg)`);
+}
 
 const Peremeshivalka = (lng) => {
   let a = {};

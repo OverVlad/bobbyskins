@@ -7,6 +7,7 @@
 
 .wheel-img {
     width: 100%;
+    transition:all 1s cubic-bezier(.12,.32,.07,.07);
 }
 
 #wheel {

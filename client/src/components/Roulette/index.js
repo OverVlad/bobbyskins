@@ -7,6 +7,8 @@ import Wheel from './Wheel.jsx'
 import Balance from './Balance.jsx'
 import BetBlock from './BetBlock.jsx'
 
+import socket from '../../utils/socket';
+
 class Roulette extends Component {
 
   constructor(props) {
@@ -24,32 +26,33 @@ class Roulette extends Component {
         'odd': 0
       },
       bet: {
-        id: 0,
-        count: 0
+        amount: 0,
+        type: '',
+        userId: 0
       },
       totalBets: {
         '0' : {
-          count: 0,
+          amount: 0,
           people: 0,
           users: []
         },
         '1-7': {
-          count: 0,
+          amount: 0,
           people: 0,
           users: []
         },
         '8-14': {
-          count: 0,
+          amount: 0,
           people: 0,
           users: []
         },
         'even': {
-          count: 0,
+          amount: 0,
           people: 0,
           users: []
         },
         'odd': {
-          count: 0,
+          amount: 0,
           people: 0,
           users: []
         }
@@ -67,7 +70,7 @@ class Roulette extends Component {
     event.preventDefault();
 
     const action = event.target.dataset.action;
-    let bet = this.state.bet.count;
+    let bet = this.state.bet.amount;
 
     if(this.state.balance <= bet && action !== 'reset') {
       msg.show('You don\'t have anoth money');
@@ -76,25 +79,24 @@ class Roulette extends Component {
 
     switch(action) {
       case 'reset':
-      bet = 0;
-      break;
+        bet = 0;
+        break;
       case 'half':
-      bet /= 2;
-      break;
+        bet /= 2;
+        break;
       case 'double':
-      bet *= 2;
-      break;
+        bet *= 2;
+        break;
       case 'max':
-      bet = this.state.balance;
-      break;
+        bet = this.state.balance;
+        break;
       default:
-      bet += +action;
+        bet += +action;
     }
 
     this.setState({
       bet: {
-        id: this.state.bet.id,
-        count: bet
+        amount: bet
       }
     });
   }
@@ -104,33 +106,38 @@ class Roulette extends Component {
     const bet = this.state.bet;
     const totalBets = this.state.totalBets;
     const ownBets = this.state.ownBets;
+    const user = this.props.user;
 
-    if(bet.count === 0) {
+    bet.type = type;
+    bet.userId = user.id;
+    bet.roundId = 1; //TODO: round.id
+
+    if(bet.amount === 0) {
       msg.show('The bet should not be zero');
       return;
     }
 
-    const user = Object.assign({}, this.user, {bet: bet});
+    socket.emit('bet', bet);
 
-    totalBets[type].count += bet.count;
+    totalBets[type].amount += bet.amount;
     totalBets[type].people += 1;
     totalBets[type].users.push(user);
 
-    ownBets[type] = bet.count;
+    ownBets[type] = bet.amount;
 
     const balance = this.state.balance - bet;
 
-    this.setState({
-      totalBets: totalBets,
-      ownBets: ownBets,
-      balance: balance,
-      bet: {
-        id: this.state.bet.id + 1,
-        count: 0
-      }
-    });
+    // this.setState({
+    //   totalBets: totalBets,
+    //   ownBets: ownBets,
+    //   balance: balance,
+    //   bet: {
+    //     id: this.state.bet.id + 1,
+    //     amount: 0
+    //   }
+    // });
 
-    msg.success(`Your bet ${bet.count} accepted`);
+    msg.success(`Your bet ${bet.amount} accepted`);
   }
 
   handleChange(event) {
@@ -138,7 +145,7 @@ class Roulette extends Component {
       bet:
       {
         id: this.state.bet.id,
-        count: event.target.value
+        amount: event.target.value
       }
     });
   }
@@ -151,7 +158,7 @@ class Roulette extends Component {
           <Wheel />
           <Balance
             balance={this.state.balance}
-            bet={this.state.bet.count}
+            bet={this.state.bet.amount}
             handleClick={this.handleBetClick}
             handleChange={this.handleChange}
             />

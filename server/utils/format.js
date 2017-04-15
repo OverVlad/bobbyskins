@@ -3,7 +3,8 @@ exports.formatUserObject = function (userData) {
     id: userData._id,
     username: userData.username,
     avatar: userData.avatar,
-    favoriteChatrooms: userData.favoriteChatrooms
+    steamId: userData.steamId,
+    role: userData.role
   };
 };
 

@@ -1,16 +1,9 @@
 module.exports = function (passport) {
-  const LocalStrategy = require('passport-local').Strategy;
-  const FacebookStrategy = require('passport-facebook').Strategy;
+  const SteamStrategy = require('passport-steam').Strategy;
 
-  const config = require('../config').facebook;
+  const config = require('../config').steam;
 
   const User = require('../models/User');
-
-  passport.use(new LocalStrategy(function (username, password, done) {
-    User.authorize({username, password})
-      .then(user => done(null, user))
-      .catch(error => done(error));
-  }));
 
   passport.serializeUser(function (user, done) {
     done(null, user);
@@ -20,37 +13,36 @@ module.exports = function (passport) {
     done(null, user);
   });
 
-  passport.use(new FacebookStrategy({
-      clientID: config.clientID,
-      clientSecret: config.clientSecret,
-      callbackURL: config.callbackURL,
-      profileFields: ['id', 'displayName', 'photos', 'email']
-    },
-    function(accessToken, refreshToken, profile, done) {
+  passport.use(new SteamStrategy({
+    returnURL: 'http://localhost:3000/auth/steam/return',
+    realm: 'http://localhost:3000/',
+    apiKey: config.apiKey
+  },
+  function(identifier, profile, done) {
 
-      User.findOne({ facebookId: profile.id }, function (err, user) {
-        if (err) {
-          done(err);
-        }
+    User.findOne({ steamId: profile.id }, function (err, user) {
+      if (err) {
+        done(err);
+      }
 
-        if (!user) {
-          const newFacebookUser = new User({
-            username: profile.username || profile.displayName,
-            avatar: profile.photos[0].value,
-            facebookId: profile.id
-          });
+      if (!user) {
+        const newUser = new User({
+          username: profile.name || profile.displayName,
+          avatar: profile.photos[0].value,
+          steamId: profile.id
+        });
 
-          newFacebookUser.save()
-            .then(() => {
-              done(null, user);
-            })
-            .catch(error => {
-              done(error);
-            });
-        } else {
+        newUser.save()
+        .then(() => {
           done(null, user);
-        }
-      });
-    }
-  ));
+        })
+        .catch(error => {
+          done(error);
+        });
+      } else {
+        done(null, user);
+      }
+    });
+  }
+));
 };
