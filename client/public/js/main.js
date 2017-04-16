@@ -6890,10 +6890,11 @@ var initialState = {
     round: {
       id: '1',
       bets: [],
+      roll: '',
       totalBets: [],
       startTime: ''
     },
-    hostoryRolls: []
+    historyRolls: []
   }
 };
 
@@ -33195,7 +33196,7 @@ var ProgressBar = function (_Component) {
   }, {
     key: 'zeroing',
     value: function zeroing() {
-      this.setState({ timeLeft: 5 });
+      this.setState({ timeLeft: 5.00 });
     }
   }, {
     key: 'componentDidMount',
@@ -33339,6 +33340,9 @@ var Roulette = function (_Component) {
     _classCallCheck(this, Roulette);
 
     var _this = _possibleConstructorReturn(this, (Roulette.__proto__ || Object.getPrototypeOf(Roulette)).call(this, props));
+
+    _socket2.default.emit('roll');
+    _socket2.default.emit('historyRoll', _this.props.roulette.historyRolls);
 
     _this.state = {
       startAngle: Math.floor(360 * Math.random()),
@@ -34172,39 +34176,15 @@ exports.default = routes;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var probability = {};
+var numbers = [4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12, 4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12, 4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12];
 
-var numbers = [4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12, 4, 0, 11, 5, 10, 6, 9, 7, 8, 11, 14, 2, 13, 3, 12, 4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12];
+var stepDeg = 360 / numbers.length;
 
 var currentPosition = 0;
-var stepDeg = 360 / numbers.length;
 var prevTransform = 0;
 
-var roll = function roll() {
-  $('.btn-block').prop("disabled", true);
-  probability.Lot = new Array([0, 'green', 'green'], [11, 'black', 'purple'], [5, 'red', 'purple'], [10, 'black', 'blue'], [6, 'red', 'blue'], [9, 'black', 'purple'], [7, 'red', 'purple'], [8, 'black', 'blue'], [1, 'red', 'purple'], [14, 'black', 'blue'], [2, 'red', 'blue'], [13, 'black', 'purple'], [3, 'red', 'purple'], [12, 'black', 'blue'], [4, 'red', 'blue']);
-  probability.Arr = [];
-  //Вероятности выпадения;
-  probability.green = 20; //Вероятность красного
-  probability.red = 40; //Вероятность зеленого
-  probability.black = 40; //Вероятность синего
-
-  for (var i = 0; i < probability.Lot.length; i++) {
-    probability_rationing(probability.Lot[i][1], [probability.Lot[i], i]);
-  }
-
-  var out = probability.Arr[Peremeshivalka(probability.Arr.length)][0];
-  var parity = out[2];
-  var number = out[0];
-  var sector = out[1];
-
-  console.log(number, parity, sector);
-
-  animation(number, 3);
-};
-
-var animation = function animation(number) {
-  var rounds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+var animation = exports.animation = function animation(number) {
+  var rounds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 5;
 
   if (numbers.indexOf(number) === -1) {
     throw new Error('Числа нет на панели');
@@ -34278,48 +34258,18 @@ var animation = function animation(number) {
 
   console.log(prevTransformDiff);
 
-  // if (transform >= prevTransformDiff) {
-  //   transform += (prevTransform - prevTransformDiff);
-  // } else {
-  transform += prevTransform + (360 - prevTransformDiff);
-  // }
+  if (transform >= prevTransformDiff) {
+    transform += prevTransform - prevTransformDiff;
+  } else {
+    transform += prevTransform + (360 - prevTransformDiff);
+  }
 
   console.log(numbers[currentPosition], transform, prevTransform);
 
   prevTransform = transform;
 
-  $('#wheel').css('transform', 'rotate(' + -transform + 'deg)');
+  return transform;
 };
-
-var Peremeshivalka = function Peremeshivalka(lng) {
-  var a = {};
-  var i = void 0;
-  var out = [];
-  var n = 0;
-
-  for (i = 0; i < lng; i++) {
-    a[i] = i;
-  }while (n != lng) {
-    i = Math.floor(lng * Math.random());
-
-    if (typeof a[i] != 'undefined') {
-      out.push(a[i]);
-      delete a[i];
-
-      n++;
-    }
-  }
-
-  return out[Math.floor(lng * Math.random())];
-};
-
-var probability_rationing = function probability_rationing(y, x) {
-  for (var j = 0; j < probability[y]; j++) {
-    probability.Arr.push(x);
-  }
-};
-
-exports.roll = roll;
 
 /***/ }),
 /* 382 */
@@ -34383,8 +34333,15 @@ var Socket = function () {
       });
 
       this.socket.on('bet', function (bet) {
-        console.log('Bet send!');
         _store2.default.dispatch((0, _rouletteActions.addBet)(bet));
+      });
+
+      this.socket.on('roll', function (number) {
+        // store.dispatch(finishRound(number));
+      });
+
+      this.socket.on('historyRoll', function (historyRolls) {
+        _store2.default.dispatch((0, _rouletteActions.refreshHistory)(historyRolls));
       });
 
       this.socket.on('join chatroom', function (data) {
@@ -97125,7 +97082,7 @@ var killUser = exports.killUser = function killUser() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchRoundRequest = exports.addBet = undefined;
+exports.fetchRoundRequest = exports.refreshHistory = exports.startRoll = exports.addBet = undefined;
 
 var _axios = __webpack_require__(104);
 
@@ -97173,6 +97130,27 @@ var addBet = exports.addBet = function addBet(bet) {
 };
 
 /*
+ * FETCH NUMBER FOR ROUND
+ * */
+
+var startRoll = exports.startRoll = function startRoll(number) {
+  return {
+    type: actions.START_ROLL,
+    number: number
+  };
+};
+
+/*
+ * HOSTIRY
+ * */
+var refreshHistory = exports.refreshHistory = function refreshHistory(historyRolls) {
+  return {
+    type: actions.REFRESH_HISTORY,
+    historyRolls: historyRolls
+  };
+};
+
+/*
  * REQUESTS
  * */
 var fetchRoundRequest = exports.fetchRoundRequest = function fetchRoundRequest() {
@@ -97206,7 +97184,9 @@ var FETCH_ROUND_START = exports.FETCH_ROUND_START = 'FETCH_ROUND_START';
 var FETCH_ROUND_ERROR = exports.FETCH_ROUND_ERROR = 'FETCH_ROUND_ERROR';
 var FETCH_ROUND_SUCCESS = exports.FETCH_ROUND_SUCCESS = 'FETCH_ROUND_SUCCESS';
 
-var END_ROUND = exports.END_ROUND = 'END_ROUND';
+var REFRESH_HISTORY = exports.REFRESH_HISTORY = 'REFRESH_HISTORY';
+
+var FINISH_ROUND = exports.FINISH_ROUND = 'FINISH_ROUND';
 
 /***/ }),
 /* 800 */
@@ -97257,6 +97237,15 @@ function rouletteReducer() {
     case constants.ADD_BET:
       return _extends({}, state, {
         round: state.round.bets.concat(action.bet)
+      });
+    case constants.START_ROLL:
+      return _extends({}, state, {
+        round: state.round.roll,
+        isRoll: true
+      });
+    case constants.REFRESH_HISTORY:
+      return _extends({}, state, {
+        historyRolls: action.historyRolls
       });
     default:
       return state;

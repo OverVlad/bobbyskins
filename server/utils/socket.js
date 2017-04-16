@@ -3,9 +3,11 @@ module.exports = (server) => (sessionMiddleware) => {
   const io = require('socket.io')(server);
   const AuthError = require('../errors/AuthError');
   const { formatChatMessage } = require('../utils/format');
+  const { generateNumber } = require('./generateNumber');
 
   const Message = require('../models/Message');
   const Bet = require('../models/Bet');
+  const Round = require('../models/Round');
 
   io.use(applySessionMiddleware);
   io.use(checkAuth);
@@ -63,6 +65,29 @@ module.exports = (server) => (sessionMiddleware) => {
       newBet.save().then((bet) => console.log('Hello: ', bet)).catch((error) => console.log(error));
 
       io.emit('bet', bet);
+    });
+
+    socket.on('historyRoll', function (historyRolls = []) {
+      Round
+      .find()
+      .sort()
+      .limit(10)
+      .select('roll')
+      .then((rolls) =>  {
+        rolls.forEach((roll) => {
+          historyRolls.push(roll.roll);
+          historyRolls = (historyRolls.length > 10) ? historyRolls.slice(1) : historyRolls;
+        });
+
+        io.emit('historyRoll', historyRolls);
+      });
+    });
+
+    socket.on('roll', function () {
+
+      const number = generateNumber();
+
+      io.emit('roll', number);
     });
 
     socket.on('disconnect', function () {

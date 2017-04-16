@@ -35,6 +35,27 @@ export const addBet = function (bet) {
 };
 
 /*
+ * FETCH NUMBER FOR ROUND
+ * */
+
+ export const startRoll = function (number) {
+   return {
+     type: actions.START_ROLL,
+     number
+   }
+ }
+
+ /*
+  * HOSTIRY
+  * */
+  export const refreshHistory = function (historyRolls) {
+    return {
+      type: actions.REFRESH_HISTORY,
+      historyRolls
+    }
+  }
+
+/*
  * REQUESTS
  * */
 export const fetchRoundRequest = () => (dispatch, getState) => {

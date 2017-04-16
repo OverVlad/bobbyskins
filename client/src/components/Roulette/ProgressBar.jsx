@@ -35,7 +35,7 @@ class ProgressBar extends Component {
   }
 
   zeroing() {
-    this.setState({timeLeft: 5});
+    this.setState({timeLeft: 5.00});
   }
 
   componentDidMount() {

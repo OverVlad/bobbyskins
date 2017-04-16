@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
 import { sendMessage, joinChatroom, leaveChatroom, updateUsersCounter } from '../actions/chatroomActions';
-import { addBet } from '../actions/rouletteActions';
+import { addBet, finishRound, refreshHistory } from '../actions/rouletteActions';
 import store from '../store';
 
 class Socket {
@@ -34,8 +34,15 @@ class Socket {
     });
 
     this.socket.on('bet', function (bet) {
-      console.log('Bet send!');
       store.dispatch(addBet(bet));
+    });
+
+    this.socket.on('roll', function (number) {
+      // store.dispatch(finishRound(number));
+    });
+
+    this.socket.on('historyRoll', function (historyRolls) {
+      store.dispatch(refreshHistory(historyRolls));
     });
 
     this.socket.on('join chatroom', function (data) {

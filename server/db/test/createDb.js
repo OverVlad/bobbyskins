@@ -2,18 +2,22 @@ const mongoose = require('../mongoose');
 
 const fakeUsers = require('./fakeUsers.json');
 const fakeChatRooms = require('./fakeChatRooms.json');
+const fakeRounds = require('./fakeRounds.json');
 
 /*
 * This module is intended to create a test database and fill it fill it with some fake data
 * */
 
-let ChatRoom;
+let ChatRoom,
+    User,
+    Round;
 
 mongoose.connection.on('open', function () {
   dropDatabase()
     .then(ensureIndexes)
     .then(populateFakeUsers)
     .then(populateFakeChatRooms)
+    .then(populateFakeRounds)
     .then(closeConnection)
     .catch(error => {
       closeConnection();
@@ -29,6 +33,7 @@ function dropDatabase() {
 function ensureIndexes() {
   ChatRoom = require('../../models/Chatroom');
   User = require('../../models/User');
+  Round = require('../../models/Round');
 
   const models = Object.keys(mongoose.models).map(model => mongoose.models[model].ensureIndexes());
 
@@ -55,6 +60,14 @@ function populateFakeChatRooms(users) {
   });
 
   return Promise.all([users, Promise.all(chatrooms)]);
+}
+
+function populateFakeRounds() {
+  const rounds = fakeRounds.map(({roll}) => {
+    return (new mongoose.models.Round({roll}).save());
+  });
+
+  return Promise.all(rounds);
 }
 
 function closeConnection() {

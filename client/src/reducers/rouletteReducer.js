@@ -27,6 +27,17 @@ function rouletteReducer(state = initialState.roulette, action) {
         ...state,
         round: state.round.bets.concat(action.bet)
       };
+    case constants.START_ROLL:
+      return {
+        ...state,
+        round: state.round.roll,
+        isRoll: true
+      };
+    case constants.REFRESH_HISTORY:
+      return {
+        ...state,
+        historyRolls: action.historyRolls
+      };
     default:
       return state;
   }

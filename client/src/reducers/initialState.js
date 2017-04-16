@@ -32,10 +32,11 @@ const initialState = {
     round: {
       id: '1',
       bets: [],
+      roll: '',
       totalBets: [],
       startTime: ''
     },
-    hostoryRolls: []
+    historyRolls: []
   }
 };
 
