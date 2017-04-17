@@ -4,17 +4,14 @@ module.exports = function (shipit) {
 
     shipit.on('deployed', () => {
         shipit.remote(`cd ${shipit.currentPath} && npm i`)
-        .then(() => shipit.remote(`cd ${shipit.currentPath} && ./node_modules/.bin/sequelize db:migrate --env=production`))
-        .then(() => shipit.remote(`cd ${shipit.config.deployTo}/shared && cp ./database_config.json ${shipit.currentPath}/config/config.json && cp ./app_config.json ${shipit.currentPath}/src/config.json`))
-        .then(() => shipit.remote('pm2 stop bolr-bot'))
-        .then(() => shipit.remote(`pm2 start ${shipit.currentPath}/src/app.js --name bolr-bot -- production`));
+        .then(() => shipit.remote(`cd ${shipit.config.deployTo}/shared && cp ./server_config.js ${shipit.currentPath}/server/config.js`))
     });
 
     shipit.initConfig({
         default: {
             workspace: '/tmp/github-monitor',
-            deployTo: '/home/deployer/bolr-bot',
-            repositoryUrl: 'git@github.com:BotCube/BOLR-bot.git',
+            deployTo: '/home/deployer/bobby-skins',
+            repositoryUrl: 'git@bitbucket.org:webimagination/bobby-skins.git',
             ignores: ['.git', 'node_modules'],
             rsync: ['--del'],
             keepReleases: 2,
