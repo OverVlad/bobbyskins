@@ -3,7 +3,7 @@ module.exports = function (shipit) {
     require('shipit-shared')(shipit);
 
     shipit.on('deployed', () => {
-        shipit.remote(`cd ${shipit.currentPath} && npm i --verbose`)
+        shipit.remote(`cd ${shipit.currentPath} && npm i`)
         .then(() => shipit.remote(`cd ${shipit.config.deployTo}/shared && cp ./server_config.js ${shipit.currentPath}/server/config.js`))
     });
 
@@ -18,7 +18,7 @@ module.exports = function (shipit) {
             shallowClone: true,
         },
         production: {
-            servers: 'deployer@139.59.137.201',
+            servers: 'deployer@174.138.80.14',
             branch: 'master',
         },
     });
