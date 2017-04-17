@@ -3,7 +3,7 @@ module.exports = function (shipit) {
     require('shipit-shared')(shipit);
 
     shipit.on('deployed', () => {
-        shipit.remote(`cd ${shipit.currentPath} && npm install`)
+        shipit.remote(`cd ${shipit.currentPath}`)
         .then(() => shipit.remote(`cd ${shipit.config.deployTo}/shared && cp ./server_config.js ${shipit.currentPath}/server/config.js`))
     });
 

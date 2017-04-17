@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { roll } from '../../utils/roll';
 import PropTypes from 'prop-types';
 
+import socket from '../../utils/socket';
+
 class ProgressBar extends Component {
   constructor(props) {
     super(props);

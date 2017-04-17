@@ -8,6 +8,8 @@ import WithdrawPage from './components/WithdrawPage.jsx';
 import { userAuthCheckRequest, authenticateUser } from './actions/authActions';
 import { updateUser } from './actions/userActions';
 
+import socket from './utils/socket';
+
 const routes = {
   component: Base,
   onEnter(nextState, replace, callback) {
@@ -20,6 +22,8 @@ const routes = {
         .then((user) => {
           dispatch(authenticateUser());
           dispatch(updateUser(user.data));
+
+          socket.connect(user.data);
 
           replace(pathname);
           callback();

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, IndexLink } from 'react-router';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 
-import Header from './Header.jsx'
+import Header from '../containers/Header.js'
 import Footer from './Footer.jsx'
 
 const Base = ({ children }) => (

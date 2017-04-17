@@ -1,23 +1,26 @@
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Row, Col } from 'react-flexbox-grid';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import * as authActions from '../actions/authActions'
+
+import Profile from '../components/Header/Profile.jsx'
+import SteamAuth from '../components/Header/SteamAuth.jsx'
+
+import socket from '../utils/socket';
 
 class Header extends Component {
   constructor(props) {
     super(props);
 
-    console.log(this.props);
-
     this.auth = this.props.auth.isAuthenticated
   }
 
-  componentDidMount() {
-    if(this.auth) {
-      socket.connect(this.props.user);
-    }
-  }
-
   render() {
+    const { user } = this.props;
+
     return (
       <div>
         <Row className="header">
@@ -36,14 +39,11 @@ class Header extends Component {
           </Col>
 
           <Col sm={1} className="profile">
-            <img src="https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg" alt="Profile" className="profile-avatar" />
 
-            <a href="#" className="profile__name">Skybend</a>
           </Col>
 
           <Col sm={1} className="lang">
-            <img src="img/rus.png" alt="lang" className="lang-img" />
-            <a href="#" className="lang-name">ENG</a>
+            {this.auth ? <Profile user={user} /> : <SteamAuth />}
           </Col>
         </Row>
 
@@ -64,4 +64,10 @@ class Header extends Component {
   }
 }
 
-export default Header;
+const mapStateToProps = ({ user, auth }) => ({ user, auth });
+
+const mapDispatchToProps = (dispatch) => ({
+    authActions: bindActionCreators(authActions, dispatch)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

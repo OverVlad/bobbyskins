@@ -57,7 +57,7 @@ class Socket {
   }
 
   emit(...params) {
-    this.socket.emit.apply(this.socket, params);
+    if (this.socket) this.socket.emit.apply(this.socket, params);
   }
 }
 
