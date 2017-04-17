@@ -67,7 +67,7 @@ module.exports = (server) => (sessionMiddleware) => {
       io.emit('bet', bet);
     });
 
-    socket.on('historyRoll', function (historyRolls = []) {
+    socket.on('history rolls', function (historyRolls = []) {
       Round
       .find()
       .sort('-createdAt')
@@ -90,7 +90,7 @@ module.exports = (server) => (sessionMiddleware) => {
       io.emit('roll', number);
     });
 
-    socket.on('startRoulette', function () {
+    socket.on('start roulette', function () {
 
     })
 
