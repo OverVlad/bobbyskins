@@ -18,7 +18,7 @@ module.exports = function (shipit) {
             shallowClone: true,
         },
         production: {
-            servers: 'deployer@174.138.80.14',
+            servers: 'deployer@139.59.137.201',
             branch: 'master',
         },
     });
