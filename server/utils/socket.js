@@ -70,7 +70,7 @@ module.exports = (server) => (sessionMiddleware) => {
     socket.on('historyRoll', function (historyRolls = []) {
       Round
       .find()
-      .sort()
+      .sort('-createdAt')
       .limit(10)
       .select('roll')
       .then((rolls) =>  {
@@ -89,6 +89,10 @@ module.exports = (server) => (sessionMiddleware) => {
 
       io.emit('roll', number);
     });
+
+    socket.on('startRoulette', function () {
+
+    })
 
     socket.on('disconnect', function () {
       const { currentChatroomId } = socket;

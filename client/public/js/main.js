@@ -33163,7 +33163,7 @@ var ProgressBar = function (_Component) {
 
     _this.state = {
       timeTotal: 20.00,
-      timeLeft: 20.00,
+      timeLeft: 2.00,
       text: 'Prepare to start'
     };
     return _this;
@@ -33185,12 +33185,14 @@ var ProgressBar = function (_Component) {
           _this2.progressBar(_this2.state.timeLeft);
         }, 10);
       } else {
-        this.this.setState({ text: 'Rolling!' });
-        (0, _roll.roll)();
-        setTimeout(function () {
-          _this2.zeroing();
-          _this2.progressBar();
-        }, 5000);
+        this.setState({ text: 'Rolling!' });
+        (0, _roll.roll)(9).then(function (number) {
+          _this2.setState({ text: 'Rolled ' + number });
+          setTimeout(function () {
+            _this2.zeroing();
+            _this2.progressBar();
+          }, 5000);
+        });
       }
     }
   }, {
@@ -33201,6 +33203,7 @@ var ProgressBar = function (_Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
+      socket.emit('startRoulette');
       this.startProgressBar();
     }
   }, {
@@ -34183,92 +34186,98 @@ var stepDeg = 360 / numbers.length;
 var currentPosition = 0;
 var prevTransform = 0;
 
-var animation = exports.animation = function animation(number) {
+var roll = exports.roll = function roll(number) {
   var rounds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 5;
 
-  if (numbers.indexOf(number) === -1) {
-    throw new Error('Числа нет на панели');
-  }
-
-  var targetPosition = currentPosition + 1;
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
-
-  try {
-    for (var _iterator = numbers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      var i = _step.value;
-
-      if (numbers[targetPosition] == number) {
-        break;
-      }
-
-      targetPosition = (targetPosition + 1) % numbers.length;
+  return new Promise(function (resolve, reject) {
+    if (numbers.indexOf(number) === -1) {
+      throw new Error('Числа нет на панели');
     }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
+
+    var targetPosition = currentPosition + 1;
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
     try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
+      for (var _iterator = numbers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var i = _step.value;
+
+        if (numbers[targetPosition] == number) {
+          break;
+        }
+
+        targetPosition = (targetPosition + 1) % numbers.length;
       }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
     } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
       }
     }
-  }
 
-  var difference = 0;
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
+    var difference = 0;
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
 
-  try {
-    for (var _iterator2 = numbers[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      var _i = _step2.value;
-
-      if (numbers[difference] == number) {
-        break;
-      }
-
-      difference = (difference + targetPosition + 1) % numbers.length;
-    }
-  } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
-  } finally {
     try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return) {
-        _iterator2.return();
+      for (var _iterator2 = numbers[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var _i = _step2.value;
+
+        if (numbers[difference] == number) {
+          break;
+        }
+
+        difference = (difference + targetPosition + 1) % numbers.length;
       }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
     } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+          _iterator2.return();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
       }
     }
-  }
 
-  currentPosition = targetPosition;
+    currentPosition = targetPosition;
 
-  var transform = difference ? 360 * rounds + difference * stepDeg : rounds;
+    var transform = difference ? 360 * rounds + difference * stepDeg : rounds;
 
-  var prevTransformDiff = prevTransform % 360;
+    var prevTransformDiff = prevTransform % 360;
 
-  console.log(prevTransformDiff);
+    console.log(prevTransformDiff);
 
-  if (transform >= prevTransformDiff) {
-    transform += prevTransform - prevTransformDiff;
-  } else {
-    transform += prevTransform + (360 - prevTransformDiff);
-  }
+    if (transform >= prevTransformDiff) {
+      transform += prevTransform - prevTransformDiff;
+    } else {
+      transform += prevTransform + (360 - prevTransformDiff);
+    }
 
-  console.log(numbers[currentPosition], transform, prevTransform);
+    console.log(numbers[currentPosition], transform, prevTransform);
 
-  prevTransform = transform;
+    prevTransform = transform;
 
-  return transform;
+    $('#wheel').css('transform', 'rotate(' + transform + 'deg)');
+
+    setTimeout(function () {
+      resolve(number);
+    }, 7500);
+  });
 };
 
 /***/ }),

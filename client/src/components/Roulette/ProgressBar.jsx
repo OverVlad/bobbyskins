@@ -8,7 +8,7 @@ class ProgressBar extends Component {
 
     this.state = {
       timeTotal: 20.00,
-      timeLeft: 20.00,
+      timeLeft: 2.00,
       text: `Prepare to start`
     }
   }
@@ -24,13 +24,15 @@ class ProgressBar extends Component {
         this.progressBar(this.state.timeLeft);
       }, 10);
     } else {
-      this.
       this.setState({ text: 'Rolling!' });
-      roll();
-      setTimeout(() => {
-        this.zeroing();
-        this.progressBar();
-      }, 5000);
+      roll(9)
+      .then((number) =>  {
+        this.setState({ text: `Rolled ${number}` });
+        setTimeout(() => {
+          this.zeroing();
+          this.progressBar();
+        }, 5000);
+      });
     }
   }
 
@@ -39,6 +41,7 @@ class ProgressBar extends Component {
   }
 
   componentDidMount() {
+    socket.emit('startRoulette');
     this.startProgressBar();
   }
 
@@ -46,7 +49,7 @@ class ProgressBar extends Component {
     this.setState({
       timeLeft: (this.state.timeLeft - 0.01).toFixed(2),
       text: `End of raund after ${this.state.timeLeft}`
-     });
+    });
   }
 
   render() {

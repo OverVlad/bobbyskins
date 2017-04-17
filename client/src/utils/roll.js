@@ -1,52 +1,58 @@
 const numbers = [4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12,
-                 4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12,
-                 4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12];
+  4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12,
+  4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12];
 
-const stepDeg = 360 / numbers.length;
+  const stepDeg = 360 / numbers.length;
 
-var currentPosition = 0;
-var prevTransform = 0;
+  var currentPosition = 0;
+  var prevTransform = 0;
 
-export const animation = (number, rounds = 5) => {
-  if (numbers.indexOf(number) === -1) {
-    throw new Error('Числа нет на панели');
-  }
+  export const roll = (number, rounds = 5) => {
+    return new Promise((resolve, reject) => {
+      if (numbers.indexOf(number) === -1) {
+        throw new Error('Числа нет на панели');
+      }
 
-  let targetPosition = currentPosition + 1;
-  for (let i of numbers) {
-    if (numbers[targetPosition] == number) {
-      break;
-    }
+      let targetPosition = currentPosition + 1;
+      for (let i of numbers) {
+        if (numbers[targetPosition] == number) {
+          break;
+        }
 
-    targetPosition = (targetPosition + 1) % numbers.length;
-  }
+        targetPosition = (targetPosition + 1) % numbers.length;
+      }
 
-  let difference = 0;
-  for (let i of numbers) {
-    if (numbers[difference] == number) {
-      break;
-    }
+      let difference = 0;
+      for (let i of numbers) {
+        if (numbers[difference] == number) {
+          break;
+        }
 
-    difference = (difference + targetPosition + 1) % numbers.length;
-  }
+        difference = (difference + targetPosition + 1) % numbers.length;
+      }
 
-  currentPosition = targetPosition;
+      currentPosition = targetPosition;
 
-  let transform = difference ? 360 * rounds + difference * stepDeg : rounds;
+      let transform = difference ? 360 * rounds + difference * stepDeg : rounds;
 
-  let prevTransformDiff = prevTransform % 360;
+      let prevTransformDiff = prevTransform % 360;
 
-  console.log(prevTransformDiff);
+      console.log(prevTransformDiff);
 
-  if (transform >= prevTransformDiff) {
-    transform += (prevTransform - prevTransformDiff);
-  } else {
-    transform += (prevTransform + (360 - prevTransformDiff));
-  }
+      if (transform >= prevTransformDiff) {
+        transform += (prevTransform - prevTransformDiff);
+      } else {
+        transform += (prevTransform + (360 - prevTransformDiff));
+      }
 
-  console.log(numbers[currentPosition], transform, prevTransform);
+      console.log(numbers[currentPosition], transform, prevTransform);
 
-  prevTransform = transform;
+      prevTransform = transform;
 
-  return transform;
-};
+      $('#wheel').css('transform', `rotate(${transform}deg)`);
+
+      setTimeout(() => {
+        resolve(number);
+      }, 7500);
+    });
+  };
