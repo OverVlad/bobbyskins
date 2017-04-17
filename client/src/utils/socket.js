@@ -41,7 +41,7 @@ class Socket {
       // store.dispatch(finishRound(number));
     });
 
-    this.socket.on('historyRoll', function (historyRolls) {
+    this.socket.on('history rolls', function (historyRolls) {
       store.dispatch(refreshHistory(historyRolls));
     });
 

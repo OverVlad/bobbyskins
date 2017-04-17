@@ -16,7 +16,7 @@ class Roulette extends Component {
     super(props);
 
     socket.emit('roll');
-    socket.emit('historyRoll', this.props.roulette.historyRolls);
+    socket.emit('history rolls', this.props.roulette.historyRolls);
 
     this.state = {
       startAngle: Math.floor(360*Math.random()),

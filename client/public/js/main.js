@@ -14166,7 +14166,7 @@ var Socket = function () {
         // store.dispatch(finishRound(number));
       });
 
-      this.socket.on('historyRoll', function (historyRolls) {
+      this.socket.on('history rolls', function (historyRolls) {
         _store2.default.dispatch((0, _rouletteActions.refreshHistory)(historyRolls));
       });
 
@@ -33269,8 +33269,6 @@ var Chat = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Chat.__proto__ || Object.getPrototypeOf(Chat)).call(this, props));
 
-    _socket2.default.connect(_this.props.user);
-
     _this.sendMessage = _this.sendMessage.bind(_this);
     return _this;
   }
@@ -33621,6 +33619,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
@@ -33631,130 +33631,163 @@ var _reactFlexboxGrid = __webpack_require__(23);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Header = function Header() {
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-      _reactFlexboxGrid.Row,
-      { className: 'header' },
-      _react2.default.createElement(
-        _reactFlexboxGrid.Col,
-        { xsOffset: 1, sm: 2, className: 'logo' },
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Header = function (_Component) {
+  _inherits(Header, _Component);
+
+  function Header(props) {
+    _classCallCheck(this, Header);
+
+    var _this = _possibleConstructorReturn(this, (Header.__proto__ || Object.getPrototypeOf(Header)).call(this, props));
+
+    console.log(_this.props);
+
+    _this.auth = _this.props.auth.isAuthenticated;
+    return _this;
+  }
+
+  _createClass(Header, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      if (this.auth) {
+        socket.connect(this.props.user);
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        null,
         _react2.default.createElement(
-          _reactRouter.IndexLink,
-          { to: '/' },
-          'BobbySkins'
-        )
-      ),
-      _react2.default.createElement(
-        _reactFlexboxGrid.Col,
-        { sm: 5, className: 'menu' },
-        _react2.default.createElement(
-          'ul',
-          { className: 'menu__container' },
+          _reactFlexboxGrid.Row,
+          { className: 'header' },
           _react2.default.createElement(
-            'li',
-            { className: 'menu__i' },
+            _reactFlexboxGrid.Col,
+            { xsOffset: 1, sm: 2, className: 'logo' },
             _react2.default.createElement(
               _reactRouter.IndexLink,
-              { to: '/', className: 'menu__link' },
-              'Home'
+              { to: '/' },
+              'BobbySkins'
             )
           ),
           _react2.default.createElement(
-            'li',
-            { className: 'menu__i' },
+            _reactFlexboxGrid.Col,
+            { sm: 5, className: 'menu' },
             _react2.default.createElement(
-              _reactRouter.Link,
-              { to: '/deposit', className: 'menu__link' },
-              'Deposit'
+              'ul',
+              { className: 'menu__container' },
+              _react2.default.createElement(
+                'li',
+                { className: 'menu__i' },
+                _react2.default.createElement(
+                  _reactRouter.IndexLink,
+                  { to: '/', className: 'menu__link' },
+                  'Home'
+                )
+              ),
+              _react2.default.createElement(
+                'li',
+                { className: 'menu__i' },
+                _react2.default.createElement(
+                  _reactRouter.Link,
+                  { to: '/deposit', className: 'menu__link' },
+                  'Deposit'
+                )
+              ),
+              _react2.default.createElement(
+                'li',
+                { className: 'menu__i' },
+                _react2.default.createElement(
+                  _reactRouter.Link,
+                  { to: '/withdraw', className: 'menu__link' },
+                  'Withdraw'
+                )
+              ),
+              _react2.default.createElement(
+                'li',
+                { className: 'menu__i' },
+                _react2.default.createElement(
+                  _reactRouter.Link,
+                  { to: '/rules', className: 'menu__link' },
+                  'Rules'
+                )
+              ),
+              _react2.default.createElement(
+                'li',
+                { className: 'menu__i' },
+                _react2.default.createElement(
+                  _reactRouter.Link,
+                  { to: '/support', className: 'menu__link' },
+                  'Support'
+                )
+              )
             )
           ),
           _react2.default.createElement(
-            'li',
-            { className: 'menu__i' },
+            _reactFlexboxGrid.Col,
+            { sm: 1, className: 'profile' },
+            _react2.default.createElement('img', { src: 'https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg', alt: 'Profile', className: 'profile-avatar' }),
             _react2.default.createElement(
-              _reactRouter.Link,
-              { to: '/withdraw', className: 'menu__link' },
-              'Withdraw'
+              'a',
+              { href: '#', className: 'profile__name' },
+              'Skybend'
             )
           ),
           _react2.default.createElement(
-            'li',
-            { className: 'menu__i' },
+            _reactFlexboxGrid.Col,
+            { sm: 1, className: 'lang' },
+            _react2.default.createElement('img', { src: 'img/rus.png', alt: 'lang', className: 'lang-img' }),
             _react2.default.createElement(
-              _reactRouter.Link,
-              { to: '/rules', className: 'menu__link' },
-              'Rules'
+              'a',
+              { href: '#', className: 'lang-name' },
+              'ENG'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          _reactFlexboxGrid.Row,
+          { className: 'games', center: 'sm' },
+          _react2.default.createElement(
+            _reactFlexboxGrid.Col,
+            { sm: 2, className: 'game' },
+            _react2.default.createElement('img', { src: 'img/rol.png', alt: '', className: 'game-img' }),
+            _react2.default.createElement(
+              'a',
+              { href: '#', className: 'game-name' },
+              'Roulette'
             )
           ),
           _react2.default.createElement(
-            'li',
-            { className: 'menu__i' },
+            _reactFlexboxGrid.Col,
+            { sm: 2, className: 'game' },
             _react2.default.createElement(
-              _reactRouter.Link,
-              { to: '/support', className: 'menu__link' },
-              'Support'
+              'a',
+              { href: '#', className: 'game-name' },
+              'Game2'
+            )
+          ),
+          _react2.default.createElement(
+            _reactFlexboxGrid.Col,
+            { sm: 2, className: 'game' },
+            _react2.default.createElement(
+              'a',
+              { href: '#', className: 'game-name' },
+              'Game3'
             )
           )
         )
-      ),
-      _react2.default.createElement(
-        _reactFlexboxGrid.Col,
-        { sm: 1, className: 'profile' },
-        _react2.default.createElement('img', { src: 'https://www.smashingmagazine.com/wp-content/uploads/2015/06/10-dithering-opt.jpg', alt: 'Profile', className: 'profile-avatar' }),
-        _react2.default.createElement(
-          'a',
-          { href: '#', className: 'profile__name' },
-          'Skybend'
-        )
-      ),
-      _react2.default.createElement(
-        _reactFlexboxGrid.Col,
-        { sm: 1, className: 'lang' },
-        _react2.default.createElement('img', { src: 'img/rus.png', alt: 'lang', className: 'lang-img' }),
-        _react2.default.createElement(
-          'a',
-          { href: '#', className: 'lang-name' },
-          'ENG'
-        )
-      )
-    ),
-    _react2.default.createElement(
-      _reactFlexboxGrid.Row,
-      { className: 'games', center: 'sm' },
-      _react2.default.createElement(
-        _reactFlexboxGrid.Col,
-        { sm: 2, className: 'game' },
-        _react2.default.createElement('img', { src: 'img/rol.png', alt: '', className: 'game-img' }),
-        _react2.default.createElement(
-          'a',
-          { href: '#', className: 'game-name' },
-          'Roulette'
-        )
-      ),
-      _react2.default.createElement(
-        _reactFlexboxGrid.Col,
-        { sm: 2, className: 'game' },
-        _react2.default.createElement(
-          'a',
-          { href: '#', className: 'game-name' },
-          'Game2'
-        )
-      ),
-      _react2.default.createElement(
-        _reactFlexboxGrid.Col,
-        { sm: 2, className: 'game' },
-        _react2.default.createElement(
-          'a',
-          { href: '#', className: 'game-name' },
-          'Game3'
-        )
-      )
-    )
-  );
-};
+      );
+    }
+  }]);
+
+  return Header;
+}(_react.Component);
 
 exports.default = Header;
 
@@ -34459,7 +34492,7 @@ var Roulette = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Roulette.__proto__ || Object.getPrototypeOf(Roulette)).call(this, props));
 
     _socket2.default.emit('roll');
-    _socket2.default.emit('historyRoll', _this.props.roulette.historyRolls);
+    _socket2.default.emit('history rolls', _this.props.roulette.historyRolls);
 
     _this.state = {
       startAngle: Math.floor(360 * Math.random()),

@@ -13,8 +13,6 @@ class Chat extends Component {
   constructor(props) {
     super(props);
 
-    socket.connect(this.props.user);
-
     this.sendMessage = this.sendMessage.bind(this);
   }
 

@@ -79,7 +79,7 @@ module.exports = (server) => (sessionMiddleware) => {
           historyRolls = (historyRolls.length > 10) ? historyRolls.slice(1) : historyRolls;
         });
 
-        io.emit('historyRoll', historyRolls);
+        io.emit('history rolls', historyRolls);
       });
     });
 
