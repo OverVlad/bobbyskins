@@ -17,9 +17,9 @@ const passport = require('passport');
 require('./utils/passport-init')(passport);
 
 // Routes
-const index = require('./routes/index');
 const api = require('./routes/api');
 const auth = require('./routes/auth');
+const index = require('./routes/index');
 
 const app = express();
 const server = http.createServer(app);

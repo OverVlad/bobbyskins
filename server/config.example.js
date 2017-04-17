@@ -9,7 +9,9 @@ module.exports = {
     secret: "bobby"
   },
   steam: {
-    apiKey: "API_KEY"
+    apiKey: "API_KEY",
+    returnURL: "URL",
+    realm: "URL"
   },
   port: 3000
 };

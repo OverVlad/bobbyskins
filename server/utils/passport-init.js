@@ -14,8 +14,8 @@ module.exports = function (passport) {
   });
 
   passport.use(new SteamStrategy({
-    returnURL: '/auth/steam/return',
-    realm: '/',
+    returnURL: config.returnURL,
+    realm: config.realm,
     apiKey: config.apiKey
   },
   function(identifier, profile, done) {
