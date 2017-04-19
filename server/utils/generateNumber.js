@@ -8,7 +8,7 @@ const randSector = (spec) => {
   }
 };
 
-exports.generateNumber = () => {
+const generateNumber = () => {
   const probabilities = [
     {
       type: 'zero',
@@ -27,10 +27,12 @@ exports.generateNumber = () => {
     }
   ];
 
-
   const sector = randSector({0:0.0667, 1:0.4647, 2:0.4647});
 
+  console.log('sector', sector)
+
   const numbers = probabilities[sector].numbers;
+  console.log('numbers', numbers)
 
   if(numbers.length <= 1) {
     return 0;

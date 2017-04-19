@@ -4,7 +4,6 @@ class Roulette {
   constructor(io, Round) {
     this.io = io;
     this.Round = Round;
-
     this.accept = 20;
     this.pause = false;
     this.wait = 15;
