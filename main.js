@@ -11,8 +11,7 @@ pm2.connect(function() {
     instances : instances,
     max_memory_restart : maxMemory + 'M',   // Auto-restart if process takes more than XXmo
     env: {                            // If needed declare some environment variables
-      "NODE_ENV": "production",
-      "PORT": 8080
+      "NODE_ENV": "production"
     },
   }, function(err) {
     if (err) return console.error('Error while launching applications', err.stack || err);
