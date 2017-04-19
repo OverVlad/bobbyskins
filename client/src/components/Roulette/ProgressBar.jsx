@@ -7,7 +7,7 @@ class ProgressBar extends Component {
 
     this.state = {
       text: `Prepare to start`,
-      startTime: this.props.startTime
+      startTime: this.props.startTime.toFixed(2)
     }
   }
 
@@ -15,10 +15,10 @@ class ProgressBar extends Component {
     if(this.state.startTime  > 0.00) {
       setTimeout(() => {
         this.setState({
-          startTime: (this.state.startTime - 0.02).toFixed(2),
-          text: `End of raund after ${this.state.startTime}`
+          text: `End of raund after ${this.state.startTime}`,
+          startTime: (this.state.startTime - 0.02).toFixed(2)
         });
-        this.progressBar(this.state.startTime);
+        this.progressBar();
       }, 18);
     } else {
       this.setState({ text: 'Roll!' });
@@ -26,8 +26,8 @@ class ProgressBar extends Component {
   }
 
   componentDidMount() {
-    if(this.state.startTime) {
-      this.state.startTime.toFixed(2);
+    console.log('componentDidMount');
+    if(this.props.startTime) {
       this.progressBar();
     }
     else {
@@ -36,9 +36,22 @@ class ProgressBar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(!nextProps.isRoll && nextProps.roll) {
-        this.setState({ text: `Roll is ${nextProps.roll}` });
+    if( (!nextProps.isRoll && nextProps.roll) || nextProps.roll === 0 ) {
+      this.setState({ text: `Roll is ${nextProps.roll}` });
     }
+
+    if(nextProps.startTime && nextProps.roll === '' && !nextProps.isRoll) {
+      console.log('nextProps.startTime: ', nextProps.startTime);
+      this.setState({
+        text: `End of raund after ${nextProps.startTime}`,
+        startTime: nextProps.startTime.toFixed(2)
+      });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if(this.state.startTime == 20.00)
+      this.progressBar();
   }
 
   render() {

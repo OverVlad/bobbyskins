@@ -34275,7 +34275,7 @@ var ProgressBar = function (_Component) {
 
     _this.state = {
       text: 'Prepare to start',
-      startTime: _this.props.startTime
+      startTime: _this.props.startTime.toFixed(2)
     };
     return _this;
   }
@@ -34288,10 +34288,10 @@ var ProgressBar = function (_Component) {
       if (this.state.startTime > 0.00) {
         setTimeout(function () {
           _this2.setState({
-            startTime: (_this2.state.startTime - 0.02).toFixed(2),
-            text: 'End of raund after ' + _this2.state.startTime
+            text: 'End of raund after ' + _this2.state.startTime,
+            startTime: (_this2.state.startTime - 0.02).toFixed(2)
           });
-          _this2.progressBar(_this2.state.startTime);
+          _this2.progressBar();
         }, 18);
       } else {
         this.setState({ text: 'Roll!' });
@@ -34300,8 +34300,8 @@ var ProgressBar = function (_Component) {
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      if (this.state.startTime) {
-        this.state.startTime.toFixed(2);
+      console.log('componentDidMount');
+      if (this.props.startTime) {
         this.progressBar();
       } else {
         this.setState({ text: 'Roll was started' });
@@ -34310,9 +34310,22 @@ var ProgressBar = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      if (!nextProps.isRoll && nextProps.roll) {
+      if (!nextProps.isRoll && nextProps.roll || nextProps.roll === 0) {
         this.setState({ text: 'Roll is ' + nextProps.roll });
       }
+
+      if (nextProps.startTime && nextProps.roll === '' && !nextProps.isRoll) {
+        console.log('nextProps.startTime: ', nextProps.startTime);
+        this.setState({
+          text: 'End of raund after ' + nextProps.startTime,
+          startTime: nextProps.startTime.toFixed(2)
+        });
+      }
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (this.state.startTime == 20.00) this.progressBar();
     }
   }, {
     key: 'render',
