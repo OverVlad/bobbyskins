@@ -22,7 +22,6 @@ class Roulette {
 
       const timerID = setInterval(() => {
         if(!this.pause) this.timeLeft = this.timer-this.wait;
-        console.log('Timer: '+this.timer+' Site timer: '+this.timeLeft);
         if(this.timer === this.wait) {
           this.preroll();
 
