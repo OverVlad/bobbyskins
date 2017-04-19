@@ -11,6 +11,8 @@ exports.formatUserObject = function (userData) {
 exports.formatChatMessage = function (socket, message) {
   const { currentChatroomId, user: { username, avatar, _id } } = socket;
 
+  console.log(currentChatroomId);
+
   return {
     chatroom_id: currentChatroomId,
     text: message,

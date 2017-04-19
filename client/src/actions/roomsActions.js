@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as actions from '../constants/roomsConstants';
 import {reroute} from '../actions/routingActions';
-import {refreshChatroom} from '../actions/chatroomActions';
+import { refreshChatroom, joinChatroom } from '../actions/chatroomActions';
 
 /*
  * FETCH ROOMS ACTION CREATORS
@@ -141,27 +141,6 @@ export const deleteRoomRequest = (roomId, isFavorite) => (dispatch, getState) =>
     .catch(error => {
       dispatch(deleteRoomError(error.message));
     })
-};
-
-export const fetchByTagRequest = (tag) => (dispatch, getState) => {
-  const {visibilityFilter: sortBy} = getState().rooms;
-
-  const query = {
-    params: {
-      tag: tag,
-      sortBy
-    }
-  };
-
-  dispatch(fetchRoomsStart());
-
-  axios.get('/api/rooms', query)
-    .then(rooms => {
-      dispatch(fetchRoomsSuccess(rooms.data.rooms, rooms.data.done, rooms.data.count));
-    })
-    .catch(error => {
-      dispatch(fetchRoomsError(error.message));
-    });
 };
 
 export const fetchPartialByTagRequest = (tag) => (dispatch, getState) => {

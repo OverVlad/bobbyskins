@@ -6,8 +6,10 @@ import ProgressBar from './ProgressBar.jsx'
 import Wheel from './Wheel.jsx'
 import Balance from './Balance.jsx'
 import BetBlock from './BetBlock.jsx'
+import HistoryRolls from './HistoryRolls.jsx'
 
 import socket from '../../utils/socket';
+import { rolling } from '../../utils/rolling';
 
 class Roulette extends Component {
 
@@ -15,11 +17,7 @@ class Roulette extends Component {
 
     super(props);
 
-    socket.emit('roll');
-    socket.emit('history rolls', this.props.roulette.historyRolls);
-
     this.state = {
-      startAngle: Math.floor(360*Math.random()),
       balance: 1000000,
       ownBets: {
         '0': 0,
@@ -82,19 +80,19 @@ class Roulette extends Component {
 
     switch(action) {
       case 'reset':
-        bet = 0;
-        break;
+      bet = 0;
+      break;
       case 'half':
-        bet /= 2;
-        break;
+      bet /= 2;
+      break;
       case 'double':
-        bet *= 2;
-        break;
+      bet *= 2;
+      break;
       case 'max':
-        bet = this.state.balance;
-        break;
+      bet = this.state.balance;
+      break;
       default:
-        bet += +action;
+      bet += +action;
     }
 
     this.setState({
@@ -153,29 +151,44 @@ class Roulette extends Component {
     });
   }
 
+  componentWillMount() {
+    socket.emit('history rolls', this.props.roulette.historyRolls);
+    socket.emit('join roulette');
+  }
+
   render() {
+    const { done, isRoll, historyRolls } = this.props.roulette;
+    const { roll } = this.props.roulette.round;
+
+    if(isRoll) rolling(roll);
+
     return (
       <Row>
-        <Col xs={12} className="roulette wrapper">
-          <ProgressBar />
-          <Wheel />
-          <Balance
-            balance={this.state.balance}
-            bet={this.state.bet.amount}
-            handleClick={this.handleBetClick}
-            handleChange={this.handleChange}
-            />
-        </Col>
+          <Col xs={12}>
+            <Col xs={12} className="roulette wrapper">
+              { !done ? <Col xs={12}>Loading...</Col> : <ProgressBar startTime={this.props.roulette.round.startTime} isRoll={isRoll} roll={roll} /> }
+              <Wheel />
 
-        <Col xs={12}>
-          <BetBlock
-            addBet={this.addBet}
-            totalBets={this.state.totalBets}
-            ownBets={this.state.ownBets}
-            />
-        </Col>
+              {historyRolls.length ? <HistoryRolls historyRolls={historyRolls} /> : null}
 
-        <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
+              <Balance
+                balance={this.state.balance}
+                bet={this.state.bet.amount}
+                handleClick={this.handleBetClick}
+                handleChange={this.handleChange}
+                />
+            </Col>
+
+            <Col xs={12}>
+              <BetBlock
+                addBet={this.addBet}
+                totalBets={this.state.totalBets}
+                ownBets={this.state.ownBets}
+                />
+            </Col>
+
+            <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
+          </Col>
       </Row>
     );
   }

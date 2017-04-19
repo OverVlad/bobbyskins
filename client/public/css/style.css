@@ -1173,6 +1173,21 @@ a {
 .roulette {
   padding: 10px 0; }
 
+.hostory-rolls {
+  padding-top: 40px; }
+  .hostory-rolls .roll {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding-top: 15px;
+    font-size: 1.3rem; }
+  .hostory-rolls .red {
+    background: #ff3b30; }
+  .hostory-rolls .black {
+    background: #000; }
+  .hostory-rolls .green {
+    background: #4cd964; }
+
 .wheel__img {
   width: 85%;
   margin: 20px auto 0;

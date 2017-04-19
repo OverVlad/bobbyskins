@@ -28,15 +28,11 @@ chatroomSchema.set('timestamps', true);
  * Static methods
  * */
 chatroomSchema.statics.getRooms = function (req, res) {
-  const findQuery = queryManager(req.query, req.user);
   const limit = 10;
 
   const Chatroom = this;
 
   let pipeline = [
-    {
-      $match: findQuery
-    },
     {
       $project: {
         name: true,
@@ -131,19 +127,6 @@ chatroomSchema.statics.deleteRoom = function (roomId, createdBy, isAdmin) {
     }
   });
 };
-
-/*
- * Helper functions
- * */
-function queryManager(query, user) {
-  if (query.tag) {
-    return {tags: {$in: [query.tag]}};
-  } else if (query.sortBy === 'by_me') {
-    return {creator_id: user._id}
-  } else {
-    return {};
-  }
-}
 
 const ChatroomModel = mongoose.model('Chatroom', chatroomSchema);
 

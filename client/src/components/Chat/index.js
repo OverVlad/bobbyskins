@@ -16,18 +16,16 @@ class Chat extends Component {
     this.sendMessage = this.sendMessage.bind(this);
   }
 
-  componentDidMount() {
-    const ChatroomId = this.props.chatroom.id;
-    this.props.chatroomActions.joinChatroom(this.props.user);
-    socket.emit('join chatroom', {id: ChatroomId});
-  }
-
   errorHandler(error) {
     msg.error(error);
   }
 
   sendMessage(text) {
     socket.emit('message', text);
+  }
+
+  componentDidMount() {
+    this.props.roomsActions.fetchRoomsRequest();
   }
 
   render() {

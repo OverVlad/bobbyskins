@@ -38,10 +38,30 @@ export const addBet = function (bet) {
  * FETCH NUMBER FOR ROUND
  * */
 
- export const startRoll = function (number) {
+ export const startRoll = function (roll) {
    return {
      type: actions.START_ROLL,
-     number
+     roll
+   }
+ }
+
+ export const joinRoulette = function (round) {
+   return {
+     type: actions.JOIN_ROULETTE,
+     round
+   }
+ }
+
+ export const startRound = function (round) {
+   return {
+     type: actions.START_ROUND,
+     round
+   };
+ };
+
+ export const finishRoll = function () {
+   return {
+     type: actions.FINISH_ROLL
    }
  }
 
@@ -53,6 +73,13 @@ export const addBet = function (bet) {
       type: actions.REFRESH_HISTORY,
       historyRolls
     }
+  }
+
+  export const addToHistory = function (number) {
+    return {
+      type: actions.ADD_TO_HISTORY,
+      number
+    };
   }
 
 /*

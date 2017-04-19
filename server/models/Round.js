@@ -5,17 +5,11 @@ const ServerError = require('../errors/ServerError');
 
 const roundSchema = new mongoose.Schema({
   roll: {
-    type: Number,
-    required: true
+    type: Number
   }
 });
 
 roundSchema.set('timestamps', true);
-
-/*
-* Static methods
-* */
-
 
 const RoundModel = mongoose.model('Round', roundSchema);
 

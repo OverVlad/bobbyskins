@@ -18,8 +18,8 @@ const initialState = {
     error: null
   },
   chatroom: {
-    id: '1',
-    name: 'English rooms',
+    id: '',
+    name: '',
     messages: [],
     users: [],
     done: false,
@@ -29,8 +29,9 @@ const initialState = {
   },
   roulette: {
     isRoll: false,
+    done: false,
     round: {
-      id: '1',
+      id: '',
       bets: [],
       roll: '',
       totalBets: [],

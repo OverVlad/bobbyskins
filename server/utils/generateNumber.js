@@ -9,11 +9,11 @@ const randSector = (spec) => {
 };
 
 exports.generateNumber = () => {
-  const probabilites = [
+  const probabilities = [
     {
       type: 'zero',
       probability: 0.4647,
-      number: 0
+      numbers: [0]
     },
     {
       type: 'red',
@@ -22,17 +22,19 @@ exports.generateNumber = () => {
     },
     {
       type: 'black',
-      probability: 0.0667,
+      propability: 0.0667,
       numbers: [8, 9, 10, 11, 12, 13, 14]
     }
   ];
 
-  const spec = {};
-
-  probabilites.forEach(probability => spec[probability]);
 
   const sector = randSector({0:0.0667, 1:0.4647, 2:0.4647});
-  numbers = probabilites[sector].numbers;
-  console.log(sector);
+
+  const numbers = probabilities[sector].numbers;
+
+  if(numbers.length <= 1) {
+    return 0;
+  }
+
   return Math.floor(Math.random() * (numbers[numbers.length - 1] - numbers[0])) + numbers[0];
 };

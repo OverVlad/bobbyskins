@@ -3,7 +3,8 @@ module.exports = (server) => (sessionMiddleware) => {
   const io = require('socket.io')(server);
   const AuthError = require('../errors/AuthError');
   const { formatChatMessage } = require('../utils/format');
-  const { generateNumber } = require('./generateNumber');
+  const Roulette = require('../games/roulette');
+
 
   const Message = require('../models/Message');
   const Bet = require('../models/Bet');
@@ -12,9 +13,15 @@ module.exports = (server) => (sessionMiddleware) => {
   io.use(applySessionMiddleware);
   io.use(checkAuth);
 
+  const roulette = new Roulette(io, Round);
+
   io.on('connection', function (socket) {
+
     socket.on('join chatroom', function (data) {
+      console.log(socket.user);
       const { id: room } = data;
+
+      console.log('room: ', room);
 
       socket.join(room);
 
@@ -37,7 +44,39 @@ module.exports = (server) => (sessionMiddleware) => {
       socket.leave(room);
     });
 
+
+
+    socket.on('join roulette', function (round) {
+
+      socket.join('roulette');
+
+      const formatRound = {
+        id: roulette.getRoundId(),
+        startTime: roulette.TimeToEnd()
+      };
+
+      console.log('formatRound', formatRound);
+
+      io.emit('join roulette', formatRound);
+    });
+
+    socket.on('end round', function (data) {
+      Round
+      .findOne(data.roundId)
+      .then((round) => {
+        Bet
+        .find()
+        .where('round_id').equals(round._id)
+        .where('steamId').equals(socket.user.steamId)
+        round.roll = data.roll;
+        round.save().then(round => this.round = round);
+      });
+    });
+
+
+
     socket.on('message', function (message) {
+      console.log(socket.currentChatroomId);
       const tempMessage = formatChatMessage(socket, message);
 
       const newMessage = new Message({
@@ -73,10 +112,15 @@ module.exports = (server) => (sessionMiddleware) => {
       .sort('-createdAt')
       .limit(10)
       .select('roll')
-      .then((rolls) =>  {
-        rolls.forEach((roll) => {
-          historyRolls.push(roll.roll);
-          historyRolls = (historyRolls.length > 10) ? historyRolls.slice(1) : historyRolls;
+      .then((rounds) =>  {
+        rounds.forEach((round) => {
+          console.log('round.roll', round.roll);
+          if(round.roll) {
+            historyRolls.push(round.roll);
+            historyRolls = (historyRolls.length > 10) ? historyRolls.slice(1) : historyRolls;
+          } else {
+            console.log(`Round with id ${round._id} has null roll`);
+          }
         });
 
         io.emit('history rolls', historyRolls);
@@ -84,15 +128,12 @@ module.exports = (server) => (sessionMiddleware) => {
     });
 
     socket.on('roll', function () {
-
       const number = generateNumber();
 
       io.emit('roll', number);
     });
 
-    socket.on('start roulette', function () {
 
-    })
 
     socket.on('disconnect', function () {
       const { currentChatroomId } = socket;

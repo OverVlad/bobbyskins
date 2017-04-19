@@ -9,4 +9,3 @@ export const reroute = (method, nextUrl) => {
     }
   };
 };
-

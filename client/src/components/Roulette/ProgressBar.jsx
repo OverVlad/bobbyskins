@@ -1,64 +1,52 @@
 import React, { Component } from 'react';
-import { roll } from '../../utils/roll';
 import PropTypes from 'prop-types';
-
-import socket from '../../utils/socket';
 
 class ProgressBar extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      timeTotal: 20.00,
-      timeLeft: 2.00,
-      text: `Prepare to start`
+      text: `Prepare to start`,
+      startTime: this.props.startTime
     }
-  }
-
-  startProgressBar() {
-    this.progressBar();
   }
 
   progressBar() {
-    if(this.state.timeLeft > 0.00) {
-      const timer = setTimeout(() => {
-        this.decreaseTime();
-        this.progressBar(this.state.timeLeft);
-      }, 10);
+    if(this.state.startTime  > 0.00) {
+      setTimeout(() => {
+        this.setState({
+          startTime: (this.state.startTime - 0.02).toFixed(2),
+          text: `End of raund after ${this.state.startTime}`
+        });
+        this.progressBar(this.state.startTime);
+      }, 18);
     } else {
-      this.setState({ text: 'Rolling!' });
-      roll(9)
-      .then((number) =>  {
-        this.setState({ text: `Rolled ${number}` });
-        setTimeout(() => {
-          this.zeroing();
-          this.progressBar();
-        }, 5000);
-      });
+      this.setState({ text: 'Roll!' });
     }
   }
 
-  zeroing() {
-    this.setState({timeLeft: 5.00});
-  }
-
   componentDidMount() {
-    socket.emit('startRoulette');
-    this.startProgressBar();
+    if(this.state.startTime) {
+      this.state.startTime.toFixed(2);
+      this.progressBar();
+    }
+    else {
+      this.setState({ text: 'Roll was started' });
+    }
   }
 
-  decreaseTime() {
-    this.setState({
-      timeLeft: (this.state.timeLeft - 0.01).toFixed(2),
-      text: `End of raund after ${this.state.timeLeft}`
-    });
+  componentWillReceiveProps(nextProps) {
+    if(!nextProps.isRoll && nextProps.roll) {
+        this.setState({ text: `Roll is ${nextProps.roll}` });
+    }
   }
 
   render() {
+
     return (
       <div className="progress">
         <div className="banner">{this.state.text}</div>
-        <div id="progress-bar"><div className="bar" ref={(progress) => this.progress = progress} style={{ width: `${this.state.timeLeft * 100 / this.state.timeTotal}%` }}></div></div>
+        <div id="progress-bar"><div className="bar" ref={(progress) => this.progress = progress} style={{ width: `${this.state.startTime * 100 / 20}%` }}></div></div>
       </div>
     );
   }

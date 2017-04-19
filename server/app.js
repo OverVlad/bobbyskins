@@ -19,6 +19,7 @@ require('./utils/passport-init')(passport);
 // Routes
 const api = require('./routes/api');
 const auth = require('./routes/auth');
+const rooms = require('./routes/rooms');
 const index = require('./routes/index');
 
 const app = express();
@@ -37,7 +38,7 @@ const sessionMiddleware = session({
 const io = require('./utils/socket')(server)(sessionMiddleware);
 
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(morgan('combined', { "stream": logger.stream }));
+// app.use(morgan('combined', { "stream": logger.stream }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(sessionMiddleware);
@@ -58,6 +59,7 @@ app.use(express.static(path.join(__dirname, '../client/public/')));
 
 // dynamic content
 app.use('/auth', auth);
+app.use('/auth', rooms);
 app.use('/api', checkAuth, api);
 app.use('/', index);
 
