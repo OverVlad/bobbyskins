@@ -35603,6 +35603,7 @@ var prevTransform = 0;
 var rolling = exports.rolling = function rolling(number) {
   var rounds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 5;
 
+  number = 14;
   if (numbers.indexOf(number) === -1) {
     throw new Error('Числа нет на панели');
   }

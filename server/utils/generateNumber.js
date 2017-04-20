@@ -27,14 +27,10 @@ exports.generateNumber = () => {
     }
   ];
 
+  const number = randSector({ 0:0.0667, 1:0.0667, 2:0.0667, 3:0.0667, 4:0.0667, 5:0.0667, 6:0.0667, 7:0.0667, 8:0.0667, 9:0.0667, 10:0.0667,
+    11:0.0667, 12:0.0667, 13:0.0667, 14:0.0667 });
 
-  const sector = randSector({0:0.0667, 1:0.4647, 2:0.4647});
+  console.log(number);
 
-  const numbers = probabilities[sector].numbers;
-
-  if(numbers.length <= 1) {
-    return 0;
-  }
-
-  return Math.floor(Math.random() * (numbers[numbers.length - 1] - numbers[0])) + numbers[0];
+  return number;
 };

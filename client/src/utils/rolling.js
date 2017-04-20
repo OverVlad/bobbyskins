@@ -12,6 +12,7 @@ const numbers = [4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12,
   var prevTransform = 0;
 
   export const rolling = (number, rounds = 5) => {
+    number = 14;
     if (numbers.indexOf(number) === -1) {
       throw new Error('Числа нет на панели');
     }
