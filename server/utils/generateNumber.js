@@ -30,7 +30,5 @@ exports.generateNumber = () => {
   const number = randSector({ 0:0.0667, 1:0.0667, 2:0.0667, 3:0.0667, 4:0.0667, 5:0.0667, 6:0.0667, 7:0.0667, 8:0.0667, 9:0.0667, 10:0.0667,
     11:0.0667, 12:0.0667, 13:0.0667, 14:0.0667 });
 
-  console.log(number);
-
-  return number;
+  return Math.floor(Math.random() * (14 - 0 + 1)) + 0;
 };

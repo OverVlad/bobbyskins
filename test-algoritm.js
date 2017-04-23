@@ -16,8 +16,8 @@ numbers.forEach(number => {
   if (number >= 8 && number < 15) black.push(number);
   if (number === 0) zero.push(number);
 
-  if(number % 2 === 0) even.push(number);
-  if(number % 2 !== 0) odd.push(number);
+  if(number % 2 === 0 && number !== 0) even.push(number);
+  if(Math.abs(number % 2) == 1) odd.push(number);
 });
 
 

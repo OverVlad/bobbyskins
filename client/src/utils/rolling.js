@@ -2,61 +2,63 @@ import store from '../store';
 import { finishRoll } from '../actions/rouletteActions';
 import socket from './socket';
 
-const numbers = [4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12,
-  4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12,
-  4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12];
+const numbers = [4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12, 4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12, 4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12];
 
-  const stepDeg = 360 / numbers.length;
+const stepDeg = 360 / numbers.length;
 
-  var currentPosition = 0;
-  var prevTransform = 0;
 
-  export const rolling = (number, rounds = 5) => {
-    number = 14;
-    if (numbers.indexOf(number) === -1) {
-      throw new Error('Числа нет на панели');
+var currentPosition = 0;
+var prevTransform = 0;
+
+function getDifference(number, targetPosition, difference = 0) {
+
+  if (numbers[difference] == number) difference = (difference + targetPosition + 1) % numbers.length;
+
+  for (let i of numbers) {
+    if (numbers[difference] == number) {
+      break;
     }
 
-    let targetPosition = currentPosition + 1;
-    for (let i of numbers) {
-      if (numbers[targetPosition] == number) {
-        break;
-      }
+    difference = (difference + 1) % numbers.length;
+  }
 
-      targetPosition = (targetPosition + 1) % numbers.length;
+  return difference;
+}
+
+export const rolling = (number, rounds = 5) => {
+  console.log('rolling number: ', number);
+
+  let targetPosition = currentPosition + 1;
+  for (let i of numbers) {
+    if (numbers[targetPosition] == number) {
+      break;
     }
 
-    let difference = 0;
-    for (let i of numbers) {
-      if (numbers[difference] == number) {
-        break;
-      }
+    targetPosition = (targetPosition + 1) % numbers.length;
+  }
 
-      difference = (difference + targetPosition + 1) % numbers.length;
-    }
+  let difference = getDifference(number, targetPosition);
 
-    currentPosition = targetPosition;
+  currentPosition = targetPosition;
 
-    let transform = difference ? 360 * rounds + difference * stepDeg : rounds;
+  let transform = difference !== 0 ? 360 * rounds + difference * stepDeg : rounds;
 
-    let prevTransformDiff = prevTransform % 360;
+  let prevTransformDiff = prevTransform % 360;
 
-    console.log(prevTransformDiff);
+  if (transform >= prevTransformDiff) {
+    transform += (prevTransform - prevTransformDiff);
+  } else {
+    transform += (prevTransform + (360 - prevTransformDiff));
+  }
 
-    if (transform >= prevTransformDiff) {
-      transform += (prevTransform - prevTransformDiff);
-    } else {
-      transform += (prevTransform + (360 - prevTransformDiff));
-    }
+  console.log(numbers[currentPosition], transform, prevTransform);
 
-    console.log(numbers[currentPosition], transform, prevTransform);
+  prevTransform = transform;
 
-    prevTransform = transform;
+  $('#wheel').css('transform', `rotate(${-transform}deg)`);
 
-    $('#wheel').css('transform', `rotate(${transform}deg)`);
-
-    setTimeout(() => {
-      store.dispatch(finishRoll());
-      socket.emit('history rolls');
-    }, 7000)
-  };
+  setTimeout(() => {
+    store.dispatch(finishRoll());
+    socket.emit('history rolls');
+  }, 7000)
+};

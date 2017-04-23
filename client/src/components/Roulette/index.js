@@ -109,10 +109,6 @@ class Roulette extends Component {
     const ownBets = this.state.ownBets;
     const user = this.props.user;
 
-    bet.type = type;
-    bet.userId = user.id;
-    bet.roundId = 1; //TODO: round.id
-
     if(bet.amount === 0) {
       msg.show('The bet should not be zero');
       return;
@@ -156,17 +152,21 @@ class Roulette extends Component {
     socket.emit('join roulette');
   }
 
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.roulette.isRoll && this.props.roulette.isRoll !== nextProps.roulette.isRoll) {
+      rolling(nextProps.roulette.round.roll);
+    }
+  }
+
   render() {
     const { done, isRoll, historyRolls } = this.props.roulette;
-    const { roll } = this.props.roulette.round;
-
-    if(isRoll) rolling(roll);
+    const { roll, startTime } = this.props.roulette.round;
 
     return (
       <Row>
           <Col xs={12}>
             <Col xs={12} className="roulette wrapper">
-              { !done ? <Col xs={12}>Loading...</Col> : <ProgressBar startTime={this.props.roulette.round.startTime} isRoll={isRoll} roll={roll} /> }
+              { !done ? <Col xs={12}>Loading...</Col> : <ProgressBar startTime={startTime} isRoll={isRoll} roll={roll} /> }
               <Wheel />
 
               {historyRolls.length ? <HistoryRolls historyRolls={historyRolls} /> : null}

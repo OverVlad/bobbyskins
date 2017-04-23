@@ -5910,7 +5910,8 @@ var initialState = {
     id: '',
     username: '',
     avatar: '',
-    role: ''
+    role: '',
+    balance: 1000000
   },
   rooms: {
     visibilityFilter: 'all',
@@ -34281,31 +34282,36 @@ var ProgressBar = function (_Component) {
   }
 
   _createClass(ProgressBar, [{
-    key: 'progressBar',
-    value: function progressBar() {
+    key: 'progressTimer',
+    value: function progressTimer() {
       var _this2 = this;
 
-      if (this.state.startTime > 0.00) {
-        setTimeout(function () {
+      this.timer = setInterval(function () {
+        if (_this2.state.startTime > 0.00) {
           _this2.setState({
             text: 'End of raund after ' + _this2.state.startTime,
-            startTime: (_this2.state.startTime - 0.02).toFixed(2)
+            startTime: (_this2.state.startTime - 0.01).toFixed(2)
           });
-          _this2.progressBar();
-        }, 18);
-      } else {
-        this.setState({ text: 'Roll!' });
-      }
+        } else {
+          _this2.setState({ text: 'Roll!' });
+          clearInterval(_this2.timer);
+        }
+      }, 10);
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
-      console.log('componentDidMount');
       if (this.props.startTime) {
-        this.progressBar();
+        this.progressTimer();
       } else {
         this.setState({ text: 'Roll was started' });
       }
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      console.log('componentWillUnmount');
+      clearInterval(this.timer);
     }
   }, {
     key: 'componentWillReceiveProps',
@@ -34315,22 +34321,32 @@ var ProgressBar = function (_Component) {
       }
 
       if (nextProps.startTime && nextProps.roll === '' && !nextProps.isRoll) {
-        console.log('nextProps.startTime: ', nextProps.startTime);
         this.setState({
           text: 'End of raund after ' + nextProps.startTime,
           startTime: nextProps.startTime.toFixed(2)
         });
+        this.progressTimer();
       }
     }
   }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate(prevProps, prevState) {
-      if (this.state.startTime == 20.00) this.progressBar();
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps, nextState) {
+      if (this.state.startTime !== nextState.startTime) {
+        return true;
+      }
+
+      if (this.state.text !== nextState.text) {
+        return true;
+      }
+
+      return false;
     }
   }, {
     key: 'render',
     value: function render() {
       var _this3 = this;
+
+      console.log('render! Progress bar');
 
       return _react2.default.createElement(
         'div',
@@ -34559,10 +34575,6 @@ var Roulette = function (_Component) {
       var ownBets = this.state.ownBets;
       var user = this.props.user;
 
-      bet.type = type;
-      bet.userId = user.id;
-      bet.roundId = 1; //TODO: round.id
-
       if (bet.amount === 0) {
         msg.show('The bet should not be zero');
         return;
@@ -34607,16 +34619,23 @@ var Roulette = function (_Component) {
       _socket2.default.emit('join roulette');
     }
   }, {
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.roulette.isRoll && this.props.roulette.isRoll !== nextProps.roulette.isRoll) {
+        (0, _rolling.rolling)(nextProps.roulette.round.roll);
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _props$roulette = this.props.roulette,
           done = _props$roulette.done,
           isRoll = _props$roulette.isRoll,
           historyRolls = _props$roulette.historyRolls;
-      var roll = this.props.roulette.round.roll;
+      var _props$roulette$round = this.props.roulette.round,
+          roll = _props$roulette$round.roll,
+          startTime = _props$roulette$round.startTime;
 
-
-      if (isRoll) (0, _rolling.rolling)(roll);
 
       return _react2.default.createElement(
         _reactFlexboxGrid.Row,
@@ -34631,7 +34650,7 @@ var Roulette = function (_Component) {
               _reactFlexboxGrid.Col,
               { xs: 12 },
               'Loading...'
-            ) : _react2.default.createElement(_ProgressBar2.default, { startTime: this.props.roulette.round.startTime, isRoll: isRoll, roll: roll }),
+            ) : _react2.default.createElement(_ProgressBar2.default, { startTime: startTime, isRoll: isRoll, roll: roll }),
             _react2.default.createElement(_Wheel2.default, null),
             historyRolls.length ? _react2.default.createElement(_HistoryRolls2.default, { historyRolls: historyRolls }) : null,
             _react2.default.createElement(_Balance2.default, {
@@ -35600,15 +35619,12 @@ var stepDeg = 360 / numbers.length;
 var currentPosition = 0;
 var prevTransform = 0;
 
-var rolling = exports.rolling = function rolling(number) {
-  var rounds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 5;
+function getDifference(number, targetPosition) {
+  var difference = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
 
-  number = 14;
-  if (numbers.indexOf(number) === -1) {
-    throw new Error('Числа нет на панели');
-  }
 
-  var targetPosition = currentPosition + 1;
+  if (numbers[difference] == number) difference = (difference + targetPosition + 1) % numbers.length;
+
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
   var _iteratorError = undefined;
@@ -35617,11 +35633,11 @@ var rolling = exports.rolling = function rolling(number) {
     for (var _iterator = numbers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
       var i = _step.value;
 
-      if (numbers[targetPosition] == number) {
+      if (numbers[difference] == number) {
         break;
       }
 
-      targetPosition = (targetPosition + 1) % numbers.length;
+      difference = (difference + 1) % numbers.length;
     }
   } catch (err) {
     _didIteratorError = true;
@@ -35638,20 +35654,28 @@ var rolling = exports.rolling = function rolling(number) {
     }
   }
 
-  var difference = 0;
+  return difference;
+}
+
+var rolling = exports.rolling = function rolling(number) {
+  var rounds = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 5;
+
+  console.log('rolling number: ', number);
+
+  var targetPosition = currentPosition + 1;
   var _iteratorNormalCompletion2 = true;
   var _didIteratorError2 = false;
   var _iteratorError2 = undefined;
 
   try {
     for (var _iterator2 = numbers[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      var _i = _step2.value;
+      var i = _step2.value;
 
-      if (numbers[difference] == number) {
+      if (numbers[targetPosition] == number) {
         break;
       }
 
-      difference = (difference + targetPosition + 1) % numbers.length;
+      targetPosition = (targetPosition + 1) % numbers.length;
     }
   } catch (err) {
     _didIteratorError2 = true;
@@ -35668,13 +35692,13 @@ var rolling = exports.rolling = function rolling(number) {
     }
   }
 
+  var difference = getDifference(number, targetPosition);
+
   currentPosition = targetPosition;
 
-  var transform = difference ? 360 * rounds + difference * stepDeg : rounds;
+  var transform = difference !== 0 ? 360 * rounds + difference * stepDeg : rounds;
 
   var prevTransformDiff = prevTransform % 360;
-
-  console.log(prevTransformDiff);
 
   if (transform >= prevTransformDiff) {
     transform += prevTransform - prevTransformDiff;
@@ -35686,7 +35710,7 @@ var rolling = exports.rolling = function rolling(number) {
 
   prevTransform = transform;
 
-  $('#wheel').css('transform', 'rotate(' + transform + 'deg)');
+  $('#wheel').css('transform', 'rotate(' + -transform + 'deg)');
 
   setTimeout(function () {
     _store2.default.dispatch((0, _rouletteActions.finishRoll)());

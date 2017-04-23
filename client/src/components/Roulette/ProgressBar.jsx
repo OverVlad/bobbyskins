@@ -11,28 +11,32 @@ class ProgressBar extends Component {
     }
   }
 
-  progressBar() {
-    if(this.state.startTime  > 0.00) {
-      setTimeout(() => {
+  progressTimer() {
+    this.timer = setInterval(() => {
+      if(this.state.startTime  > 0.00) {
         this.setState({
           text: `End of raund after ${this.state.startTime}`,
-          startTime: (this.state.startTime - 0.02).toFixed(2)
+          startTime: (this.state.startTime - 0.01).toFixed(2)
         });
-        this.progressBar();
-      }, 18);
-    } else {
-      this.setState({ text: 'Roll!' });
-    }
+      } else {
+        this.setState({ text: 'Roll!' });
+        clearInterval(this.timer);
+      }
+    }, 10);
   }
 
   componentDidMount() {
-    console.log('componentDidMount');
     if(this.props.startTime) {
-      this.progressBar();
+      this.progressTimer();
     }
     else {
       this.setState({ text: 'Roll was started' });
     }
+  }
+
+  componentWillUnmount() {
+    console.log('componentWillUnmount');
+    clearInterval(this.timer);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,20 +45,28 @@ class ProgressBar extends Component {
     }
 
     if(nextProps.startTime && nextProps.roll === '' && !nextProps.isRoll) {
-      console.log('nextProps.startTime: ', nextProps.startTime);
       this.setState({
         text: `End of raund after ${nextProps.startTime}`,
         startTime: nextProps.startTime.toFixed(2)
       });
+      this.progressTimer();
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if(this.state.startTime == 20.00)
-      this.progressBar();
+  shouldComponentUpdate(nextProps, nextState) {
+    if(this.state.startTime !== nextState.startTime) {
+      return true;
+    }
+
+    if(this.state.text !== nextState.text) {
+      return true;
+    }
+
+    return false;
   }
 
   render() {
+    console.log('render! Progress bar');
 
     return (
       <div className="progress">

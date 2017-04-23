@@ -114,8 +114,7 @@ module.exports = (server) => (sessionMiddleware) => {
       .select('roll')
       .then((rounds) =>  {
         rounds.forEach((round) => {
-          console.log('round.roll', round.roll);
-          if(round.roll) {
+          if(round.roll !== undefined && round.roll !== null) {
             historyRolls.push(round.roll);
             historyRolls = (historyRolls.length > 10) ? historyRolls.slice(1) : historyRolls;
           } else {
