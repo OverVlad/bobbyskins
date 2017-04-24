@@ -66,8 +66,6 @@ class ProgressBar extends Component {
   }
 
   render() {
-    console.log('render! Progress bar');
-
     return (
       <div className="progress">
         <div className="banner">{this.state.text}</div>

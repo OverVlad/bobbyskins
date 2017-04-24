@@ -48,6 +48,8 @@ module.exports = (server) => (sessionMiddleware) => {
 
     socket.on('join roulette', function (round) {
 
+      console.log('join roulette!');
+
       socket.join('roulette');
 
       const formatRound = {

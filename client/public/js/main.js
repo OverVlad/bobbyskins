@@ -34346,8 +34346,6 @@ var ProgressBar = function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      console.log('render! Progress bar');
-
       return _react2.default.createElement(
         'div',
         { className: 'progress' },
@@ -34615,6 +34613,7 @@ var Roulette = function (_Component) {
   }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
+      console.log('componentWillMount');
       _socket2.default.emit('history rolls', this.props.roulette.historyRolls);
       _socket2.default.emit('join roulette');
     }

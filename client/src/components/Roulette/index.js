@@ -148,6 +148,7 @@ class Roulette extends Component {
   }
 
   componentWillMount() {
+    console.log('componentWillMount');
     socket.emit('history rolls', this.props.roulette.historyRolls);
     socket.emit('join roulette');
   }
