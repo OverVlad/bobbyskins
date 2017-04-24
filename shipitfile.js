@@ -6,7 +6,7 @@ module.exports = function (shipit) {
         shipit.remote(`cd ${shipit.currentPath} && npm i`)
         .then(() => shipit.remote(`cd ${shipit.config.deployTo}/shared && cp ./server_config.js ${shipit.currentPath}/server/config.js`))
         .then(() => shipit.remote('pm2 kill'))
-        .then(() => shipit.remote(`cd ${shipit.currentPath} && pm2 start main.js`))
+        .then(() => shipit.remote(`cd ${shipit.currentPath} && npm run prod`))
     });
 
     shipit.initConfig({
