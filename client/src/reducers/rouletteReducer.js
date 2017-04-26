@@ -63,7 +63,7 @@ function rouletteReducer(state = initialState.roulette, action) {
     console.log('reducer: ', action.bet);
     return {
       ...state,
-      ownBets: state.round.ownBets.push(action.bet)
+      ownBets: state.round.ownBets[action.bet.type] = action.bet.amount
     };
     default:
     return state;

@@ -5939,13 +5939,39 @@ var initialState = {
       bets: [],
       roll: '',
       totalBets: {
+        'odd': {
+          people: 0,
+          count: 0,
+          bets: []
+        },
+        '1-7': {
+          people: 0,
+          count: 0,
+          bets: []
+        },
+        '0': {
+          people: 0,
+          count: 0,
+          bets: []
+        },
+        '8-14': {
+          people: 0,
+          count: 0,
+          bets: []
+        },
+        'even': {
+          people: 0,
+          count: 0,
+          bets: []
+        }
+      },
+      ownBets: {
         'odd': 0,
         '1to7': 0,
         '0': 0,
         '8to14': 0,
         'even': 0
       },
-      ownBets: [],
 
       startTime: ''
     },
@@ -33926,7 +33952,7 @@ var BetBlock = function BetBlock(_ref) {
           _react2.default.createElement(
             'div',
             { className: 'total-people' },
-            _react2.default.createElement('i', { className: 'fa fa-users', 'aria-hidden': 'true' }),
+            _react2.default.createElement('i', { className: 'fa fa-bets', 'aria-hidden': 'true' }),
             totalBets['odd'].people
           ),
           _react2.default.createElement(
@@ -33938,24 +33964,24 @@ var BetBlock = function BetBlock(_ref) {
           _react2.default.createElement(
             'div',
             { className: 'list-bets' },
-            totalBets['odd'].users.map(function (user) {
+            totalBets['odd'].bets.map(function (bet) {
               return _react2.default.createElement(
                 'div',
-                { className: 'list-users', key: user.id },
+                { className: 'list-bets', key: bet.id },
                 _react2.default.createElement(
                   'div',
                   { className: 'list-bets__info' },
-                  _react2.default.createElement('img', { className: 'list-bets__avatar', src: user.avatar, alt: '' }),
+                  _react2.default.createElement('img', { className: 'list-bets__avatar', src: bet.avatar, alt: '' }),
                   _react2.default.createElement(
                     'b',
                     { className: 'list-bets__name' },
-                    user.username
+                    bet.betname
                   )
                 ),
                 _react2.default.createElement(
                   'div',
                   { className: 'list-bets__sum' },
-                  user.bet.count
+                  bet.bet.count
                 )
               );
             })
@@ -33983,7 +34009,7 @@ var BetBlock = function BetBlock(_ref) {
         _react2.default.createElement(
           'div',
           { className: 'total-people' },
-          _react2.default.createElement('i', { className: 'fa fa-users', 'aria-hidden': 'true' }),
+          _react2.default.createElement('i', { className: 'fa fa-bets', 'aria-hidden': 'true' }),
           totalBets['1-7'].people
         ),
         _react2.default.createElement(
@@ -33996,24 +34022,24 @@ var BetBlock = function BetBlock(_ref) {
       _react2.default.createElement(
         'div',
         { className: 'list-bets' },
-        totalBets['1-7'].users.map(function (user) {
+        totalBets['1-7'].bets.map(function (bet) {
           return _react2.default.createElement(
             'div',
-            { className: 'list-users', key: user.bet.id },
+            { className: 'list-bets', key: bet.bet.id },
             _react2.default.createElement(
               'div',
               { className: 'list-bets__info' },
-              _react2.default.createElement('img', { className: 'list-bets__avatar', src: user.imgUrl, alt: '' }),
+              _react2.default.createElement('img', { className: 'list-bets__avatar', src: bet.imgUrl, alt: '' }),
               _react2.default.createElement(
                 'b',
                 { className: 'list-bets__name' },
-                user.name
+                bet.name
               )
             ),
             _react2.default.createElement(
               'div',
               { className: 'list-bets__sum' },
-              user.bet.count
+              bet.bet.count
             )
           );
         })
@@ -34036,7 +34062,7 @@ var BetBlock = function BetBlock(_ref) {
       _react2.default.createElement(
         'div',
         { className: 'total-people' },
-        _react2.default.createElement('i', { className: 'fa fa-users', 'aria-hidden': 'true' }),
+        _react2.default.createElement('i', { className: 'fa fa-bets', 'aria-hidden': 'true' }),
         totalBets['0'].people
       ),
       _react2.default.createElement(
@@ -34048,24 +34074,24 @@ var BetBlock = function BetBlock(_ref) {
       _react2.default.createElement(
         'div',
         { className: 'list-bets' },
-        totalBets['0'].users.map(function (user) {
+        totalBets['0'].bets.map(function (bet) {
           return _react2.default.createElement(
             'div',
-            { className: 'list-users', key: user.bet.id },
+            { className: 'list-bets', key: bet.bet.id },
             _react2.default.createElement(
               'div',
               { className: 'list-bets__info' },
-              _react2.default.createElement('img', { className: 'list-bets__avatar', src: user.imgUrl, alt: '' }),
+              _react2.default.createElement('img', { className: 'list-bets__avatar', src: bet.imgUrl, alt: '' }),
               _react2.default.createElement(
                 'b',
                 { className: 'list-bets__name' },
-                user.name
+                bet.name
               )
             ),
             _react2.default.createElement(
               'div',
               { className: 'list-bets__sum' },
-              user.bet.count
+              bet.bet.count
             )
           );
         })
@@ -34088,7 +34114,7 @@ var BetBlock = function BetBlock(_ref) {
       _react2.default.createElement(
         'div',
         { className: 'total-people' },
-        _react2.default.createElement('i', { className: 'fa fa-users', 'aria-hidden': 'true' }),
+        _react2.default.createElement('i', { className: 'fa fa-bets', 'aria-hidden': 'true' }),
         totalBets['8-14'].people
       ),
       _react2.default.createElement(
@@ -34100,24 +34126,24 @@ var BetBlock = function BetBlock(_ref) {
       _react2.default.createElement(
         'div',
         { className: 'list-bets' },
-        totalBets['8-14'].users.map(function (user) {
+        totalBets['8-14'].bets.map(function (bet) {
           return _react2.default.createElement(
             'div',
-            { className: 'list-users', key: user.bet.id },
+            { className: 'list-bets', key: bet.bet.id },
             _react2.default.createElement(
               'div',
               { className: 'list-bets__info' },
-              _react2.default.createElement('img', { className: 'list-bets__avatar', src: user.imgUrl, alt: '' }),
+              _react2.default.createElement('img', { className: 'list-bets__avatar', src: bet.imgUrl, alt: '' }),
               _react2.default.createElement(
                 'b',
                 { className: 'list-bets__name' },
-                user.name
+                bet.name
               )
             ),
             _react2.default.createElement(
               'div',
               { className: 'list-bets__sum' },
-              user.bet.count
+              bet.bet.count
             )
           );
         })
@@ -34140,7 +34166,7 @@ var BetBlock = function BetBlock(_ref) {
       _react2.default.createElement(
         'div',
         { className: 'total-people' },
-        _react2.default.createElement('i', { className: 'fa fa-users', 'aria-hidden': 'true' }),
+        _react2.default.createElement('i', { className: 'fa fa-bets', 'aria-hidden': 'true' }),
         totalBets['even'].people
       ),
       _react2.default.createElement(
@@ -34152,24 +34178,24 @@ var BetBlock = function BetBlock(_ref) {
       _react2.default.createElement(
         'div',
         { className: 'list-bets' },
-        totalBets['even'].users.map(function (user) {
+        totalBets['even'].bets.map(function (bet) {
           return _react2.default.createElement(
             'div',
-            { className: 'list-users', key: user.bet.id },
+            { className: 'list-bets', key: bet.bet.id },
             _react2.default.createElement(
               'div',
               { className: 'list-bets__info' },
-              _react2.default.createElement('img', { className: 'list-bets__avatar', src: user.imgUrl, alt: '' }),
+              _react2.default.createElement('img', { className: 'list-bets__avatar', src: bet.imgUrl, alt: '' }),
               _react2.default.createElement(
                 'b',
                 { className: 'list-bets__name' },
-                user.name
+                bet.name
               )
             ),
             _react2.default.createElement(
               'div',
               { className: 'list-bets__sum' },
-              user.bet.count
+              bet.bet.count
             )
           );
         })
@@ -35430,7 +35456,7 @@ function rouletteReducer() {
     case constants.ADD_BET:
       console.log('reducer: ', action.bet);
       return _extends({}, state, {
-        ownBets: state.round.ownBets.push(action.bet)
+        ownBets: state.round.ownBets[action.bet.type] = action.bet.amount
       });
     default:
       return state;
