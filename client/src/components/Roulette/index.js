@@ -26,11 +26,7 @@ class Roulette extends Component {
         'even': 0,
         'odd': 0
       },
-      bet: {
-        amount: 0,
-        type: '',
-        userId: 0
-      },
+      bet: 0,
       totalBets: {
         '0' : {
           amount: 0,
@@ -71,7 +67,7 @@ class Roulette extends Component {
     event.preventDefault();
 
     const action = event.target.dataset.action;
-    let bet = this.state.bet.amount;
+    let bet = this.state.bet;
 
     if(this.state.balance <= bet && action !== 'reset') {
       msg.show('You don\'t have anoth money');
@@ -96,59 +92,32 @@ class Roulette extends Component {
     }
 
     this.setState({
-      bet: {
-        amount: bet
-      }
+      bet: bet
     });
   }
 
   addBet(event) {
-    const type = event.target.dataset.bet;
-    const bet = this.state.bet;
-    const totalBets = this.state.totalBets;
-    const ownBets = this.state.ownBets;
-    const user = this.props.user;
-
-    if(bet.amount === 0) {
+    if(bet === 0) {
       msg.show('The bet should not be zero');
       return;
     }
 
-    socket.emit('bet', bet);
+    const bet = {
+      amount: this.state.bet,
+      type: event.target.dataset.bet,
+      roundId: this.props.roulette.round.id
+    }
 
-    totalBets[type].amount += bet.amount;
-    totalBets[type].people += 1;
-    totalBets[type].users.push(user);
-
-    ownBets[type] = bet.amount;
-
-    const balance = this.state.balance - bet;
-
-    // this.setState({
-    //   totalBets: totalBets,
-    //   ownBets: ownBets,
-    //   balance: balance,
-    //   bet: {
-    //     id: this.state.bet.id + 1,
-    //     amount: 0
-    //   }
-    // });
-
-    msg.success(`Your bet ${bet.amount} accepted`);
+    socket.emit('add bet', bet);
   }
 
   handleChange(event) {
     this.setState({
-      bet:
-      {
-        id: this.state.bet.id,
-        amount: event.target.value
-      }
+      bet: event.target.value
     });
   }
 
   componentWillMount() {
-    console.log('componentWillMount');
     socket.emit('history rolls', this.props.roulette.historyRolls);
     socket.emit('join roulette');
   }
@@ -161,7 +130,7 @@ class Roulette extends Component {
 
   render() {
     const { done, isRoll, historyRolls } = this.props.roulette;
-    const { roll, startTime } = this.props.roulette.round;
+    const { roll, startTime, ownBets, totalBets } = this.props.roulette.round;
 
     return (
       <Row>
@@ -174,7 +143,7 @@ class Roulette extends Component {
 
               <Balance
                 balance={this.state.balance}
-                bet={this.state.bet.amount}
+                bet={this.state.bet}
                 handleClick={this.handleBetClick}
                 handleChange={this.handleChange}
                 />
@@ -183,8 +152,8 @@ class Roulette extends Component {
             <Col xs={12}>
               <BetBlock
                 addBet={this.addBet}
-                totalBets={this.state.totalBets}
-                ownBets={this.state.ownBets}
+                totalBets={totalBets}
+                ownBets={ownBets}
                 />
             </Col>
 

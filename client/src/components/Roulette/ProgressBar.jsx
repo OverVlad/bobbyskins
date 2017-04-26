@@ -19,8 +19,8 @@ class ProgressBar extends Component {
           startTime: (this.state.startTime - 0.01).toFixed(2)
         });
       } else {
-        this.setState({ text: 'Roll!' });
         clearInterval(this.timer);
+        this.setState({ text: 'Roll!' });
       }
     }, 10);
   }
@@ -35,7 +35,6 @@ class ProgressBar extends Component {
   }
 
   componentWillUnmount() {
-    console.log('componentWillUnmount');
     clearInterval(this.timer);
   }
 

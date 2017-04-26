@@ -23,3 +23,14 @@ exports.formatChatMessage = function (socket, message) {
     }
   };
 };
+
+exports.formatBet = function (socket, bet) {
+  const { user: { username, avatar, _id } } = socket;
+
+  return {
+    round_id: bet.roundId,
+    user_id: _id,
+    amount: bet.amount,
+    type: bet.type
+  };
+};

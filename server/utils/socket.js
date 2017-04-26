@@ -2,13 +2,14 @@ module.exports = (server) => (sessionMiddleware) => {
   const url = require('url');
   const io = require('socket.io')(server);
   const AuthError = require('../errors/AuthError');
-  const { formatChatMessage } = require('../utils/format');
+  const { formatChatMessage, formatBet } = require('../utils/format');
   const Roulette = require('../games/roulette');
 
 
   const Message = require('../models/Message');
   const Bet = require('../models/Bet');
   const Round = require('../models/Round');
+  const User = require('../models/User');
 
   io.use(applySessionMiddleware);
   io.use(checkAuth);
@@ -18,10 +19,7 @@ module.exports = (server) => (sessionMiddleware) => {
   io.on('connection', function (socket) {
 
     socket.on('join chatroom', function (data) {
-      console.log(socket.user);
       const { id: room } = data;
-
-      console.log('room: ', room);
 
       socket.join(room);
 
@@ -57,8 +55,6 @@ module.exports = (server) => (sessionMiddleware) => {
         startTime: roulette.TimeToEnd()
       };
 
-      console.log('formatRound', formatRound);
-
       io.emit('join roulette', formatRound);
     });
 
@@ -78,7 +74,6 @@ module.exports = (server) => (sessionMiddleware) => {
 
 
     socket.on('message', function (message) {
-      console.log(socket.currentChatroomId);
       const tempMessage = formatChatMessage(socket, message);
 
       const newMessage = new Message({
@@ -93,19 +88,6 @@ module.exports = (server) => (sessionMiddleware) => {
       newMessage.save();
 
       io.to(socket.currentChatroomId).emit('message', tempMessage); // send a message right away without waiting for DB
-    });
-
-    socket.on('bet', function (bet) {
-      const newBet = new Bet({
-        user_id: bet.userId,
-        round_id: bet.roundId,
-        amount: bet.amount,
-        type: bet.type
-      });
-
-      newBet.save().then((bet) => console.log('Hello: ', bet)).catch((error) => console.log(error));
-
-      io.emit('bet', bet);
     });
 
     socket.on('history rolls', function (historyRolls = []) {
@@ -132,6 +114,29 @@ module.exports = (server) => (sessionMiddleware) => {
       const number = generateNumber();
 
       io.emit('roll', number);
+    });
+
+    socket.on('add bet', function (bet) {
+      const formatedBet = formatBet(socket, bet);
+      const newBet = new Bet(formatedBet);
+      const id = socket.user._id;
+      const user = User.findOne({_id: id})
+      .then((user) => {
+        const balance = user.balance;
+        // if(balance < formatedBet.amount) {
+        //   io.emit('error', 'You do not have enough coins on your balance');
+        // } else {
+          user.balance -= formatedBet.amount;
+          user.save();
+
+          newBet.save()
+          .then((bet) => {
+            io.emit('add bet', {bet, balance});
+          })
+          .catch((error) => console.log(error));
+        // }
+      })
+      .catch(err => console.log(err));
     });
 
 

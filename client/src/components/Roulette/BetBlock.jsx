@@ -10,16 +10,16 @@ const BetBlock = ({ addBet, totalBets, ownBets }) => (
         <button className="btn-block btn-odd" data-bet="odd" onClick={addBet}>Odd, win 2x</button>
         <div className="own-bet field">{ownBets['odd']}<i className="fa fa-diamond" aria-hidden="true"></i></div>
         <div className="bet-panel">
-          <div className="total-people"><i className="fa fa-users" aria-hidden="true"></i>{totalBets['odd'].people}</div>
+          <div className="total-people"><i className="fa fa-bets" aria-hidden="true"></i>{totalBets['odd'].people}</div>
           <div className="total-bets">{totalBets['odd'].count}<i className="fa fa-diamond" aria-hidden="true"></i></div>
           <div className="list-bets">
-            {totalBets['odd'].users.map((user) =>
-              <div className="list-users" key={user.id}>
+            {totalBets['odd'].bets.map((bet) =>
+              <div className="list-bets" key={bet.id}>
                 <div className="list-bets__info">
-                  <img className="list-bets__avatar" src={user.avatar} alt=""/>
-                  <b className="list-bets__name">{user.username}</b>
+                  <img className="list-bets__avatar" src={bet.avatar} alt=""/>
+                  <b className="list-bets__name">{bet.betname}</b>
                 </div>
-                <div className="list-bets__sum">{user.bet.count}</div>
+                <div className="list-bets__sum">{bet.bet.count}</div>
               </div>
             )}
           </div>
@@ -31,17 +31,17 @@ const BetBlock = ({ addBet, totalBets, ownBets }) => (
       <button className="btn-block btn-1-7" data-bet="1-7" onClick={addBet}>1 to 7, win 2x</button>
       <div className="own-bet field">{ownBets['1-7']}<i className="fa fa-diamond" aria-hidden="true"></i></div>
       <div className="total">
-        <div className="total-people"><i className="fa fa-users" aria-hidden="true"></i>{totalBets['1-7'].people}</div>
+        <div className="total-people"><i className="fa fa-bets" aria-hidden="true"></i>{totalBets['1-7'].people}</div>
         <div className="total-bets">{totalBets['1-7'].count}<i className="fa fa-diamond" aria-hidden="true"></i></div>
       </div>
       <div className="list-bets">
-        {totalBets['1-7'].users.map((user) =>
-          <div className="list-users" key={user.bet.id}>
+        {totalBets['1-7'].bets.map((bet) =>
+          <div className="list-bets" key={bet.bet.id}>
             <div className="list-bets__info">
-              <img className="list-bets__avatar" src={user.imgUrl} alt=""/>
-              <b className="list-bets__name">{user.name}</b>
+              <img className="list-bets__avatar" src={bet.imgUrl} alt=""/>
+              <b className="list-bets__name">{bet.name}</b>
             </div>
-            <div className="list-bets__sum">{user.bet.count}</div>
+            <div className="list-bets__sum">{bet.bet.count}</div>
           </div>
         )}
       </div>
@@ -51,17 +51,17 @@ const BetBlock = ({ addBet, totalBets, ownBets }) => (
       <button className="btn-block btn-zero" data-bet="0" onClick={addBet}>0, win 14x</button>
       <div className="own-bet field">{ownBets['0']}<i className="fa fa-diamond" aria-hidden="true"></i></div>
 
-      <div className="total-people"><i className="fa fa-users" aria-hidden="true"></i>{totalBets['0'].people}</div>
+      <div className="total-people"><i className="fa fa-bets" aria-hidden="true"></i>{totalBets['0'].people}</div>
       <div className="total-bets">{totalBets['0'].count}<i className="fa fa-diamond" aria-hidden="true"></i></div>
 
         <div className="list-bets">
-          {totalBets['0'].users.map((user) =>
-            <div className="list-users" key={user.bet.id}>
+          {totalBets['0'].bets.map((bet) =>
+            <div className="list-bets" key={bet.bet.id}>
               <div className="list-bets__info">
-                <img className="list-bets__avatar" src={user.imgUrl} alt=""/>
-                <b className="list-bets__name">{user.name}</b>
+                <img className="list-bets__avatar" src={bet.imgUrl} alt=""/>
+                <b className="list-bets__name">{bet.name}</b>
               </div>
-              <div className="list-bets__sum">{user.bet.count}</div>
+              <div className="list-bets__sum">{bet.bet.count}</div>
             </div>
           )}
         </div>
@@ -71,17 +71,17 @@ const BetBlock = ({ addBet, totalBets, ownBets }) => (
       <button className="btn-block btn-8-14" data-bet="8-14" onClick={addBet}>8 to 14, win 2x</button>
       <div className="own-bet field">{ownBets['8-14']}<i className="fa fa-diamond" aria-hidden="true"></i></div>
 
-      <div className="total-people"><i className="fa fa-users" aria-hidden="true"></i>{totalBets['8-14'].people}</div>
+      <div className="total-people"><i className="fa fa-bets" aria-hidden="true"></i>{totalBets['8-14'].people}</div>
       <div className="total-bets">{totalBets['even'].count}<i className="fa fa-diamond" aria-hidden="true"></i></div>
 
         <div className="list-bets">
-          {totalBets['8-14'].users.map((user) =>
-            <div className="list-users" key={user.bet.id}>
+          {totalBets['8-14'].bets.map((bet) =>
+            <div className="list-bets" key={bet.bet.id}>
               <div className="list-bets__info">
-                <img className="list-bets__avatar" src={user.imgUrl} alt=""/>
-                <b className="list-bets__name">{user.name}</b>
+                <img className="list-bets__avatar" src={bet.imgUrl} alt=""/>
+                <b className="list-bets__name">{bet.name}</b>
               </div>
-              <div className="list-bets__sum">{user.bet.count}</div>
+              <div className="list-bets__sum">{bet.bet.count}</div>
             </div>
           )}
         </div>
@@ -90,17 +90,17 @@ const BetBlock = ({ addBet, totalBets, ownBets }) => (
     <Col xs={4} lg={2} className="betBlock wrapper">
       <button className="btn-block btn-even" data-bet="even" onClick={addBet}>Even, win 2x</button>
       <div className="own-bet field">{ownBets['even']}<i className="fa fa-diamond" aria-hidden="true"></i></div>
-      <div className="total-people"><i className="fa fa-users" aria-hidden="true"></i>{totalBets['even'].people}</div>
+      <div className="total-people"><i className="fa fa-bets" aria-hidden="true"></i>{totalBets['even'].people}</div>
       <div className="total-bets">{totalBets['even'].count}<i className="fa fa-diamond" aria-hidden="true"></i></div>
 
         <div className="list-bets">
-          {totalBets['even'].users.map((user) =>
-            <div className="list-users" key={user.bet.id}>
+          {totalBets['even'].bets.map((bet) =>
+            <div className="list-bets" key={bet.bet.id}>
               <div className="list-bets__info">
-                <img className="list-bets__avatar" src={user.imgUrl} alt=""/>
-                <b className="list-bets__name">{user.name}</b>
+                <img className="list-bets__avatar" src={bet.imgUrl} alt=""/>
+                <b className="list-bets__name">{bet.name}</b>
               </div>
-              <div className="list-bets__sum">{user.bet.count}</div>
+              <div className="list-bets__sum">{bet.bet.count}</div>
             </div>
           )}
         </div>
