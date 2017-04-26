@@ -60,7 +60,7 @@ function rouletteReducer(state = initialState.roulette, action) {
       isRoll: false
     };
     case constants.ADD_BET:
-    console.log('reducer: ', action.bet);
+    console.log('reducer: ', state.round.ownBets[action.bet.type]);
     return {
       ...state,
       ownBets: state.round.ownBets[action.bet.type] = action.bet.amount

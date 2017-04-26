@@ -5967,9 +5967,9 @@ var initialState = {
       },
       ownBets: {
         'odd': 0,
-        '1to7': 0,
+        '1-7': 0,
         '0': 0,
-        '8to14': 0,
+        '8-14': 0,
         'even': 0
       },
 
@@ -35454,7 +35454,7 @@ function rouletteReducer() {
         isRoll: false
       });
     case constants.ADD_BET:
-      console.log('reducer: ', action.bet);
+      console.log('reducer: ', state.round.ownBets[action.bet.type]);
       return _extends({}, state, {
         ownBets: state.round.ownBets[action.bet.type] = action.bet.amount
       });
