@@ -5938,7 +5938,15 @@ var initialState = {
       id: '',
       bets: [],
       roll: '',
-      totalBets: [],
+      totalBets: {
+        'odd': 0,
+        '1to7': 0,
+        '0': 0,
+        '8to14': 0,
+        'even': 0
+      },
+      ownBets: [],
+
       startTime: ''
     },
     historyRolls: []
@@ -6008,10 +6016,6 @@ var Socket = function () {
         _store2.default.dispatch((0, _chatroomActions.sendMessage)(message));
       });
 
-      this.socket.on('bet', function (bet) {
-        _store2.default.dispatch((0, _rouletteActions.addBet)(bet));
-      });
-
       this.socket.on('history rolls', function (historyRolls) {
         _store2.default.dispatch((0, _rouletteActions.refreshHistory)(historyRolls));
       });
@@ -6035,8 +6039,14 @@ var Socket = function () {
       });
 
       this.socket.on('start roll', function (number) {
-        console.log('number:', number);
         _store2.default.dispatch((0, _rouletteActions.startRoll)(number));
+      });
+
+      this.socket.on('add bet', function (data) {
+        console.log('socket clietn: ', data.bet);
+        _store2.default.dispatch((0, _rouletteActions.addBet)(data.bet));
+        // store.dispatch(refreshTotalBets(data.totalBets));
+        // store.dispatch(refreshBalance(data.balance));
       });
     }
   }, {
@@ -8977,7 +8987,7 @@ function fetchPartialChatroomMessagesRequest() {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetchRoundRequest = exports.addToHistory = exports.refreshHistory = exports.finishRoll = exports.startRound = exports.joinRoulette = exports.startRoll = exports.addBet = undefined;
+exports.fetchRoundRequest = exports.fetchTotalBets = exports.addToHistory = exports.refreshHistory = exports.finishRoll = exports.startRound = exports.joinRoulette = exports.startRoll = exports.addBet = undefined;
 
 var _axios = __webpack_require__(68);
 
@@ -9069,6 +9079,13 @@ var addToHistory = exports.addToHistory = function addToHistory(number) {
   return {
     type: actions.ADD_TO_HISTORY,
     number: number
+  };
+};
+
+var fetchTotalBets = exports.fetchTotalBets = function fetchTotalBets(totalBets) {
+  return {
+    type: actions.FETCH_TOTAL_BETS,
+    totalBets: totalBets
   };
 };
 
@@ -14277,6 +14294,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var ADD_BET = exports.ADD_BET = 'ADD_BET';
+var FETCH_TOTAL_BETS = exports.FETCH_TOTAL_BETS = 'FETCH_TOTAL_BETS';
 
 var FETCH_ROUND_START = exports.FETCH_ROUND_START = 'FETCH_ROUND_START';
 var FETCH_ROUND_ERROR = exports.FETCH_ROUND_ERROR = 'FETCH_ROUND_ERROR';
@@ -34293,8 +34311,8 @@ var ProgressBar = function (_Component) {
             startTime: (_this2.state.startTime - 0.01).toFixed(2)
           });
         } else {
-          _this2.setState({ text: 'Roll!' });
           clearInterval(_this2.timer);
+          _this2.setState({ text: 'Roll!' });
         }
       }, 10);
     }
@@ -34310,7 +34328,6 @@ var ProgressBar = function (_Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      console.log('componentWillUnmount');
       clearInterval(this.timer);
     }
   }, {
@@ -34486,11 +34503,7 @@ var Roulette = function (_Component) {
         'even': 0,
         'odd': 0
       },
-      bet: {
-        amount: 0,
-        type: '',
-        userId: 0
-      },
+      bet: 0,
       totalBets: {
         '0': {
           amount: 0,
@@ -34534,7 +34547,7 @@ var Roulette = function (_Component) {
       event.preventDefault();
 
       var action = event.target.dataset.action;
-      var bet = this.state.bet.amount;
+      var bet = this.state.bet;
 
       if (this.state.balance <= bet && action !== 'reset') {
         msg.show('You don\'t have anoth money');
@@ -34559,61 +34572,35 @@ var Roulette = function (_Component) {
       }
 
       this.setState({
-        bet: {
-          amount: bet
-        }
+        bet: bet
       });
     }
   }, {
     key: 'addBet',
     value: function addBet(event) {
-      var type = event.target.dataset.bet;
-      var bet = this.state.bet;
-      var totalBets = this.state.totalBets;
-      var ownBets = this.state.ownBets;
-      var user = this.props.user;
-
-      if (bet.amount === 0) {
+      if (bet === 0) {
         msg.show('The bet should not be zero');
         return;
       }
 
-      _socket2.default.emit('bet', bet);
+      var bet = {
+        amount: this.state.bet,
+        type: event.target.dataset.bet,
+        roundId: this.props.roulette.round.id
+      };
 
-      totalBets[type].amount += bet.amount;
-      totalBets[type].people += 1;
-      totalBets[type].users.push(user);
-
-      ownBets[type] = bet.amount;
-
-      var balance = this.state.balance - bet;
-
-      // this.setState({
-      //   totalBets: totalBets,
-      //   ownBets: ownBets,
-      //   balance: balance,
-      //   bet: {
-      //     id: this.state.bet.id + 1,
-      //     amount: 0
-      //   }
-      // });
-
-      msg.success('Your bet ' + bet.amount + ' accepted');
+      _socket2.default.emit('add bet', bet);
     }
   }, {
     key: 'handleChange',
     value: function handleChange(event) {
       this.setState({
-        bet: {
-          id: this.state.bet.id,
-          amount: event.target.value
-        }
+        bet: event.target.value
       });
     }
   }, {
     key: 'componentWillMount',
     value: function componentWillMount() {
-      console.log('componentWillMount');
       _socket2.default.emit('history rolls', this.props.roulette.historyRolls);
       _socket2.default.emit('join roulette');
     }
@@ -34633,7 +34620,9 @@ var Roulette = function (_Component) {
           historyRolls = _props$roulette.historyRolls;
       var _props$roulette$round = this.props.roulette.round,
           roll = _props$roulette$round.roll,
-          startTime = _props$roulette$round.startTime;
+          startTime = _props$roulette$round.startTime,
+          ownBets = _props$roulette$round.ownBets,
+          totalBets = _props$roulette$round.totalBets;
 
 
       return _react2.default.createElement(
@@ -34654,7 +34643,7 @@ var Roulette = function (_Component) {
             historyRolls.length ? _react2.default.createElement(_HistoryRolls2.default, { historyRolls: historyRolls }) : null,
             _react2.default.createElement(_Balance2.default, {
               balance: this.state.balance,
-              bet: this.state.bet.amount,
+              bet: this.state.bet,
               handleClick: this.handleBetClick,
               handleChange: this.handleChange
             })
@@ -34664,8 +34653,8 @@ var Roulette = function (_Component) {
             { xs: 12 },
             _react2.default.createElement(_BetBlock2.default, {
               addBet: this.addBet,
-              totalBets: this.state.totalBets,
-              ownBets: this.state.ownBets
+              totalBets: totalBets,
+              ownBets: ownBets
             })
           ),
           _react2.default.createElement(_reactAlert2.default, _extends({ ref: function ref(a) {
@@ -35407,10 +35396,6 @@ function rouletteReducer() {
         isLoading: false,
         error: action.error
       });
-    case constants.ADD_BET:
-      return _extends({}, state, {
-        round: state.round.bets.concat(action.bet)
-      });
     case constants.START_ROLL:
       return _extends({}, state, {
         round: _extends({}, state.round, { roll: action.roll }),
@@ -35441,6 +35426,11 @@ function rouletteReducer() {
     case constants.FINISH_ROLL:
       return _extends({}, state, {
         isRoll: false
+      });
+    case constants.ADD_BET:
+      console.log('reducer: ', action.bet);
+      return _extends({}, state, {
+        ownBets: state.round.ownBets.push(action.bet)
       });
     default:
       return state;

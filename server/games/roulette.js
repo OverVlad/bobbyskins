@@ -10,6 +10,14 @@ class Roulette {
     this.timer = -1;
     this.timeLeft = 0;
 
+    this.totalBets = {
+      'odd': 0,
+      '1to7': 0,
+      '0': 0,
+      '8to14': 0,
+      'even': 0
+    };
+
     this._startRoulette();
   }
 
@@ -39,6 +47,7 @@ class Roulette {
           this.timer = this.accept + this.wait;
           this.pause = false;
           this.timeLeft = this.timer-this.wait;
+          this.totalBets = []
           this.startNewRound();
         }
         this.timer--

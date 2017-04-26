@@ -82,6 +82,13 @@ export const addBet = function (bet) {
     };
   }
 
+  export const fetchTotalBets = function (totalBets) {
+    return {
+      type: actions.FETCH_TOTAL_BETS,
+      totalBets
+    }
+  }
+
 /*
  * REQUESTS
  * */

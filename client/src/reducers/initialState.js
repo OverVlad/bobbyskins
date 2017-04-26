@@ -35,7 +35,15 @@ const initialState = {
       id: '',
       bets: [],
       roll: '',
-      totalBets: [],
+      totalBets: {
+        'odd': 0,
+        '1to7': 0,
+        '0': 0,
+        '8to14': 0,
+        'even': 0
+      },
+      ownBets: [],
+
       startTime: ''
     },
     historyRolls: []

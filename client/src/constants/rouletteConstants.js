@@ -1,4 +1,5 @@
 export const ADD_BET = 'ADD_BET';
+export const FETCH_TOTAL_BETS = 'FETCH_TOTAL_BETS';
 
 export const FETCH_ROUND_START = 'FETCH_ROUND_START';
 export const FETCH_ROUND_ERROR = 'FETCH_ROUND_ERROR';
