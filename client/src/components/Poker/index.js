@@ -10,18 +10,12 @@ export default class Poker extends Component {
     super(props)
 
     this.state = {
-      balance: 23045,
-      userId: 0,
-      bet: {
-        amount: 0,
-      },
-      betAmount: 0,
+      balance: this.props.user.balance,
+      userId: this.props.user.id,
+      betAmount: this.props.betAmount,
       buttonDisabled: false,
     };
 
-    this.user = props.user
-    this.handleBetClick = this.handleBetClick.bind(this)
-    this.handleChange = this.handleChange.bind(this)
     this.rollCards = this.rollCards.bind(this)
   }
 
@@ -45,55 +39,6 @@ export default class Poker extends Component {
     })
   }
 
-
-  handleBetClick(e) {
-    e.preventDefault()
-    const action = e.target.dataset.action
-    let amount = this.state.betAmount
-
-    switch (action) {
-      case '10':
-        amount += 10
-        break;
-      case '100':
-        amount += 100
-        break;
-      case '1000':
-        amount += 1000
-        break;
-      case 'reset':
-        amount = 0
-        break;
-      case 'half':
-        amount = parseInt((amount/2), 10)
-        break;
-      case 'double':
-        amount *= 2
-        break;
-      case 'max':
-        amount = this.state.balance
-        break;
-      default:
-        break;
-    }
-    this.changeBetAmount(amount)
-  }
-
-  handleChange(e) {
-    this.changeBetAmount(parseInt(e, 10))
-  }
-
-  changeBetAmount(amount) {
-    this.setState(state => {
-      if (amount >= state.balance) {
-        msg.show(`You don't have enough money: ${separateThousands(state.balance)}`)
-        return ({ betAmount: state.balance })
-      } else {
-        return ({ betAmount: amount })
-      }
-    })
-  }
-
   render() {
     return (
       <Row>
@@ -102,9 +47,6 @@ export default class Poker extends Component {
             Poker serve
             <Balance
               balance={this.state.balance}
-              betAmount={formatNumber(this.state.betAmount)}
-              handleClick={this.handleBetClick}
-              handleChange={this.handleChange}
             />
             <button
               disabled={this.state.buttonDisabled}

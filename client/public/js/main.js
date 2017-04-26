@@ -33888,108 +33888,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _react = __webpack_require__(1);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _formatNumber = __webpack_require__(199);
-
-var _formatNumber2 = _interopRequireDefault(_formatNumber);
-
-var _separateThousands = __webpack_require__(200);
-
-var _separateThousands2 = _interopRequireDefault(_separateThousands);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-
-exports.default = function (_ref) {
-  var betAmount = _ref.betAmount,
-      handleClick = _ref.handleClick,
-      props = _objectWithoutProperties(_ref, ['betAmount', 'handleClick']);
-
-  return _react2.default.createElement(
-    'div',
-    { className: 'balance' },
-    _react2.default.createElement(
-      'span',
-      { className: 'balance-text' },
-      '\u0411\u0430\u043B\u0430\u043D\u0441: ',
-      (0, _separateThousands2.default)(props.balance)
-    ),
-    _react2.default.createElement('input', {
-      className: 'btn btn-bet btn-blue input-bet',
-      value: (0, _separateThousands2.default)(betAmount) || '',
-      placeholder: 'Bet amount',
-      onChange: function onChange(e) {
-        props.handleChange((0, _formatNumber2.default)(e.target.value));
-      }
-    }),
-    _react2.default.createElement(
-      'button',
-      { className: 'btn btn-bet btn-red', 'data-action': 'reset', onClick: handleClick },
-      'Reset'
-    ),
-    _react2.default.createElement(
-      'button',
-      { className: 'btn btn-bet btn-blue', 'data-action': '10', onClick: handleClick },
-      '+10'
-    ),
-    _react2.default.createElement(
-      'button',
-      { className: 'btn btn-bet btn-blue', 'data-action': '100', onClick: handleClick },
-      '+100'
-    ),
-    _react2.default.createElement(
-      'button',
-      { className: 'btn btn-bet btn-blue', 'data-action': '1000', onClick: handleClick },
-      '+1000'
-    ),
-    _react2.default.createElement(
-      'button',
-      { className: 'btn btn-bet btn-blue', 'data-action': 'half', onClick: handleClick },
-      '1/2'
-    ),
-    _react2.default.createElement(
-      'button',
-      { className: 'btn btn-bet btn-red', 'data-action': 'double', onClick: handleClick },
-      'x2'
-    ),
-    _react2.default.createElement(
-      'button',
-      { className: 'btn btn-bet btn-red', 'data-action': 'max', onClick: handleClick },
-      'Max'
-    )
-  );
-};
-
-/***/ }),
-/* 380 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
-
-var _reactFlexboxGrid = __webpack_require__(14);
-
-var _axios = __webpack_require__(49);
-
-var _axios2 = _interopRequireDefault(_axios);
-
-var _Balance = __webpack_require__(379);
-
-var _Balance2 = _interopRequireDefault(_Balance);
 
 var _formatNumber = __webpack_require__(199);
 
@@ -34007,56 +33910,33 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Poker = function (_Component) {
-  _inherits(Poker, _Component);
+var Balance = function (_React$Component) {
+  _inherits(Balance, _React$Component);
 
-  function Poker(props) {
-    _classCallCheck(this, Poker);
+  function Balance(props) {
+    _classCallCheck(this, Balance);
 
-    var _this = _possibleConstructorReturn(this, (Poker.__proto__ || Object.getPrototypeOf(Poker)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (Balance.__proto__ || Object.getPrototypeOf(Balance)).call(this, props));
 
     _this.state = {
-      balance: 23045,
-      userId: 0,
-      bet: {
-        amount: 0
-      },
-      betAmount: 0,
-      buttonDisabled: false
+      balance: _this.props.balance,
+      betAmount: 0
     };
 
-    _this.user = props.user;
     _this.handleBetClick = _this.handleBetClick.bind(_this);
     _this.handleChange = _this.handleChange.bind(_this);
-    _this.rollCards = _this.rollCards.bind(_this);
+    _this.changeBetAmount = _this.changeBetAmount.bind(_this);
     return _this;
   }
 
-  _createClass(Poker, [{
-    key: 'rollCards',
-    value: function rollCards() {
-      var _this2 = this;
-
-      if (this.state.betAmount === 0) {
-        msg.show('please place your bets');
-        return null;
-      }
-      if (this.state.betAmount > this.state.balance) {
-        this.setState(function (state) {
-          return { betAmount: state.balance };
+  _createClass(Balance, [{
+    key: 'componentWillReceiveProps',
+    value: function componentWillReceiveProps(nextProps) {
+      if (nextProps.balance !== this.state.balance) {
+        this.setState(function () {
+          return { balance: nextProps.balance };
         });
       }
-      this.setState(function (state) {
-        console.log(state.betAmount);
-        return { buttonDisabled: true };
-      });
-      // random 0-9
-      (0, _axios2.default)('https://www.random.org/integers/?format=plain&base=10&num=1&max=9&min=0&col=1&rnd=new').then(function (response) {
-        console.log(response.data);
-        _this2.setState(function (state) {
-          return { buttonDisabled: false };
-        });
-      });
     }
   }, {
     key: 'handleBetClick',
@@ -34112,6 +33992,164 @@ var Poker = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      var _this2 = this;
+
+      var _state = this.state,
+          betAmount = _state.betAmount,
+          balance = _state.balance;
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'balance' },
+        _react2.default.createElement(
+          'span',
+          { className: 'balance-text' },
+          '\u0411\u0430\u043B\u0430\u043D\u0441: ',
+          (0, _separateThousands2.default)(balance)
+        ),
+        _react2.default.createElement('input', {
+          className: 'btn btn-bet btn-blue input-bet',
+          value: (0, _separateThousands2.default)((0, _formatNumber2.default)(betAmount)) || '',
+          placeholder: 'Bet amount',
+          onChange: function onChange(e) {
+            _this2.handleChange((0, _formatNumber2.default)(e.target.value));
+          }
+        }),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-bet btn-red', 'data-action': 'reset', onClick: this.handleBetClick },
+          'Reset'
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-bet btn-blue', 'data-action': '10', onClick: this.handleBetClick },
+          '+10'
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-bet btn-blue', 'data-action': '100', onClick: this.handleBetClick },
+          '+100'
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-bet btn-blue', 'data-action': '1000', onClick: this.handleBetClick },
+          '+1000'
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-bet btn-blue', 'data-action': 'half', onClick: this.handleBetClick },
+          '1/2'
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-bet btn-red', 'data-action': 'double', onClick: this.handleBetClick },
+          'x2'
+        ),
+        _react2.default.createElement(
+          'button',
+          { className: 'btn btn-bet btn-red', 'data-action': 'max', onClick: this.handleBetClick },
+          'Max'
+        )
+      );
+    }
+  }]);
+
+  return Balance;
+}(_react2.default.Component);
+
+exports.default = Balance;
+
+/***/ }),
+/* 380 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(1);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactFlexboxGrid = __webpack_require__(14);
+
+var _axios = __webpack_require__(49);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+var _Balance = __webpack_require__(379);
+
+var _Balance2 = _interopRequireDefault(_Balance);
+
+var _formatNumber = __webpack_require__(199);
+
+var _formatNumber2 = _interopRequireDefault(_formatNumber);
+
+var _separateThousands = __webpack_require__(200);
+
+var _separateThousands2 = _interopRequireDefault(_separateThousands);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Poker = function (_Component) {
+  _inherits(Poker, _Component);
+
+  function Poker(props) {
+    _classCallCheck(this, Poker);
+
+    var _this = _possibleConstructorReturn(this, (Poker.__proto__ || Object.getPrototypeOf(Poker)).call(this, props));
+
+    _this.state = {
+      balance: _this.props.user.balance,
+      userId: _this.props.user.id,
+      betAmount: _this.props.betAmount,
+      buttonDisabled: false
+    };
+
+    _this.rollCards = _this.rollCards.bind(_this);
+    return _this;
+  }
+
+  _createClass(Poker, [{
+    key: 'rollCards',
+    value: function rollCards() {
+      var _this2 = this;
+
+      if (this.state.betAmount === 0) {
+        msg.show('please place your bets');
+        return null;
+      }
+      if (this.state.betAmount > this.state.balance) {
+        this.setState(function (state) {
+          return { betAmount: state.balance };
+        });
+      }
+      this.setState(function (state) {
+        console.log(state.betAmount);
+        return { buttonDisabled: true };
+      });
+      // random 0-9
+      (0, _axios2.default)('https://www.random.org/integers/?format=plain&base=10&num=1&max=9&min=0&col=1&rnd=new').then(function (response) {
+        console.log(response.data);
+        _this2.setState(function (state) {
+          return { buttonDisabled: false };
+        });
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
       var _this3 = this;
 
       return _react2.default.createElement(
@@ -34125,10 +34163,7 @@ var Poker = function (_Component) {
             { xs: 12, className: 'poker wrapper' },
             'Poker serve',
             _react2.default.createElement(_Balance2.default, {
-              balance: this.state.balance,
-              betAmount: (0, _formatNumber2.default)(this.state.betAmount),
-              handleClick: this.handleBetClick,
-              handleChange: this.handleChange
+              balance: this.state.balance
             }),
             _react2.default.createElement(
               'button',
