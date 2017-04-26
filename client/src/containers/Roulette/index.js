@@ -7,7 +7,7 @@ import * as rouletteActions from '../../actions/rouletteActions';
 const mapStateToProps = ({ roulette, user }) => ({ roulette, user });
 
 const mapDispatchToProps = (dispatch) => ({
-    rouletteActions: bindActionCreators(rouletteActions, dispatch)
+  rouletteActions: bindActionCreators(rouletteActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Roulette);
