@@ -1,12 +1,11 @@
 /node_modules/
 /server/config.js
 /client/public/js/main.js
-
 *.log
 npm-debug.log
 
 # Ignore vim tmp files
 *.swp
-*.psd
 
 yarn.lock
+*.psd

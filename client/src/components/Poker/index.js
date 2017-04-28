@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Row, Col } from 'react-flexbox-grid';
 import axios from 'axios'
 import Balance from './Balance.jsx'
+import PokerTable from './PokerTable'
 import formatNumber from '../../utils/formatNumber'
 import separateThousands from '../../utils/separateThousands'
 
@@ -44,7 +45,7 @@ export default class Poker extends Component {
       <Row>
         <Col xs={12}>
           <Col xs={12} className="poker wrapper" >
-            Poker serve
+            <PokerTable />
             <Balance
               balance={this.state.balance}
             />
