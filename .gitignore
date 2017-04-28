@@ -7,5 +7,6 @@ npm-debug.log
 
 # Ignore vim tmp files
 *.swp
+*.psd
 
 yarn.lock
