@@ -33,7 +33,6 @@ const initialState = {
     done: false,
     round: {
       id: '',
-      bets: [],
       roll: '',
       totalBets: {
         'odd': {
