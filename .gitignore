@@ -1,6 +1,8 @@
 /node_modules/
 /server/config.js
 
+db/test/balance.js
+
 *.log
 npm-debug.log
 

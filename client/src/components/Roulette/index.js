@@ -19,41 +19,14 @@ class Roulette extends Component {
 
     this.state = {
       balance: 1000000,
-      ownBets: {
-        '0': 0,
-        '1-7': 0,
-        '8-14': 0,
-        'even': 0,
-        'odd': 0
-      },
       bet: 0,
-      totalBets: {
-        '0' : {
-          amount: 0,
-          people: 0,
-          users: []
-        },
-        '1-7': {
-          amount: 0,
-          people: 0,
-          users: []
-        },
-        '8-14': {
-          amount: 0,
-          people: 0,
-          users: []
-        },
-        'even': {
-          amount: 0,
-          people: 0,
-          users: []
-        },
-        'odd': {
-          amount: 0,
-          people: 0,
-          users: []
-        }
-      },
+      disabled: {
+        '0': false,
+        '1-7': false,
+        '8-14': false,
+        'even': false,
+        'odd': false
+      }
     };
 
     this.user = props.user;
@@ -97,16 +70,28 @@ class Roulette extends Component {
   }
 
   addBet(event) {
-    if(bet === 0) {
+    const type = event.target.dataset.bet;
+
+    const bet = {
+      amount: this.state.bet,
+      type,
+      roundId: this.props.roulette.round.id
+    }
+
+    if(bet.amount === 0) {
       msg.show('The bet should not be zero');
       return;
     }
 
-    const bet = {
-      amount: this.state.bet,
-      type: event.target.dataset.bet,
-      roundId: this.props.roulette.round.id
+    if(this.state.balance < bet.amount) {
+      msg.show('You don\'t have enough coins');
+      return;
     }
+
+    this.setState(state => {
+      const disabled = { ...state.disabled, [type]: !state.disabled[type] };
+      return ({ disabled: disabled });
+    });
 
     socket.emit('add bet', bet);
   }
@@ -131,6 +116,7 @@ class Roulette extends Component {
   render() {
     const { done, isRoll, historyRolls } = this.props.roulette;
     const { roll, startTime, ownBets, totalBets } = this.props.roulette.round;
+    const { balance, disabled, bet } = this.state;
 
     return (
       <Row>
@@ -142,8 +128,8 @@ class Roulette extends Component {
               {historyRolls.length ? <HistoryRolls historyRolls={historyRolls} /> : null}
 
               <Balance
-                balance={this.state.balance}
-                bet={this.state.bet}
+                balance={balance}
+                bet={bet}
                 handleClick={this.handleBetClick}
                 handleChange={this.handleChange}
                 />
@@ -154,6 +140,7 @@ class Roulette extends Component {
                 addBet={this.addBet}
                 totalBets={totalBets}
                 ownBets={ownBets}
+                disabled={disabled}
                 />
             </Col>
 

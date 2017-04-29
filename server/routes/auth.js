@@ -20,6 +20,7 @@ router.get('/steam/return', passport.authenticate('steam', {
 }));
 
 router.get('/verify', function (req, res, next) {
+  console.log(req.user);
   if (req.user) {
     return res.status(200).json(formatUserObject(req.user));
   }

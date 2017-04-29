@@ -5936,8 +5936,8 @@ var initialState = {
     done: false,
     round: {
       id: '',
-      bets: [],
       roll: '',
+      startTime: '',
       totalBets: {
         'odd': {
           people: 0,
@@ -5971,9 +5971,7 @@ var initialState = {
         '0': 0,
         '8-14': 0,
         'even': 0
-      },
-
-      startTime: ''
+      }
     },
     historyRolls: []
   }
@@ -6069,7 +6067,6 @@ var Socket = function () {
       });
 
       this.socket.on('add bet', function (data) {
-        console.log('socket clietn: ', data.bet);
         _store2.default.dispatch((0, _rouletteActions.addBet)(data.bet));
         // store.dispatch(refreshTotalBets(data.totalBets));
         // store.dispatch(refreshBalance(data.balance));
@@ -33925,7 +33922,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var BetBlock = function BetBlock(_ref) {
   var addBet = _ref.addBet,
       totalBets = _ref.totalBets,
-      ownBets = _ref.ownBets;
+      ownBets = _ref.ownBets,
+      disabled = _ref.disabled;
   return _react2.default.createElement(
     _reactFlexboxGrid.Row,
     { className: 'Bets', center: 'xs' },
@@ -33937,7 +33935,7 @@ var BetBlock = function BetBlock(_ref) {
         { className: 'panel-heading' },
         _react2.default.createElement(
           'button',
-          { className: 'btn-block btn-odd', 'data-bet': 'odd', onClick: addBet },
+          { className: 'btn-block btn-odd', 'data-bet': 'odd', disabled: disabled['even'] || disabled['odd'], onClick: addBet },
           'Odd, win 2x'
         ),
         _react2.default.createElement(
@@ -33994,7 +33992,7 @@ var BetBlock = function BetBlock(_ref) {
       { xs: 4, lg: 2, className: 'betBlock wrapper' },
       _react2.default.createElement(
         'button',
-        { className: 'btn-block btn-1-7', 'data-bet': '1-7', onClick: addBet },
+        { className: 'btn-block btn-1-7', 'data-bet': '1-7', disabled: disabled['1-7'] || disabled['8-14'], onClick: addBet },
         '1 to 7, win 2x'
       ),
       _react2.default.createElement(
@@ -34050,7 +34048,7 @@ var BetBlock = function BetBlock(_ref) {
       { xs: 4, lg: 2, className: 'betBlock wrapper' },
       _react2.default.createElement(
         'button',
-        { className: 'btn-block btn-zero', 'data-bet': '0', onClick: addBet },
+        { className: 'btn-block btn-zero', 'data-bet': '0', disabled: disabled['0'], onClick: addBet },
         '0, win 14x'
       ),
       _react2.default.createElement(
@@ -34102,7 +34100,7 @@ var BetBlock = function BetBlock(_ref) {
       { xs: 4, lg: 2, className: 'betBlock wrapper' },
       _react2.default.createElement(
         'button',
-        { className: 'btn-block btn-8-14', 'data-bet': '8-14', onClick: addBet },
+        { className: 'btn-block btn-8-14', 'data-bet': '8-14', disabled: disabled['1-7'] || disabled['8-14'], onClick: addBet },
         '8 to 14, win 2x'
       ),
       _react2.default.createElement(
@@ -34154,7 +34152,7 @@ var BetBlock = function BetBlock(_ref) {
       { xs: 4, lg: 2, className: 'betBlock wrapper' },
       _react2.default.createElement(
         'button',
-        { className: 'btn-block btn-even', 'data-bet': 'even', onClick: addBet },
+        { className: 'btn-block btn-even', 'data-bet': 'even', disabled: disabled['even'] || disabled['odd'], onClick: addBet },
         'Even, win 2x'
       ),
       _react2.default.createElement(
@@ -34506,6 +34504,8 @@ var _rolling = __webpack_require__(394);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -34522,40 +34522,13 @@ var Roulette = function (_Component) {
 
     _this.state = {
       balance: 1000000,
-      ownBets: {
-        '0': 0,
-        '1-7': 0,
-        '8-14': 0,
-        'even': 0,
-        'odd': 0
-      },
       bet: 0,
-      totalBets: {
-        '0': {
-          amount: 0,
-          people: 0,
-          users: []
-        },
-        '1-7': {
-          amount: 0,
-          people: 0,
-          users: []
-        },
-        '8-14': {
-          amount: 0,
-          people: 0,
-          users: []
-        },
-        'even': {
-          amount: 0,
-          people: 0,
-          users: []
-        },
-        'odd': {
-          amount: 0,
-          people: 0,
-          users: []
-        }
+      disabled: {
+        '0': false,
+        '1-7': false,
+        '8-14': false,
+        'even': false,
+        'odd': false
       }
     };
 
@@ -34604,16 +34577,28 @@ var Roulette = function (_Component) {
   }, {
     key: 'addBet',
     value: function addBet(event) {
-      if (bet === 0) {
+      var type = event.target.dataset.bet;
+
+      var bet = {
+        amount: this.state.bet,
+        type: type,
+        roundId: this.props.roulette.round.id
+      };
+
+      if (bet.amount === 0) {
         msg.show('The bet should not be zero');
         return;
       }
 
-      var bet = {
-        amount: this.state.bet,
-        type: event.target.dataset.bet,
-        roundId: this.props.roulette.round.id
-      };
+      if (this.state.balance < bet.amount) {
+        msg.show('You don\'t have enough coins');
+        return;
+      }
+
+      this.setState(function (state) {
+        var disabled = _extends({}, state.disabled, _defineProperty({}, type, !state.disabled[type]));
+        return { disabled: disabled };
+      });
 
       _socket2.default.emit('add bet', bet);
     }
@@ -34649,6 +34634,10 @@ var Roulette = function (_Component) {
           startTime = _props$roulette$round.startTime,
           ownBets = _props$roulette$round.ownBets,
           totalBets = _props$roulette$round.totalBets;
+      var _state = this.state,
+          balance = _state.balance,
+          disabled = _state.disabled,
+          bet = _state.bet;
 
 
       return _react2.default.createElement(
@@ -34668,8 +34657,8 @@ var Roulette = function (_Component) {
             _react2.default.createElement(_Wheel2.default, null),
             historyRolls.length ? _react2.default.createElement(_HistoryRolls2.default, { historyRolls: historyRolls }) : null,
             _react2.default.createElement(_Balance2.default, {
-              balance: this.state.balance,
-              bet: this.state.bet,
+              balance: balance,
+              bet: bet,
               handleClick: this.handleBetClick,
               handleChange: this.handleChange
             })
@@ -34680,7 +34669,8 @@ var Roulette = function (_Component) {
             _react2.default.createElement(_BetBlock2.default, {
               addBet: this.addBet,
               totalBets: totalBets,
-              ownBets: ownBets
+              ownBets: ownBets,
+              disabled: disabled
             })
           ),
           _react2.default.createElement(_reactAlert2.default, _extends({ ref: function ref(a) {
@@ -35401,6 +35391,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function rouletteReducer() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _initialState2.default.roulette;
   var action = arguments[1];
@@ -35429,7 +35421,7 @@ function rouletteReducer() {
       });
     case constants.START_ROUND:
       return _extends({}, state, {
-        round: _extends({}, state.round, action.round)
+        round: action.round
       });
     case constants.JOIN_ROULETTE:
       return _extends({}, state, {
@@ -35454,9 +35446,10 @@ function rouletteReducer() {
         isRoll: false
       });
     case constants.ADD_BET:
-      console.log('reducer: ', state.round.ownBets[action.bet.type]);
       return _extends({}, state, {
-        ownBets: state.round.ownBets[action.bet.type] = action.bet.amount
+        round: _extends({}, state.round, {
+          ownBets: _extends({}, state.round.ownBets, _defineProperty({}, action.bet.type, action.bet.amount))
+        })
       });
     default:
       return state;

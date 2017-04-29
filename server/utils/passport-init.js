@@ -33,7 +33,7 @@ module.exports = function (passport) {
         });
 
         newUser.save()
-        .then(() => {
+        .then((user) => {
           done(null, user);
         })
         .catch(error => {

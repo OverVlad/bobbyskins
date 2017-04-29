@@ -62,7 +62,6 @@ class Socket {
     });
 
     this.socket.on('add bet', function (data) {
-      console.log('socket clietn: ', data.bet);
       store.dispatch(addBet(data.bet));
       // store.dispatch(refreshTotalBets(data.totalBets));
       // store.dispatch(refreshBalance(data.balance));

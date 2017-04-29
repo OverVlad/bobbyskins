@@ -34,6 +34,7 @@ const initialState = {
     round: {
       id: '',
       roll: '',
+      startTime: '',
       totalBets: {
         'odd': {
           people: 0,
@@ -67,9 +68,7 @@ const initialState = {
         '0': 0,
         '8-14': 0,
         'even': 0
-      },
-
-      startTime: ''
+      }
     },
     historyRolls: []
   }

@@ -31,7 +31,7 @@ function rouletteReducer(state = initialState.roulette, action) {
     case constants.START_ROUND:
     return {
       ...state,
-      round: { ...state.round, ...action.round }
+      round: action.round
     };
     case constants.JOIN_ROULETTE:
     return {
@@ -60,10 +60,14 @@ function rouletteReducer(state = initialState.roulette, action) {
       isRoll: false
     };
     case constants.ADD_BET:
-    console.log('reducer: ', state.round.ownBets[action.bet.type]);
     return {
-      ...state,
-      ownBets: state.round.ownBets[action.bet.type] = action.bet.amount
+        ...state,
+        round: {
+          ...state.round,
+          ownBets: {
+            ...state.round.ownBets, [action.bet.type] : action.bet.amount
+          }
+      }
     };
     default:
     return state;
