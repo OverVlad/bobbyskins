@@ -1,5 +1,5 @@
 import React from 'react'
-import TransitionGroup from 'react-transition-group/CSSTransitionGroup'
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import Card from './Card'
 
 export default class Deck extends React.Component {
@@ -7,46 +7,76 @@ export default class Deck extends React.Component {
     super(props)
 
     this.state = {
-      hand: ['Back'],
-      rank: 0,
+      hand: [],
+      newHand: [],
+      ableToGetNew: false,
+      autoGo: false,
     }
-    this.addCard = this.addCard.bind(this)
+    this.addCards = this.addCards.bind(this)
   }
 
-  addCard() {
-    this.setState((state, props) => {
-      const hand = state.hand
-      if (hand.length < props.hand.length + 1) {
-        hand.push(props.hand[hand.length - 1])
+  addCards() {
+    const { hand, newHand, ableToGetNew } = this.state;
+    if (ableToGetNew) {
+      this.setState({ ableToGetNew: false })
+      for (let i = 0; i < newHand.length; i++) {
+        setTimeout(() => {
+          hand.push(newHand[i])
+          this.setState({ hand })
+        }, 200 * i)
       }
-      return { hand }
-    })
+      setTimeout(() => {
+        this.props.completeAnimation()
+      }, 1300)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState(() => ({ hand: ['Back'], rank: nextProps.rank }))
+    if (this.props.animationIsGoing !== nextProps.animationIsGoing) {
+      console.log('Deck will receive props')
+      if (this.state.hand !== nextProps.hand) {
+        if (!this.props.animationIsGoing) {
+          this.setState({ hand: [], newHand: nextProps.hand, ableToGetNew: false })
+          setTimeout(() => {
+            this.setState({ ableToGetNew: true })
+            if (this.state.autoGo === true) {
+              this.addCards()
+            }
+          }, 300)
+        }
+      }
+    }
   }
 
   render() {
-    const cards = this.state.hand.map((card, index) => (
-      <Card key={index} value={card} />
-    ))
+    const { hand } = this.state
+    const cards = hand.map(card => <Card key={card} value={card} />)
 
     return (
-      <div className="Deck" onClick={() => { this.addCard() }} style={{
-        width: '80%',
-        height: '400px',
-        minWidth: '500px',
-        border: '1px solid black',
-      }}>
-        <TransitionGroup
+      <div
+        className="Deck"
+        onClick={this.state.ableToGetNew ? (() => { this.addCards() }) : false}
+        style={{ backgroundImage: '../img/pokerBg.png' }}
+      >
+        <label>
+          Autoserve:
+          <input
+            disabled={this.props.animationIsGoing}
+            name="autoGo"
+            type="checkbox"
+            checked={this.state.autoGo}
+            onChange={() => { this.setState({ autoGo: !this.state.autoGo }) }} />
+        </label>
+        <Card key={'Back'} value={'Back'} />
+        <CSSTransitionGroup
           transitionName="card"
           transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
+          transitionLeaveTimeout={300}
         >
           {cards}
-        </TransitionGroup>
+        </CSSTransitionGroup>
       </div>
     )
   }
 }
+

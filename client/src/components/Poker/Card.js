@@ -17,11 +17,10 @@ export default class Card extends React.Component {
   }
 
   render() {
-    const { pic } = this.state
     return (
       <div className={this.props.value === 'Back' ? 'BackCard' : 'Card'}>
         <img
-          src={`minified/${pic}.png`}
+          src={`../img/minified/${this.state.pic}.png`}
           alt={this.props.value}
           className="cardImage"
           style={{ height: '180px' }}

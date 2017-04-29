@@ -1,42 +1,42 @@
-
-.card-enter:nth-child(2) {
+.card-enter:first-child {
   transform: translate(400%, -215px);
 }
-.card-enter:nth-child(3) {
+.card-enter:nth-child(2) {
   transform: translate(300%, -215px);
 }
-.card-enter:nth-child(4) {
+.card-enter:nth-child(3) {
   transform: translate(200%, -215px);
 }
-.card-enter:nth-child(5) {
+.card-enter:nth-child(4) {
   transform: translate(100%, -215px);
 }
-.card-enter:nth-child(6) {
+.card-enter:nth-child(5) {
   transform: translate(0, -215px);
 }
+
 .card-enter.card-enter-active {
   transform: translate(0);
   transition: all 500ms ease-in-out;
 }
 
-.card-leave-active:nth-child(2) {
+.card-leave-active:first-child {
   transform: translate(400%, -215px);
 }
-.card-leave-active:nth-child(3) {
+.card-leave-active:nth-child(2) {
   transform: translate(300%, -215px);
 }
-.card-leave-active:nth-child(4) {
+.card-leave-active:nth-child(3) {
   transform: translate(200%, -215px);
 }
-.card-leave-active:nth-child(5) {
+.card-leave-active:nth-child(4) {
   transform: translate(100%, -215px);
 }
-.card-leave-active:nth-child(6) {
+.card-leave-active:nth-child(5) {
   transform: translate(0, -215px);
 }
 .card-leave {
   transform: translate(0);
-  transition: all 500ms ease-in-out;
+  transition: all 300ms ease-in-out;
 }
 
 .Card {
@@ -52,18 +52,18 @@
 }
 
 .Deck {
-  width: 80%;
   height: 400px;
   min-Width: 500px;
   border: 1px solid black;
   position: relative;
   flex-direction: column;
+  display: flex;
 }
 
 .BackCard {
   position: absolute;
   width: 20%;
-  right: 0;
+  right: 0px;
   text-align: center;
   user-select: none;
 }
