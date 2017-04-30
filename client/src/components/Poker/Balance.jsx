@@ -4,7 +4,7 @@ import separateThousands from '../../utils/separateThousands'
 
 export default props => (
   <div className="balance">
-    <span className="balance-text">Баланс: {separateThousands(props.balance)}</span>
+    <span className="balance-text">Balance: {separateThousands(props.balance)}</span>
     <input
       disabled={props.disabled}
       className="btn btn-bet btn-blue input-bet"

@@ -10,7 +10,6 @@ export default class Deck extends React.Component {
       hand: [],
       newHand: [],
       ableToGetNew: false,
-      autoGo: false,
     }
     this.addCards = this.addCards.bind(this)
   }
@@ -39,9 +38,10 @@ export default class Deck extends React.Component {
           this.setState({ hand: [], newHand: nextProps.hand, ableToGetNew: false })
           setTimeout(() => {
             this.setState({ ableToGetNew: true })
-            if (this.state.autoGo === true) {
-              this.addCards()
-            }
+            // if (this.state.autoGo === true) {
+            // this.addCards()
+            // }
+            this.addCards()
           }, 300)
         }
       }
@@ -58,15 +58,6 @@ export default class Deck extends React.Component {
         onClick={this.state.ableToGetNew ? (() => { this.addCards() }) : false}
         style={{ backgroundImage: '../img/pokerBg.png' }}
       >
-        <label>
-          Autoserve:
-          <input
-            disabled={this.props.animationIsGoing}
-            name="autoGo"
-            type="checkbox"
-            checked={this.state.autoGo}
-            onChange={() => { this.setState({ autoGo: !this.state.autoGo }) }} />
-        </label>
         <Card key={'Back'} value={'Back'} />
         <CSSTransitionGroup
           transitionName="card"
@@ -79,4 +70,3 @@ export default class Deck extends React.Component {
     )
   }
 }
-

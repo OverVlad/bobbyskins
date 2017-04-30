@@ -28,6 +28,11 @@ const initialState = {
     error: null,
     counter: ''
   },
+  poker: {
+    betAmount: 0,
+    hand: [],
+    rankWon: 0,
+  },
   roulette: {
     isRoll: false,
     done: false,

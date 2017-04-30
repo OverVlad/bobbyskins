@@ -1190,8 +1190,6 @@ a {
 
 .Deck {
   height: 400px;
-  min-Width: 500px;
-  border: 1px solid black;
   position: relative;
   flex-direction: column;
   display: flex; }
@@ -1202,6 +1200,16 @@ a {
   right: 0px;
   text-align: center;
   user-select: none; }
+
+.rank-win {
+  color: red; }
+
+.rank-win-enter {
+  color: blue; }
+
+.rank-win-enter.rank-win-enter-active {
+  color: black;
+  transition: all 500ms ease; }
 
 #progress-bar {
   width: 100%;
