@@ -111,7 +111,7 @@ export default class Poker extends Component {
 
   render() {
     return (
-      <Row className="poker wrapper" style={{ width: '1000px' }}>
+      <Row className="poker wrapper" style={{ width: '900px' }}>
         <Col xs={12} sm={9} >
           <Deck
             hand={this.state.hand}

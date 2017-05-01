@@ -36155,7 +36155,7 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var ranks = ['Pair', 'Two pair', 'Three of a kind', 'Straight', 'Flush', 'Full house', 'Four of a kind', 'Straight flush', 'Royal flush'];
+var ranks = ['Пара, х10', 'Две пары, х20', 'Сет, х30', 'Стрит, х40', 'Флеш, х50', 'Фул Хаус. х60', 'Карэ. х70', 'Стрит Флеш, х80', 'Роял Флеш, х90'];
 
 exports.default = function (props) {
   return _react2.default.createElement(
@@ -36352,7 +36352,7 @@ var Poker = function (_Component) {
     value: function render() {
       return _react2.default.createElement(
         _reactFlexboxGrid.Row,
-        { className: 'poker wrapper', style: { width: '1000px' } },
+        { className: 'poker wrapper', style: { width: '900px' } },
         _react2.default.createElement(
           _reactFlexboxGrid.Col,
           { xs: 12, sm: 9 },

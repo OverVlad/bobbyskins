@@ -1,15 +1,15 @@
 import React, { Component } from 'react'
 
 const ranks = [
-  'Pair',
-  'Two pair',
-  'Three of a kind',
-  'Straight',
-  'Flush',
-  'Full house',
-  'Four of a kind',
-  'Straight flush',
-  'Royal flush',
+  'Пара, х10',
+  'Две пары, х20',
+  'Сет, х30',
+  'Стрит, х40',
+  'Флеш, х50',
+  'Фул Хаус. х60',
+  'Карэ. х70',
+  'Стрит Флеш, х80',
+  'Роял Флеш, х90',
 ]
 
 export default props => (
