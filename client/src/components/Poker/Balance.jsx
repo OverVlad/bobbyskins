@@ -10,7 +10,7 @@ export default props => (
       data-action="500"
       onClick={props.handleBetClick}
     >
-      500
+      500<i className="fa fa-diamond" aria-hidden="true" />
     </button>
     <button
       disabled={props.disabled}
@@ -18,7 +18,7 @@ export default props => (
       data-action="1000"
       onClick={props.handleBetClick}
     >
-      1000
+      1000<i className="fa fa-diamond" aria-hidden="true" />
     </button>
     <button
       disabled={props.disabled}
@@ -26,7 +26,7 @@ export default props => (
       data-action="3000"
       onClick={props.handleBetClick}
     >
-      3000
+      3000<i className="fa fa-diamond" aria-hidden="true" />
     </button>
     <button
       disabled={props.disabled}
@@ -34,7 +34,7 @@ export default props => (
       data-action="5000"
       onClick={props.handleBetClick}
     >
-      5000
+      5000<i className="fa fa-diamond" aria-hidden="true" />
     </button>
     <button
       disabled={props.disabled}
@@ -42,7 +42,7 @@ export default props => (
       data-action="10000"
       onClick={props.handleBetClick}
     >
-      10000
+      10000<i className="fa fa-diamond" aria-hidden="true" />
     </button>
     <div>
       <span className="balance-text">Баланс: {separateThousands(props.balance)}</span>
