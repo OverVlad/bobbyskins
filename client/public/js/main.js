@@ -34601,6 +34601,25 @@ var Roulette = function (_Component) {
       });
 
       _socket2.default.emit('add bet', bet);
+
+      this.setState(function (state) {
+        return {
+          bet: 0,
+          balance: state.balance - bet.amount
+        };
+      });
+    }
+  }, {
+    key: 'disableBets',
+    value: function disableBets() {
+      this.setState(function (state) {
+        var disabled = state.desabled;
+        for (i in state.disabled) {
+          disabled[i] = true;
+        }
+
+        return { desabled: desabled };
+      });
     }
   }, {
     key: 'handleChange',
@@ -34614,6 +34633,8 @@ var Roulette = function (_Component) {
     value: function componentWillMount() {
       _socket2.default.emit('history rolls', this.props.roulette.historyRolls);
       _socket2.default.emit('join roulette');
+
+      if (this.props.isRoll) {}
     }
   }, {
     key: 'componentWillReceiveProps',

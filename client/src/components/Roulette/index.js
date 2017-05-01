@@ -94,6 +94,24 @@ class Roulette extends Component {
     });
 
     socket.emit('add bet', bet);
+
+    this.setState(state => {
+      return ({
+        bet: 0,
+        balance: state.balance - bet.amount
+      });
+    });
+  }
+
+  disableBets() {
+    this.setState(state => {
+      let disabled = state.desabled;
+      for (i in state.disabled) {
+        disabled[i] = true;
+      }
+
+      return { desabled };
+    });
   }
 
   handleChange(event) {
@@ -105,6 +123,10 @@ class Roulette extends Component {
   componentWillMount() {
     socket.emit('history rolls', this.props.roulette.historyRolls);
     socket.emit('join roulette');
+
+    if(this.props.isRoll) {
+
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -120,32 +142,32 @@ class Roulette extends Component {
 
     return (
       <Row>
-          <Col xs={12}>
-            <Col xs={12} className="roulette wrapper">
-              { !done ? <Col xs={12}>Loading...</Col> : <ProgressBar startTime={startTime} isRoll={isRoll} roll={roll} /> }
-              <Wheel />
+        <Col xs={12}>
+          <Col xs={12} className="roulette wrapper">
+            { !done ? <Col xs={12}>Loading...</Col> : <ProgressBar startTime={startTime} isRoll={isRoll} roll={roll} /> }
+            <Wheel />
 
-              {historyRolls.length ? <HistoryRolls historyRolls={historyRolls} /> : null}
+            {historyRolls.length ? <HistoryRolls historyRolls={historyRolls} /> : null}
 
-              <Balance
-                balance={balance}
-                bet={bet}
-                handleClick={this.handleBetClick}
-                handleChange={this.handleChange}
-                />
-            </Col>
-
-            <Col xs={12}>
-              <BetBlock
-                addBet={this.addBet}
-                totalBets={totalBets}
-                ownBets={ownBets}
-                disabled={disabled}
-                />
-            </Col>
-
-            <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
+            <Balance
+              balance={balance}
+              bet={bet}
+              handleClick={this.handleBetClick}
+              handleChange={this.handleChange}
+              />
           </Col>
+
+          <Col xs={12}>
+            <BetBlock
+              addBet={this.addBet}
+              totalBets={totalBets}
+              ownBets={ownBets}
+              disabled={disabled}
+              />
+          </Col>
+
+          <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
+        </Col>
       </Row>
     );
   }
