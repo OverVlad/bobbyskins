@@ -1192,7 +1192,8 @@ a {
   height: 400px;
   position: relative;
   flex-direction: column;
-  display: flex; }
+  display: flex;
+  margin: 10px; }
 
 .BackCard {
   position: absolute;
@@ -1201,15 +1202,52 @@ a {
   text-align: center;
   user-select: none; }
 
-.rank-win {
-  color: red; }
+.WinTable {
+  border: 1px solid #3a6a91;
+  border-radius: 6px;
+  background-color: #193145;
+  padding: 0px 6px 8px 6px;
+  margin: 10px; }
 
-.rank-win-enter {
-  color: blue; }
+.WinTable > li {
+  border: 1px solid #3a6a91;
+  border-radius: 3px;
+  background-color: #2a475e;
+  margin-top: 8px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  vertical-align: middle; }
 
-.rank-win-enter.rank-win-enter-active {
-  color: black;
-  transition: all 500ms ease; }
+.WinTable > li.rank-win {
+  border-color: #3ebaf4;
+  background-color: #3a6a91; }
+
+.pokerbtn {
+  height: 30px;
+  border-radius: 4px;
+  width: 20%;
+  margin: 10px;
+  text-align: center; }
+
+.pink {
+  background-color: #FF2D55; }
+
+.green {
+  background-color: #4CD964; }
+
+.violet {
+  background-color: #5856D6; }
+
+.blue {
+  background-color: #0079FE; }
+
+.lblue {
+  background-color: #59C7F9; }
+
+.serve {
+  background-color: #FF3B30;
+  width: 40%; }
 
 #progress-bar {
   width: 100%;

@@ -6,8 +6,7 @@ import WinTable from './WinTable'
 import separateThousands from '../../utils/separateThousands'
 import getRandomHand from '../../utils/getRandomHand'
 import getWinForHand from '../../utils/getWinForHand'
-import pokerActions, { changeUserBalance } from '../../actions/pokerActions'
-import store from '../../store'
+import getRankForHand from '../../utils/getRankForHand'
 
 export default class Poker extends Component {
   constructor(props) {
@@ -39,7 +38,7 @@ export default class Poker extends Component {
       this.setState({ betAmount: this.props.user.balance })
     }
     this.setState({ disableButtonsForRequest: true })
-    console.log('rollCards', this.state.betAmount)
+    // console.log('rollCards', this.state.betAmount)
     // AJAX HERE
     setTimeout(() => {
       this.setState({ hand: getRandomHand(5), animationIsGoing: true })
@@ -56,26 +55,26 @@ export default class Poker extends Component {
     let amount = this.state.betAmount
 
     switch (action) {
-      case '10':
-        amount += 10
-        break;
-      case '100':
-        amount += 100
+      case '500':
+        amount += 500
         break;
       case '1000':
         amount += 1000
         break;
-      case 'reset':
-        amount = 0
+      case '3000':
+        amount += 3000
         break;
-      case 'half':
-        amount = parseInt((amount / 2), 10)
+      case '5000':
+        amount += 5000
         break;
-      case 'double':
-        amount *= 2
+      case '10000':
+        amount += 10000
         break;
       case 'max':
         amount = this.props.user.balance
+        break;
+      case 'reset':
+        amount = 0
         break;
       default:
         break;
@@ -99,49 +98,37 @@ export default class Poker extends Component {
   }
 
   completeAnimation() {
-    console.log(this.props.user.balance)
-    const winner = getWinForHand(this.state.hand)
+    // console.log('complete animation', this.props.user.balance)
+    const winner = getRankForHand(this.state.hand)
     this.setState({
       animationIsGoing: false,
       disableButtonsForRequest: false,
-      handRank: getWinForHand(this.state.hand),
+      handRank: getRankForHand(this.state.hand),
     }, () => {
-      store.dispatch(changeUserBalance(this.state.betAmount, this.state.handRank))
+      this.props.userActions.changeUserBalance(this.state.betAmount, getWinForHand(this.state.hand))
     })
-  }
-
-  componentWillReceiveProps(nextProps) {
-    console.log(nextProps.user.balance)
   }
 
   render() {
     return (
-      <Row>
-        <Col xs={12} className="poker wrapper" >
-          <Col>
-            <Deck
-              hand={this.state.hand}
-              completeAnimation={this.completeAnimation} animationIsGoing={this.state.animationIsGoing}
-            />
-            <Balance
-              balance={this.props.user.balance}
-              betAmount={this.state.betAmount}
-              handleBetClick={this.handleBetClick}
-              handleChange={this.handleChange}
-              changeBetAmount={this.changeBetAmount}
-              disabled={this.state.animationIsGoing || this.state.disableButtonsForRequest}
-            />
-            <button
-              disabled={this.state.animationIsGoing || this.state.disableButtonsForRequest}
-              className="btn btn-bet btn-red"
-              onClick={this.rollCards}
-            >
-              ROLL CARDS
-            </button>
-          </Col>
-          <Col>
-            <WinTable animationIsGoing={this.state.animationIsGoing} hand={this.state.hand} bet={this.state.betAmount} winner={this.state.handRank} />
-          </Col>
+      <Row className="poker wrapper">
+        <Col xs={12} sm={9} >
+          <Deck
+            hand={this.state.hand}
+            completeAnimation={this.completeAnimation} animationIsGoing={this.state.animationIsGoing}
+          />
+          <Balance
+            balance={this.props.user.balance}
+            betAmount={this.state.betAmount}
+            handleBetClick={this.handleBetClick}
+            handleChange={this.handleChange}
+            changeBetAmount={this.changeBetAmount}
+            disabled={this.state.animationIsGoing || this.state.disableButtonsForRequest}
+            rollCards={this.rollCards}
+          />
+        </Col>
+        <Col xs={12} sm={3} >
+          <WinTable animationIsGoing={this.state.animationIsGoing} hand={this.state.hand} bet={this.state.betAmount} winner={this.state.handRank} />
         </Col>
       </Row>
     )

@@ -50,10 +50,10 @@ class Header extends Component {
         <Row className="games" center="sm">
           <Col sm={2} className="game">
             <img src="img/rol.png" alt="" className="game-img" />
-            <a href="#" className="game-name">Roulette</a>
+            <a href="/" className="game-name">Roulette</a>
           </Col>
           <Col sm={2} className="game">
-            <a href="#" className="game-name">Game2</a>
+            <a href="poker" className="game-name">Poker</a>
           </Col>
           <Col sm={2} className="game">
             <a href="#" className="game-name">Game3</a>
@@ -67,7 +67,7 @@ class Header extends Component {
 const mapStateToProps = ({ user, auth }) => ({ user, auth });
 
 const mapDispatchToProps = (dispatch) => ({
-    authActions: bindActionCreators(authActions, dispatch)
+  authActions: bindActionCreators(authActions, dispatch)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

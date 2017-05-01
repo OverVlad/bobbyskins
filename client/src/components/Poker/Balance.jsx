@@ -4,70 +4,72 @@ import separateThousands from '../../utils/separateThousands'
 
 export default props => (
   <div className="balance">
-    <span className="balance-text">Balance: {separateThousands(props.balance)}</span>
-    <input
-      disabled={props.disabled}
-      className="btn btn-bet btn-blue input-bet"
-      value={separateThousands(formatNumber(props.betAmount)) || ''}
-      placeholder="Bet amount"
-      onChange={(e) => { props.handleChange(formatNumber(e.target.value)) }}
-    />
-
     <button
       disabled={props.disabled}
-      className="btn btn-bet btn-red"
-      data-action="reset"
+      className="pokerbtn lblue"
+      data-action="500"
       onClick={props.handleBetClick}
     >
-      Reset
+      500
     </button>
     <button
       disabled={props.disabled}
-      className="btn btn-bet btn-blue"
-      data-action="10"
-      onClick={props.handleBetClick}
-    >
-      +10
-    </button>
-    <button
-      disabled={props.disabled}
-      className="btn btn-bet btn-blue"
-      data-action="100"
-      onClick={props.handleBetClick}
-    >
-      +100
-    </button>
-    <button
-      disabled={props.disabled}
-      className="btn btn-bet btn-blue"
+      className="pokerbtn blue"
       data-action="1000"
       onClick={props.handleBetClick}
     >
-      +1000
+      1000
     </button>
     <button
       disabled={props.disabled}
-      className="btn btn-bet btn-blue"
-      data-action="half"
+      className="pokerbtn violet"
+      data-action="3000"
       onClick={props.handleBetClick}
     >
-      1/2
+      3000
     </button>
     <button
       disabled={props.disabled}
-      className="btn btn-bet btn-red"
-      data-action="double"
+      className="pokerbtn green"
+      data-action="5000"
       onClick={props.handleBetClick}
     >
-      x2
+      5000
     </button>
     <button
       disabled={props.disabled}
-      className="btn btn-bet btn-red"
-      data-action="max"
+      className="pokerbtn pink"
+      data-action="10000"
       onClick={props.handleBetClick}
     >
-      Max
+      10000
     </button>
+    <div>
+      <span className="balance-text">Баланс: {separateThousands(props.balance)}</span>
+      <input
+        disabled={props.disabled}
+        className="btn btn-bet btn-blue input-bet"
+        value={separateThousands(formatNumber(props.betAmount)) || ''}
+        placeholder="Ставка"
+        onChange={(e) => { props.handleChange(formatNumber(e.target.value)) }}
+      />
+      <button
+        disabled={props.disabled}
+        className="btn btn-bet btn-red"
+        data-action="reset"
+        onClick={props.handleBetClick}
+      >
+        Очистить
+      </button>
+    </div>
+    <div>
+      <button
+        disabled={props.disabled}
+        className="pokerbtn serve"
+        onClick={props.rollCards}
+      >
+        Раздать
+      </button>
+    </div>
   </div>
 )
