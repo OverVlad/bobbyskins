@@ -13,3 +13,5 @@ export const START_ROLL = 'START_ROLL';
 export const FINISH_ROLL = 'FINISH_ROLL';
 export const START_ROUND = 'START_ROUND';
 export const FINISH_ROUND = 'FINISH_ROUND';
+
+export const SET_WINNERS = 'SET_WINNERS';

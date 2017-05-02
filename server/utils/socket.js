@@ -3,7 +3,7 @@ module.exports = (server) => (sessionMiddleware) => {
   const io = require('socket.io')(server);
   const AuthError = require('../errors/AuthError');
   const { formatChatMessage, formatBet } = require('../utils/format');
-  const Roulette = require('../games/roulette');
+  const Roulette = require('../games/Roulette');
 
 
   const Message = require('../models/Message');
@@ -50,24 +50,33 @@ module.exports = (server) => (sessionMiddleware) => {
 
       socket.join('roulette');
 
-      const formatRound = {
-        id: roulette.getRoundId(),
-        startTime: roulette.TimeToEnd()
-      };
+      const userId = socket.user._id;
 
-      io.emit('join roulette', formatRound);
-    });
+      roulette.getOwnBets(userId)
+      .then((bets) => {
+        let ownBets = {
+          'odd': 0,
+          '1-7': 0,
+          '0': 0,
+          '8-14': 0,
+          'even': 0
+        };
 
-    socket.on('end round', function (data) {
-      Round
-      .findOne(data.roundId)
-      .then((round) => {
-        Bet
-        .find()
-        .where('round_id').equals(round._id)
-        .where('steamId').equals(socket.user.steamId)
-        round.roll = data.roll;
-        round.save().then(round => this.round = round);
+        bets.map((bet) => {
+          ownBets[bet.type] = bet.amount;
+        });
+
+        const round = {
+          id: roulette.getRoundId(),
+          startTime: roulette.TimeToEnd(),
+          ownBets
+        };
+
+        const user = User.findOne({_id: userId}, 'balance')
+        .then((user) => {
+          const balance = user.balance;
+          io.emit('join roulette', { round, balance });
+        });
       });
     });
 
@@ -110,33 +119,38 @@ module.exports = (server) => (sessionMiddleware) => {
       });
     });
 
-    socket.on('roll', function () {
-      const number = generateNumber();
-
-      io.emit('roll', number);
-    });
-
     socket.on('add bet', function (bet) {
       const formatedBet = formatBet(socket, bet);
       const newBet = new Bet(formatedBet);
       const id = socket.user._id;
+
       const user = User.findOne({_id: id})
       .then((user) => {
-        const balance = user.balance;
-        // if(balance < formatedBet.amount) {
-        //   io.emit('error', 'You do not have enough coins on your balance');
-        // } else {
+        if(user.balance < formatedBet.amount) {
+          io.emit('error', 'You do not have enough coins on your balance');
+        } else {
           user.balance -= formatedBet.amount;
-          user.save();
+          user.save(user.balance);
+          const balance = user.balance;
 
           newBet.save()
           .then((bet) => {
+            console.log('balance: ', balance);
             io.emit('add bet', {bet, balance});
           })
           .catch((error) => console.log(error));
-        // }
+        }
       })
       .catch(err => console.log(err));
+    });
+
+    socket.on('refresh balance', function(userId) {
+      User.findOne({_id: userId})
+      .then((user) => {
+        const balance = user.balance;
+
+        io.emit('refresh balance', balance);
+      })
     });
 
 

@@ -1,7 +1,7 @@
 import * as constants from '../constants/rouletteConstants';
-import initialState from './initialState'
+import { roulette } from './initialState'
 
-function rouletteReducer(state = initialState.roulette, action) {
+function rouletteReducer(state = roulette, action) {
   switch (action.type) {
     case constants.FETCH_ROUND_START:
     return {
@@ -69,6 +69,14 @@ function rouletteReducer(state = initialState.roulette, action) {
           }
       }
     };
+    case constants.SET_WINNERS:
+      return {
+        ...state,
+        round: {
+          ...state.round,
+          winTypes: action.winTypes
+        }
+      };
     default:
     return state;
   }

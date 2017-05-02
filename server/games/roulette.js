@@ -1,4 +1,6 @@
 const { generateNumber } = require('../utils/generateNumber');
+const Bet = require('../models/Bet');
+const User = require('../models/User');
 
 class Roulette {
   constructor(io, Round) {
@@ -10,11 +12,19 @@ class Roulette {
     this.timer = -1;
     this.timeLeft = 0;
 
+    this.multipliers = {
+      'odd': 2,
+      '1-7': 2,
+      '0': 14,
+      '8-14': 2,
+      'even': 2
+    }
+
     this.totalBets = {
       'odd': 0,
-      '1to7': 0,
+      '1-7': 0,
       '0': 0,
-      '8to14': 0,
+      '8-14': 0,
       'even': 0
     };
 
@@ -39,6 +49,7 @@ class Roulette {
 
         if (this.timer == this.wait - 2) {
           this.startRoll();
+          this.setWinners();
           console.log('Таймер сработал');
         }
 
@@ -60,23 +71,22 @@ class Roulette {
   }
 
   startRoll() {
-    const number = generateNumber();
-
-    console.log(number);
-    this.round.roll = number;
-    this.round.save();
-
-    this.io.emit('start roll', number);
+    this.io.emit('start roll', this.round.roll);
   }
 
   startNewRound() {
-    this.round = new this.Round();
-    console.log('this.round', this.round);
+    const number = generateNumber();
+
+    this.round = new this.Round({
+      roll: number
+    });
+
     this.round.save().then((round) => {
-      const formatRound = {
+      const formatRound = { //TODO: bring out to utils
         id: round._id,
         startTime: this.TimeToEnd(),
         roll: '',
+        winTypes: '',
         totalBets: {
           'odd': {
             people: 0,
@@ -123,6 +133,69 @@ class Roulette {
 
   getRoundId() {
     return this.round._id;
+  }
+
+  getOwnBets(userId) {
+    return Bet
+    .find()
+    .where('round_id').equals(this.round._id)
+    .where('user_id').equals(userId)
+    .select('amount type');
+  }
+
+  getWinTypes() {
+    const roll = this.round.roll;
+    let winTypes = [];
+
+    if(roll === 0) {
+      winTypes = ['0'];
+    } else {
+      if(roll > 0 && roll < 8)
+      winTypes.push('1-7');
+      else if(roll >= 8 && roll <= 14) {
+        winTypes.push('8-14');
+      }
+
+      if(roll % 2 === 0) {
+        winTypes.push('even');
+      } else if (roll % 2 !== 0) {
+        winTypes.push('odd');
+      }
+    }
+
+    this.io.emit('win types', winTypes);
+
+    return winTypes;
+  }
+
+  setWinners() {
+    const winTypes = this.getWinTypes();
+    const BetsWin = [];
+
+    Bet
+    .find()
+    .where('round_id').equals(this.round._id)
+    .then((bets) => {
+      bets.map((bet) => {
+        winTypes.map((winType) => {
+          if(bet.type === winType) {
+            BetsWin.push(bet);
+          }
+        })
+      });
+      return this.setWinnerCoins(BetsWin);
+    });
+  }
+
+  setWinnerCoins(BetsWin) {
+    return BetsWin.map((bet) => {
+      User
+      .findOne({_id: bet.user_id})
+      .then((user) => {
+        user.balance += bet.amount * this.multipliers[bet.type];
+        user.save(user => console.log(user));
+      })
+    })
   }
 }
 

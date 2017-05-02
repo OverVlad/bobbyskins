@@ -8,7 +8,7 @@
     "watch:build": "webpack",
     "watch:server": "nodemon ./server/app.js --ignore node_modules/ --ignore client/",
     "watch:build:production": "set NODE_ENV=production& webpack",
-    "createdb": "node ./server/db/test/createDb.js",
+    "generate:combinations": "node ./server/utils/generateCombinations.js",
     "dev": "npm-run-all --parallel watch:server watch:build",
     "prod": "node main.js",
     "heroku-postbuild": "webpack --progress"
@@ -52,6 +52,7 @@
     "passport": "^0.3.2",
     "passport-steam": "^1.0.8",
     "pm2": "^2.4.5",
+    "pokersolver": "^2.1.2",
     "prop-types": "^15.5.8",
     "pug": "^2.0.0-beta11",
     "react": "^15.4.1",

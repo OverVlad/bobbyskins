@@ -1,7 +1,7 @@
-import initialState from './initialState';
-import { UPDATE_USER, KILL_USER } from '../constants/userConstants';
+import { user } from './initialState';
+import { UPDATE_USER, KILL_USER, REFRESH_BALANCE } from '../constants/userConstants';
 
-function userReducer(state = initialState.user, action) {
+function userReducer(state = user, action) {
   switch(action.type) {
     case UPDATE_USER:
       return {
@@ -20,7 +20,11 @@ function userReducer(state = initialState.user, action) {
         role: user.role,
         steamId: ''
       };
-
+    case REFRESH_BALANCE:
+      return {
+        ...state,
+        balance: action.balance
+      };
     default:
       return state;
   }

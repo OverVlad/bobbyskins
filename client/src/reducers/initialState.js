@@ -8,7 +8,7 @@ const initialState = {
     username: '',
     avatar: '',
     role: '',
-    balance: 1000000
+    balance: ''
   },
   rooms: {
     visibilityFilter: 'all',
@@ -34,6 +34,7 @@ const initialState = {
     round: {
       id: '',
       roll: '',
+      winTypes: '',
       startTime: '',
       totalBets: {
         'odd': {

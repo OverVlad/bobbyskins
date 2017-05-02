@@ -1,7 +1,7 @@
 import * as constants from '../constants/roomsConstants';
-import initialState from './initialState'
+import { rooms } from './initialState'
 
-function roomsReducer(state = initialState.rooms, action) {
+function roomsReducer(state = rooms, action) {
   switch (action.type) {
 
     case constants.FETCH_ROOMS_START:

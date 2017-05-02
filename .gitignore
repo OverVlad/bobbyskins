@@ -1,5 +1,6 @@
 /node_modules/
 /server/config.js
+pokerCombinations.json
 
 *.log
 npm-debug.log

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Timer from './Timer.jsx';
 
 class ProgressBar extends Component {
   constructor(props) {
@@ -7,35 +8,39 @@ class ProgressBar extends Component {
 
     this.state = {
       text: `Prepare to start`,
-      startTime: this.props.startTime.toFixed(2)
+      startTime: this.props.startTime.toFixed(2),
+      timerEnable: false
     }
   }
 
   progressTimer() {
-    this.timer = setInterval(() => {
-      if(this.state.startTime  > 0.00) {
-        this.setState({
-          text: `End of raund after ${this.state.startTime}`,
-          startTime: (this.state.startTime - 0.01).toFixed(2)
-        });
-      } else {
-        clearInterval(this.timer);
-        this.setState({ text: 'Roll!' });
-      }
-    }, 10);
+    const { startTime } = this.state;
+
+    if(startTime  > 0.00) {
+      this.setState({
+        text: `End of raund after ${startTime}`,
+        startTime: (startTime - 0.01).toFixed(2)
+      });
+    } else {
+      this.setState({
+        text: 'Roll!' ,
+        timerEnable: false
+      });
+    }
   }
 
   componentDidMount() {
     if(this.props.startTime) {
-      this.progressTimer();
-    }
-    else {
-      this.setState({ text: 'Roll was started' });
+      this.setState({
+        timerEnable: true
+      });
     }
   }
 
   componentWillUnmount() {
-    clearInterval(this.timer);
+    this.setState({
+      timerEnable: false
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -46,9 +51,9 @@ class ProgressBar extends Component {
     if(nextProps.startTime && nextProps.roll === '' && !nextProps.isRoll) {
       this.setState({
         text: `End of raund after ${nextProps.startTime}`,
-        startTime: nextProps.startTime.toFixed(2)
+        startTime: nextProps.startTime.toFixed(2),
+        timerEnable: true
       });
-      this.progressTimer();
     }
   }
 
@@ -61,14 +66,21 @@ class ProgressBar extends Component {
       return true;
     }
 
+    if(this.state.timerEnable !== nextState.timerEnable) {
+      return true;
+    }
+
     return false;
   }
 
   render() {
+    const { timerEnable, text, startTime } = this.state;
+
     return (
       <div className="progress">
-        <div className="banner">{this.state.text}</div>
-        <div id="progress-bar"><div className="bar" ref={(progress) => this.progress = progress} style={{ width: `${this.state.startTime * 100 / 20}%` }}></div></div>
+        <div className="banner">{text}</div>
+        <div id="progress-bar"><div className="bar" ref={(progress) => this.progress = progress} style={{ width: `${startTime * 100 / 20}%` }}></div></div>
+        <Timer timeout={10} enabled={timerEnable} callback={() => this.progressTimer()} />
       </div>
     );
   }

@@ -1,7 +1,7 @@
-const initialState = require('./initialState');
+const {auth} = require('./initialState');
 const constants = require('../constants/authConstants');
 
-function authReducer(state = initialState.default.auth, action) {
+function authReducer(state = auth, action) {
   switch (action.type) {
     case constants.SIGNIN_SUCCESS:
       return {...state, isAuthenticated: true, error: null};

@@ -18,14 +18,13 @@ class Roulette extends Component {
     super(props);
 
     this.state = {
-      balance: 1000000,
       bet: 0,
       disabled: {
-        '0': false,
-        '1-7': false,
-        '8-14': false,
-        'even': false,
-        'odd': false
+        '0': true,
+        '1-7': true,
+        '8-14': true,
+        'even': true,
+        'odd': true
       }
     };
 
@@ -42,7 +41,7 @@ class Roulette extends Component {
     const action = event.target.dataset.action;
     let bet = this.state.bet;
 
-    if(this.state.balance <= bet && action !== 'reset') {
+    if(this.props.user.balance <= bet && action !== 'reset') {
       msg.show('You don\'t have anoth money');
       return;
     }
@@ -58,7 +57,7 @@ class Roulette extends Component {
       bet *= 2;
       break;
       case 'max':
-      bet = this.state.balance;
+      bet = this.props.user.balance;
       break;
       default:
       bet += +action;
@@ -97,20 +96,30 @@ class Roulette extends Component {
 
     this.setState(state => {
       return ({
-        bet: 0,
-        balance: state.balance - bet.amount
+        bet: 0
       });
     });
   }
 
   disableBets() {
     this.setState(state => {
-      let disabled = state.desabled;
-      for (i in state.disabled) {
+      let disabled = state.disabled;
+      for (let i in state.disabled) {
         disabled[i] = true;
       }
 
-      return { desabled };
+      return { disabled };
+    });
+  }
+
+  enableBets() {
+    this.setState(state => {
+      let disabled = state.disabled;
+      for (let i in state.disabled) {
+        disabled[i] = false;
+      }
+
+      return { disabled };
     });
   }
 
@@ -120,25 +129,71 @@ class Roulette extends Component {
     });
   }
 
-  componentWillMount() {
+  ckeckBets() {
+    const { ownBets } = this.props.roulette.round;
+    const { disabled } = this.state;
+
+    for (let i in ownBets) {
+      console.log(ownBets[i]);
+      if(ownBets[i]) {
+        disabled[i] = true;
+        this.setState({ disabled });
+      }
+    }
+  }
+
+  setWinners() {
+    const { ownBets, winTypes } = this.props.roulette.round;
+
+    const multipliers = {
+      'odd': 2,
+      '1-7': 2,
+      '0': 14,
+      '8-14': 2,
+      'even': 2
+    }
+
+    for (let i in ownBets) {
+      winTypes.map(winType => {
+        if(i === winType) {
+          ownBets[i] *= multipliers[winType];
+        }
+      })
+    }
+
+    this.setState({ ownBets });
+    socket.emit('refresh balance', this.props.user.id);
+  }
+
+  componentDidMount() {
     socket.emit('history rolls', this.props.roulette.historyRolls);
     socket.emit('join roulette');
 
-    if(this.props.isRoll) {
-
-    }
   }
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.roulette.isRoll && this.props.roulette.isRoll !== nextProps.roulette.isRoll) {
       rolling(nextProps.roulette.round.roll);
     }
+
+    if(nextProps.roulette.isRoll && nextProps.roulette.isRoll) {
+      this.disableBets();
+    }
+
+    if(nextProps.roulette.round.id !== this.props.roulette.round.id) {
+      this.enableBets();
+    }
+
+    if(nextProps.roulette.round.winTypes && !nextProps.roulette.isRoll && nextProps.roulette.isRoll !== this.props.roulette.isRoll) {
+      this.setWinners();
+    }
   }
 
   render() {
     const { done, isRoll, historyRolls } = this.props.roulette;
     const { roll, startTime, ownBets, totalBets } = this.props.roulette.round;
-    const { balance, disabled, bet } = this.state;
+    const { disabled, bet } = this.state;
+    const { balance } = this.props.user;
 
     return (
       <Row>
