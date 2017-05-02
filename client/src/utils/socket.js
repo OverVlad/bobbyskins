@@ -5,7 +5,7 @@ import { addBet, finishRound, refreshHistory, joinRoulette, startRoll, startRoun
 import store from '../store';
 
 class Socket {
-  constructor(url = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://chatretube.herokuapp.com' ) {
+  constructor(url = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://bobbyskin.com' ) {
     this._url = url;
     this.socket = null;
   }
