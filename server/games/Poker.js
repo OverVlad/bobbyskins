@@ -1,5 +1,3 @@
-const pokerCombinations = require('../../pokerCombinations');
-
 class Poker {
   constructor() {
     this.combination = '';
