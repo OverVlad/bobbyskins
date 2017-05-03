@@ -11,7 +11,7 @@ export default class Poker extends Component {
   constructor(props) {
     super(props)
 
-    this.winNumbers = [-1, 2, 3, 5, 8, 20, 50, 125, 310, 775]
+    this.winNumbers = [-1, 1, 1.5, 2, 2.5, 3, 4, 19, 49, 99]
     this.state = {
       userId: this.props.user.id,
       betAmount: 0,
@@ -124,26 +124,30 @@ export default class Poker extends Component {
 
   render() {
     return (
-      <Row className="poker wrapper" style={{ width: '900px' }}>
-        <Col xs={12} sm={9} >
-          <Deck
-            hand={this.state.hand}
-            completeAnimation={this.completeAnimation} animationIsGoing={this.state.animationIsGoing}
-          />
-          <Balance
-            balance={this.props.user.balance}
-            betAmount={this.state.betAmount}
-            handleBetClick={this.handleBetClick}
-            handleChange={this.handleChange}
-            changeBetAmount={this.changeBetAmount}
-            disabled={this.state.animationIsGoing || this.state.disableButtonsForRequest}
-            rollCards={this.rollCards}
-          />
-        </Col>
-        <Col xs={12} sm={3} >
-          <WinTable animationIsGoing={this.state.animationIsGoing} hand={this.state.hand} bet={this.state.betAmount} winner={this.state.handRank} numbers={this.winNumbers} />
-        </Col>
-      </Row>
+      <div className="wrapper">
+        <Row>
+          <Col xs={12} sm={9} >
+            <Deck
+              hand={this.state.hand}
+              completeAnimation={this.completeAnimation}
+              animationIsGoing={this.state.animationIsGoing}
+              animationLength={200}
+            />
+          </Col>
+          <Col xs={12} sm={3}>
+            <WinTable animationIsGoing={this.state.animationIsGoing} hand={this.state.hand} bet={this.state.betAmount} winner={this.state.handRank} numbers={this.winNumbers} />
+          </Col>
+        </Row>
+        <Balance
+          balance={this.props.user.balance}
+          betAmount={this.state.betAmount}
+          handleBetClick={this.handleBetClick}
+          handleChange={this.handleChange}
+          changeBetAmount={this.changeBetAmount}
+          disabled={this.state.animationIsGoing || this.state.disableButtonsForRequest}
+          rollCards={this.rollCards}
+        />
+      </div>
     )
   }
 }

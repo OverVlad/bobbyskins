@@ -8,7 +8,7 @@ const initialState = {
     username: '',
     avatar: '',
     role: '',
-    balance: 0
+    balance: 10000
   },
   rooms: {
     visibilityFilter: 'all',

@@ -23,7 +23,7 @@ export default class Card extends React.Component {
           src={`../img/minified/${this.state.pic}.png`}
           alt={this.props.value}
           className="cardImage"
-          style={{ height: '130px' }}
+          style={{ height: '130px', borderRadius: '8px' }}
         />
       </div>
     )

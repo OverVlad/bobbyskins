@@ -22,11 +22,11 @@ export default class Deck extends React.Component {
         setTimeout(() => {
           hand.push(newHand[i])
           this.setState({ hand })
-        }, 200 * i)
+        }, this.props.animationLength * i)
       }
       setTimeout(() => {
         this.props.completeAnimation()
-      }, 1300)
+      }, (this.props.animationLength * newHand.length) + 200)
     }
   }
 
@@ -52,9 +52,9 @@ export default class Deck extends React.Component {
     return (
       <div
         className="Deck"
-        onClick={this.state.ableToGetNew ? (() => { this.addCards() }) : false}
-        style={{ backgroundImage: '../img/pokerBg.png' }}
+        style={{ backgroundImage: 'url(../img/pokerBg.png)' }}
       >
+        <img src="../img/pokerLogo.png" className="pokerLogo" />
         <Card key={'Back'} value={'Back'} />
         <CSSTransitionGroup
           transitionName="card"

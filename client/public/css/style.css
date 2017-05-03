@@ -1141,66 +1141,75 @@ a {
   bottom: 30px; }
 
 .card-enter:first-child {
-  transform: translate(400%, -265px); }
+  transform: translate(400%, -235px); }
 
 .card-enter:nth-child(2) {
-  transform: translate(300%, -265px); }
+  transform: translate(300%, -235px); }
 
 .card-enter:nth-child(3) {
-  transform: translate(200%, -265px); }
+  transform: translate(200%, -235px); }
 
 .card-enter:nth-child(4) {
-  transform: translate(100%, -265px); }
+  transform: translate(100%, -235px); }
 
 .card-enter:nth-child(5) {
-  transform: translate(0, -265px); }
+  transform: translate(0, -235px); }
 
 .card-enter.card-enter-active {
   transform: translate(0);
   transition: all 500ms ease-in-out; }
 
 .card-leave-active:first-child {
-  transform: translate(400%, -265px); }
+  transform: translate(400%, -235px); }
 
 .card-leave-active:nth-child(2) {
-  transform: translate(300%, -265px); }
+  transform: translate(300%, -235px); }
 
 .card-leave-active:nth-child(3) {
-  transform: translate(200%, -265px); }
+  transform: translate(200%, -235px); }
 
 .card-leave-active:nth-child(4) {
-  transform: translate(100%, -265px); }
+  transform: translate(100%, -235px); }
 
 .card-leave-active:nth-child(5) {
-  transform: translate(0, -265px); }
+  transform: translate(0, -235px); }
 
 .card-leave {
   transform: translate(0);
   transition: all 300ms ease-in-out; }
 
+.wrapper {
+  padding: 10px 20px 10px 20px; }
+
 .Card {
   width: 20%;
   text-align: center;
   align-self: flex-end;
-  user-select: none; }
+  user-select: none;
+  padding: 10px; }
 
 .Deck > span {
   display: flex;
   height: 400px; }
 
 .Deck {
-  height: 400px;
   position: relative;
-  flex-direction: column;
-  display: flex;
-  margin: 10px; }
+  margin: 10px;
+  border-radius: 6px; }
 
 .BackCard {
   position: absolute;
   width: 20%;
   right: 0px;
+  top: 20px;
   text-align: center;
   user-select: none; }
+
+.pokerLogo {
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  width: 70%; }
 
 .WinTable {
   border: 1px solid #3a6a91;
@@ -1223,12 +1232,23 @@ a {
   border-color: #3ebaf4;
   background-color: #3a6a91; }
 
+.balace {
+  margin: 0px; }
+
+.pokerbets {
+  display: flex;
+  justify-content: space-between; }
+
 .pokerbtn {
-  height: 30px;
+  height: 40px;
   border-radius: 4px;
-  width: 20%;
-  margin: 10px;
-  text-align: center; }
+  width: 18%;
+  text-align: center;
+  line-height: 40px;
+  font-size: 18px; }
+
+.pokerbtn .fa-diamond {
+  color: white; }
 
 .pink {
   background-color: #FF2D55; }
@@ -1245,9 +1265,14 @@ a {
 .lblue {
   background-color: #59C7F9; }
 
+.betBalance {
+  margin: 10px;
+  margin-bottom: 0px; }
+
 .serve {
   background-color: #FF3B30;
-  width: 40%; }
+  width: 200px;
+  margin: 10px; }
 
 #progress-bar {
   width: 100%;
