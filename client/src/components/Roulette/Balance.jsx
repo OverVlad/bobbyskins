@@ -23,7 +23,6 @@ const Balance = ({ balance, bet, handleClick, handleChange }) => (
 );
 
 Balance.propTypes = {
-  balance: PropTypes.number.isRequired,
   bet: PropTypes.number.isRequired,
   handleClick: PropTypes.func.isRequired,
   handleChange: PropTypes.func.isRequired

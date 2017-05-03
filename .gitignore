@@ -1,8 +1,11 @@
 /node_modules/
 /server/config.js
-/client/public/js/main.js
+client/public/js/*
+pokerCombinations.json
+
 *.log
 npm-debug.log
+.idea
 
 # Ignore vim tmp files
 *.swp

@@ -51,7 +51,7 @@ export default props => (
         className="btn btn-bet btn-blue input-bet"
         value={separateThousands(formatNumber(props.betAmount)) || ''}
         placeholder="Ставка"
-        onChange={(e) => { props.handleChange(formatNumber(e.target.value)) }}
+        onChange={props.handleChange}
       />
       <button
         disabled={props.disabled}

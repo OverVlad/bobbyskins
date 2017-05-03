@@ -18,42 +18,14 @@ class Roulette extends Component {
     super(props);
 
     this.state = {
-      balance: 1000000,
-      ownBets: {
-        '0': 0,
-        '1-7': 0,
-        '8-14': 0,
-        'even': 0,
-        'odd': 0
-      },
       bet: 0,
-      totalBets: {
-        '0' : {
-          amount: 0,
-          people: 0,
-          users: []
-        },
-        '1-7': {
-          amount: 0,
-          people: 0,
-          users: []
-        },
-        '8-14': {
-          amount: 0,
-          people: 0,
-          users: []
-        },
-        'even': {
-          amount: 0,
-          people: 0,
-          users: []
-        },
-        'odd': {
-          amount: 0,
-          people: 0,
-          users: []
-        }
-      },
+      disabled: {
+        '0': true,
+        '1-7': true,
+        '8-14': true,
+        'even': true,
+        'odd': true
+      }
     };
 
     this.user = props.user;
@@ -69,7 +41,7 @@ class Roulette extends Component {
     const action = event.target.dataset.action;
     let bet = this.state.bet;
 
-    if(this.state.balance <= bet && action !== 'reset') {
+    if(this.props.user.balance <= bet && action !== 'reset') {
       msg.show('You don\'t have anoth money');
       return;
     }
@@ -85,7 +57,7 @@ class Roulette extends Component {
       bet *= 2;
       break;
       case 'max':
-      bet = this.state.balance;
+      bet = this.props.user.balance;
       break;
       default:
       bet += +action;
@@ -97,18 +69,58 @@ class Roulette extends Component {
   }
 
   addBet(event) {
-    if(bet === 0) {
+    const type = event.target.dataset.bet;
+
+    const bet = {
+      amount: this.state.bet,
+      type,
+      roundId: this.props.roulette.round.id
+    }
+
+    if(bet.amount === 0) {
       msg.show('The bet should not be zero');
       return;
     }
 
-    const bet = {
-      amount: this.state.bet,
-      type: event.target.dataset.bet,
-      roundId: this.props.roulette.round.id
+    if(this.state.balance < bet.amount) {
+      msg.show('You don\'t have enough coins');
+      return;
     }
 
+    this.setState(state => {
+      const disabled = { ...state.disabled, [type]: !state.disabled[type] };
+      return ({ disabled: disabled });
+    });
+
     socket.emit('add bet', bet);
+
+    this.setState(state => {
+      return ({
+        bet: 0
+      });
+    });
+  }
+
+  disableBets() {
+    this.setState(state => {
+      let disabled = state.disabled;
+      for (let i in state.disabled) {
+        disabled[i] = true;
+      }
+
+      return { disabled };
+    });
+  }
+
+  enableBets() {
+    this.setState(state => {
+      let disabled = state.disabled;
+      for (let i in state.disabled) {
+        disabled[i] = false;
+      }
+
+      return { disabled };
+    });
   }
 
   handleChange(event) {
@@ -117,48 +129,100 @@ class Roulette extends Component {
     });
   }
 
-  componentWillMount() {
+  ckeckBets() {
+    const { ownBets } = this.props.roulette.round;
+    const { disabled } = this.state;
+
+    for (let i in ownBets) {
+      console.log(ownBets[i]);
+      if(ownBets[i]) {
+        disabled[i] = true;
+        this.setState({ disabled });
+      }
+    }
+  }
+
+  setWinners() {
+    const { ownBets, winTypes } = this.props.roulette.round;
+
+    const multipliers = {
+      'odd': 2,
+      '1-7': 2,
+      '0': 14,
+      '8-14': 2,
+      'even': 2
+    }
+
+    for (let i in ownBets) {
+      winTypes.map(winType => {
+        if(i === winType) {
+          ownBets[i] *= multipliers[winType];
+        }
+      })
+    }
+
+    this.setState({ ownBets });
+    socket.emit('refresh balance', this.props.user.id);
+  }
+
+  componentDidMount() {
     socket.emit('history rolls', this.props.roulette.historyRolls);
     socket.emit('join roulette');
+
   }
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.roulette.isRoll && this.props.roulette.isRoll !== nextProps.roulette.isRoll) {
       rolling(nextProps.roulette.round.roll);
     }
+
+    if(nextProps.roulette.isRoll && nextProps.roulette.isRoll) {
+      this.disableBets();
+    }
+
+    if(nextProps.roulette.round.id !== this.props.roulette.round.id) {
+      this.enableBets();
+    }
+
+    if(nextProps.roulette.round.winTypes && !nextProps.roulette.isRoll && nextProps.roulette.isRoll !== this.props.roulette.isRoll) {
+      this.setWinners();
+    }
   }
 
   render() {
     const { done, isRoll, historyRolls } = this.props.roulette;
     const { roll, startTime, ownBets, totalBets } = this.props.roulette.round;
+    const { disabled, bet } = this.state;
+    const { balance } = this.props.user;
 
     return (
       <Row>
-          <Col xs={12}>
-            <Col xs={12} className="roulette wrapper">
-              { !done ? <Col xs={12}>Loading...</Col> : <ProgressBar startTime={startTime} isRoll={isRoll} roll={roll} /> }
-              <Wheel />
+        <Col xs={12}>
+          <Col xs={12} className="roulette wrapper">
+            { !done ? <Col xs={12}>Loading...</Col> : <ProgressBar startTime={startTime} isRoll={isRoll} roll={roll} /> }
+            <Wheel />
 
-              {historyRolls.length ? <HistoryRolls historyRolls={historyRolls} /> : null}
+            {historyRolls.length ? <HistoryRolls historyRolls={historyRolls} /> : null}
 
-              <Balance
-                balance={this.state.balance}
-                bet={this.state.bet}
-                handleClick={this.handleBetClick}
-                handleChange={this.handleChange}
-                />
-            </Col>
-
-            <Col xs={12}>
-              <BetBlock
-                addBet={this.addBet}
-                totalBets={totalBets}
-                ownBets={ownBets}
-                />
-            </Col>
-
-            <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
+            <Balance
+              balance={balance}
+              bet={bet}
+              handleClick={this.handleBetClick}
+              handleChange={this.handleChange}
+              />
           </Col>
+
+          <Col xs={12}>
+            <BetBlock
+              addBet={this.addBet}
+              totalBets={totalBets}
+              ownBets={ownBets}
+              disabled={disabled}
+              />
+          </Col>
+
+          <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />
+        </Col>
       </Row>
     );
   }

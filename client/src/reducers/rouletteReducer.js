@@ -1,7 +1,7 @@
 import * as constants from '../constants/rouletteConstants';
-import initialState from './initialState'
+import { roulette } from './initialState'
 
-function rouletteReducer(state = initialState.roulette, action) {
+function rouletteReducer(state = roulette, action) {
   switch (action.type) {
     case constants.FETCH_ROUND_START:
       return {
@@ -28,10 +28,10 @@ function rouletteReducer(state = initialState.roulette, action) {
         isRoll: true
       };
     case constants.START_ROUND:
-      return {
-        ...state,
-        round: { ...state.round, ...action.round }
-      };
+    return {
+      ...state,
+      round: action.round
+    };
     case constants.JOIN_ROULETTE:
       return {
         ...state,
@@ -59,10 +59,22 @@ function rouletteReducer(state = initialState.roulette, action) {
         isRoll: false
       };
     case constants.ADD_BET:
-      console.log('reducer: ', action.bet);
+    return {
+        ...state,
+        round: {
+          ...state.round,
+          ownBets: {
+            ...state.round.ownBets, [action.bet.type] : action.bet.amount
+          }
+      }
+    };
+    case constants.SET_WINNERS:
       return {
         ...state,
-        ownBets: state.round.ownBets[action.bet.type] = action.bet.amount
+        round: {
+          ...state.round,
+          winTypes: action.winTypes
+        }
       };
     default:
       return state;

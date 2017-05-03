@@ -1,7 +1,7 @@
-import initialState from './initialState';
+import { chatroom } from './initialState';
 import * as constants from '../constants/chatroomConstants';
 
-function chatReducer(state = initialState.chatroom, action) {
+function chatReducer(state = chatroom, action) {
   switch(action.type) {
     case constants.JOIN_CHATROOM_START:
     return {

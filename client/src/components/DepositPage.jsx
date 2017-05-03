@@ -12,6 +12,7 @@ const DepositPage = () => (
         <Inventory />
       </Col>
 
+
       <Col xs={12} sm={5}>
         <Deposit />
       </Col>

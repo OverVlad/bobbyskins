@@ -89,6 +89,13 @@ export const addBet = function (bet) {
     }
   }
 
+  export const setWiners = (winTypes) => {
+    return {
+      type: actions.SET_WINNERS,
+      winTypes
+    };
+  }
+
 /*
  * REQUESTS
  * */

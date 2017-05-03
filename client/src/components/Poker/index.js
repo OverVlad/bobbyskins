@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { Row, Col } from 'react-flexbox-grid';
+import pokersolver from 'pokersolver'
 import Balance from './Balance.jsx'
 import Deck from './Deck'
 import WinTable from './WinTable'
 import separateThousands from '../../utils/separateThousands'
 import getRandomHand from '../../utils/getRandomHand'
-import getWinForHand from '../../utils/getWinForHand'
-import getRankForHand from '../../utils/getRankForHand'
 
 export default class Poker extends Component {
   constructor(props) {
     super(props)
 
+    this.winNumbers = [-1, 2, 3, 5, 8, 20, 50, 125, 310, 775]
     this.state = {
       userId: this.props.user.id,
       betAmount: 0,
@@ -22,19 +22,31 @@ export default class Poker extends Component {
     };
 
     this.rollCards = this.rollCards.bind(this)
-    this.getCards = this.getCards.bind(this)
     this.handleBetClick = this.handleBetClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.changeBetAmount = this.changeBetAmount.bind(this)
     this.completeAnimation = this.completeAnimation.bind(this)
   }
 
+  getWinForHand = (hand) => (this.winNumbers[this.getRankForHand(hand)])
+
+  getRankForHand = (hand) => {
+    if (pokersolver.Hand.solve(hand).descr === 'Royal Flush') {
+      return 9
+    } else {
+      return pokersolver.Hand.solve(hand).rank - 1
+    }
+  }
+
   rollCards() {
-    if (this.state.betAmount === 0) {
+    const betAmount = this.state.betAmount
+    console.log(betAmount <= 0)
+    if (betAmount <= 0) {
       msg.show(`please place your bets`)
       return null
-    }
+    } else { console.log(betAmount) }
     if (this.state.betAmount > this.props.user.balance) {
+      console.log('setState')
       this.setState({ betAmount: this.props.user.balance })
     }
     this.setState({ disableButtonsForRequest: true })
@@ -43,10 +55,6 @@ export default class Poker extends Component {
     setTimeout(() => {
       this.setState({ hand: getRandomHand(5), animationIsGoing: true })
     }, 500)
-  }
-
-  getCards() {
-    this.setState({ hand: getRandomHand(5), animationIsGoing: true })
   }
 
   handleBetClick(e) {
@@ -83,7 +91,7 @@ export default class Poker extends Component {
   }
 
   handleChange(e) {
-    this.changeBetAmount(parseInt(e, 10))
+    this.changeBetAmount(e.target.value.toString().replace(/[^0-9\\.]+/g, ''))
   }
 
   changeBetAmount(amount) {
@@ -99,14 +107,19 @@ export default class Poker extends Component {
 
   completeAnimation() {
     // console.log('complete animation', this.props.user.balance)
-    const winner = getRankForHand(this.state.hand)
     this.setState({
       animationIsGoing: false,
       disableButtonsForRequest: false,
-      handRank: getRankForHand(this.state.hand),
+      handRank: this.getRankForHand(this.state.hand),
     }, () => {
-      this.props.userActions.changeUserBalance(this.state.betAmount, getWinForHand(this.state.hand))
+      this.props.userActions.changeUserBalance(this.state.betAmount, this.getWinForHand(this.state.hand))
     })
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.betAmount > nextProps.user.balance) {
+      this.setState(() => ({ betAmount: nextProps.user.balance }))
+    }
   }
 
   render() {
@@ -128,7 +141,7 @@ export default class Poker extends Component {
           />
         </Col>
         <Col xs={12} sm={3} >
-          <WinTable animationIsGoing={this.state.animationIsGoing} hand={this.state.hand} bet={this.state.betAmount} winner={this.state.handRank} />
+          <WinTable animationIsGoing={this.state.animationIsGoing} hand={this.state.hand} bet={this.state.betAmount} winner={this.state.handRank} numbers={this.winNumbers} />
         </Col>
       </Row>
     )

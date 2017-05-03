@@ -1,10 +1,11 @@
 import io from 'socket.io-client';
+import { refreshBalance } from '../actions/userActions';
 import { sendMessage, joinChatroom, leaveChatroom, updateUsersCounter } from '../actions/chatroomActions';
-import { addBet, finishRound, refreshHistory, joinRoulette, startRoll, startRound, refreshTotalBets } from '../actions/rouletteActions';
+import { addBet, finishRound, refreshHistory, joinRoulette, startRoll, startRound, refreshTotalBets, setWiners } from '../actions/rouletteActions';
 import store from '../store';
 
 class Socket {
-  constructor(url = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://chatretube.herokuapp.com' ) {
+  constructor(url = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'http://bobbyskin.com' ) {
     this._url = url;
     this.socket = null;
   }
@@ -49,8 +50,9 @@ class Socket {
 
 
 
-    this.socket.on('join roulette', function (round) {
-      store.dispatch(joinRoulette(round));
+    this.socket.on('join roulette', function (data) {
+      store.dispatch(joinRoulette(data.round));
+      store.dispatch(refreshBalance(data.balance));
     });
 
     this.socket.on('start round', function (round) {
@@ -62,10 +64,17 @@ class Socket {
     });
 
     this.socket.on('add bet', function (data) {
-      console.log('socket clietn: ', data.bet);
       store.dispatch(addBet(data.bet));
       // store.dispatch(refreshTotalBets(data.totalBets));
-      // store.dispatch(refreshBalance(data.balance));
+      store.dispatch(refreshBalance(data.balance));
+    });
+
+    this.socket.on('refresh balance', function (balance) {
+      store.dispatch(refreshBalance(balance));
+    });
+
+    this.socket.on('win types', function (winTypes) {
+      store.dispatch(setWiners(winTypes));
     });
   }
 

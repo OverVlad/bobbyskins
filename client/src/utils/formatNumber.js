@@ -1,7 +1,6 @@
 const format = (str) => {
-  let num = str.toString().replace(/[^0-9\\.]+/g, '')
-  num = num.replace(/^0+/, '')
-  return num
+  const num = str.toString().replace(/[^0-9\\.]+/g, '')
+  return +num
 }
 
 export default format
