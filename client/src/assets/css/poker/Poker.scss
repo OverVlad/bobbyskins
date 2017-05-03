@@ -1,0 +1,151 @@
+.card-enter:first-child {
+  transform: translate(400%, -235px);
+}
+.card-enter:nth-child(2) {
+  transform: translate(300%, -235px);
+}
+.card-enter:nth-child(3) {
+  transform: translate(200%, -235px);
+}
+.card-enter:nth-child(4) {
+  transform: translate(100%, -235px);
+}
+.card-enter:nth-child(5) {
+  transform: translate(0, -235px);
+}
+
+.card-enter.card-enter-active {
+  transform: translate(0);
+  transition: all 500ms ease-in-out;
+}
+
+.card-leave-active:first-child {
+  transform: translate(400%, -235px);
+}
+.card-leave-active:nth-child(2) {
+  transform: translate(300%, -235px);
+}
+.card-leave-active:nth-child(3) {
+  transform: translate(200%, -235px);
+}
+.card-leave-active:nth-child(4) {
+  transform: translate(100%, -235px);
+}
+.card-leave-active:nth-child(5) {
+  transform: translate(0, -235px);
+}
+.card-leave {
+  transform: translate(0);
+  transition: all 300ms ease-in-out;
+}
+
+.wrapper {
+  padding: 10px 20px 10px 20px;
+}
+
+.Card {
+  width: 20%;
+  text-align: center;
+  align-self: flex-end;
+  user-select: none;
+  padding: 10px;
+}
+
+.Deck>span {
+  display: flex;
+  height: 400px;
+}
+
+.Deck {
+  position: relative;
+  margin: 10px;
+  border-radius: 6px;
+}
+
+.BackCard {
+  position: absolute;
+  width: 20%;
+  right: 0px;
+  top: 20px;
+  text-align: center;
+  user-select: none;
+}
+
+.pokerLogo {
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  width: 70%;
+}
+
+.WinTable {
+  border: 1px solid #3a6a91;
+  border-radius: 6px;
+  background-color: #193145;
+  padding: 0px 6px 8px 6px;
+  margin: 10px;
+}
+
+.WinTable>li {
+  border: 1px solid $border-bar;
+  border-radius: 3px;
+  background-color: $bg-color;
+  margin-top: 8px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.WinTable>li.rank-win {
+  border-color: $blue;
+  background-color: $border-bar;
+}
+
+.balace {
+  margin: 0px;
+}
+
+.pokerbets {
+  display: flex;
+  justify-content: space-between;
+}
+
+.pokerbtn {
+  height: 40px;
+  border-radius: 4px;
+  width: 18%;
+  text-align: center;
+  line-height: 40px;
+  font-size: 18px;
+}
+.pokerbtn .fa-diamond {
+  color: white;
+}
+.pink {
+  background-color: #FF2D55;
+}
+.green {
+  background-color: #4CD964;
+}
+.violet {
+  background-color: #5856D6;
+}
+.blue {
+  background-color: #0079FE;
+}
+.lblue {
+  background-color: #59C7F9;
+}
+
+.betBalance {
+  margin: 10px;
+  margin-bottom: 0px;
+}
+
+.serve {
+  background-color: #FF3B30;
+  width: 200px;
+  margin: 10px;
+}
+

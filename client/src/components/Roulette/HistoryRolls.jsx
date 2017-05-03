@@ -9,7 +9,7 @@ class HistoryRolls extends Component {
 
   render() {
     const listItems =  this.props.historyRolls.map((roll, index) =>
-      <Col sm={1} key={index}> <div className={roll >= 1 && roll < 8 ? 'red roll' : (roll >= 8 && roll <= 14) ? 'black roll' : 'green roll'} >{roll}</div></Col>
+      <Col sm={1} key={index}> <div className={roll>0 ? roll>7 ? 'black roll' : 'red roll' : 'green roll'} >{roll}</div></Col>
     );
 
     return (

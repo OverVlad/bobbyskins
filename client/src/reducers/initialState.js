@@ -8,7 +8,7 @@ const initialState = {
     username: '',
     avatar: '',
     role: '',
-    balance: ''
+    balance: 10000
   },
   rooms: {
     visibilityFilter: 'all',
@@ -27,6 +27,11 @@ const initialState = {
     isLoading: false,
     error: null,
     counter: ''
+  },
+  poker: {
+    betAmount: 0,
+    hand: [],
+    rankWon: 0,
   },
   roulette: {
     isRoll: false,
