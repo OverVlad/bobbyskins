@@ -68,7 +68,7 @@ module.exports = (server) => (sessionMiddleware) => {
 
         const round = {
           id: roulette.getRoundId(),
-          startTime: roulette.TimeToEnd(),
+          startTime: roulette.getStartTime(),
           ownBets
         };
 

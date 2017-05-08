@@ -1,4 +1,5 @@
 const { generateNumber } = require('../utils/generateNumber');
+const moment = require('moment');
 const Bet = require('../models/Bet');
 const User = require('../models/User');
 
@@ -36,6 +37,7 @@ class Roulette {
       console.log('Запуск таймера');
       this.timer = this.accept + this.wait;
       this.timeLeft = this.timer-this.wait;
+      this.startTime = new Date();
       this.startNewRound();
 
       const timerID = setInterval(() => {
@@ -82,9 +84,10 @@ class Roulette {
     });
 
     this.round.save().then((round) => {
+      this.startTime = new Date();
       const formatRound = { //TODO: bring out to utils
         id: round._id,
-        startTime: this.TimeToEnd(),
+        startTime: this.getStartTime(),
         roll: '',
         winTypes: '',
         totalBets: {
@@ -129,6 +132,10 @@ class Roulette {
 
   TimeToEnd() {
     return this.timeLeft;
+  }
+
+  getStartTime() {
+    return this.startTime;
   }
 
   getRoundId() {
@@ -193,7 +200,7 @@ class Roulette {
       .findOne({_id: bet.user_id})
       .then((user) => {
         user.balance += bet.amount * this.multipliers[bet.type];
-        user.save(user => console.log(user));
+        user.save();
       })
     })
   }

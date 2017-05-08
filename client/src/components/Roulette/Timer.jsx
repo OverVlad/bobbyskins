@@ -7,7 +7,7 @@ class Timer extends Component {
     super(props);
 
     this.state = {
-      enabled: this.props.enabled || false,
+      enabled: this.props.enabled,
       timeout: this.props.timeout || 1000
     };
   }
@@ -41,7 +41,7 @@ class Timer extends Component {
   }
 
   callback = () => {
-    if (this.timer) {
+    if (this.timer && this.props.enabled) {
       this.props.callback();
       this.start();
     }

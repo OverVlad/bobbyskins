@@ -10,6 +10,7 @@ import HistoryRolls from './HistoryRolls.jsx'
 
 import socket from '../../utils/socket';
 import { rolling } from '../../utils/rolling';
+import moment from 'moment'
 
 class Roulette extends Component {
 
@@ -19,6 +20,9 @@ class Roulette extends Component {
 
     this.state = {
       bet: 0,
+      text: 'Prepare to round',
+      timeToEnd: this.props.roulette.round.startTime,
+      timerEnable: false,
       disabled: {
         '0': true,
         '1-7': true,
@@ -66,6 +70,23 @@ class Roulette extends Component {
     this.setState({
       bet: bet
     });
+  }
+
+  progressTimer = () => {
+    const { startTime } = this.props.roulette.round;
+    const timeToEnd = (20.00 - moment().diff(moment(startTime), 'seconds', true)).toFixed(2);
+
+    if(timeToEnd < 0) {
+      this.setState({
+        text: `Roll was started!`,
+        timerEnable: false
+       });
+    } else {
+      this.setState({
+        timeToEnd,
+        text: `Roll start after ${timeToEnd}`
+      });
+    }
   }
 
   addBet(event) {
@@ -134,7 +155,6 @@ class Roulette extends Component {
     const { disabled } = this.state;
 
     for (let i in ownBets) {
-      console.log(ownBets[i]);
       if(ownBets[i]) {
         disabled[i] = true;
         this.setState({ disabled });
@@ -168,12 +188,17 @@ class Roulette extends Component {
   componentDidMount() {
     socket.emit('history rolls', this.props.roulette.historyRolls);
     socket.emit('join roulette');
-
   }
 
   componentWillReceiveProps(nextProps) {
+    const { startTime, roll } = nextProps.roulette.round;
+
+    if(startTime) {
+      this.setState({ startTime });
+    }
+
     if(nextProps.roulette.isRoll && this.props.roulette.isRoll !== nextProps.roulette.isRoll) {
-      rolling(nextProps.roulette.round.roll);
+      rolling(roll);
     }
 
     if(nextProps.roulette.isRoll && nextProps.roulette.isRoll) {
@@ -187,19 +212,47 @@ class Roulette extends Component {
     if(nextProps.roulette.round.winTypes && !nextProps.roulette.isRoll && nextProps.roulette.isRoll !== this.props.roulette.isRoll) {
       this.setWinners();
     }
+
+    if( (!nextProps.roulette.isRoll && roll) || roll === 0 ) {
+      this.setState({ text: `Roll is ${roll}` });
+    }
+
+    if(this.props.roulette.round.startTime && !nextProps.roulette.isRoll && !roll) {
+      this.setState({
+        startTime: startTime,
+        timerEnable: true
+      });
+    }
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      timerEnable: false
+    });
+
+    socket.emit('disconnect');
   }
 
   render() {
     const { done, isRoll, historyRolls } = this.props.roulette;
-    const { roll, startTime, ownBets, totalBets } = this.props.roulette.round;
-    const { disabled, bet } = this.state;
+    const { roll, ownBets, totalBets } = this.props.roulette.round;
+    const { disabled, bet, timeToEnd, timerEnable, text } = this.state;
     const { balance } = this.props.user;
 
     return (
       <Row>
         <Col xs={12}>
           <Col xs={12} className="roulette wrapper">
-            { !done ? <Col xs={12}>Loading...</Col> : <ProgressBar startTime={startTime} isRoll={isRoll} roll={roll} /> }
+            { !done ?
+              <Col xs={12}>Loading...</Col>
+              :
+              <ProgressBar
+                timeToEnd={timeToEnd}
+                text={text}
+                timerEnable={timerEnable}
+                progressTimer={this.progressTimer}
+                />
+            }
             <Wheel />
 
             {historyRolls.length ? <HistoryRolls historyRolls={historyRolls} /> : null}
