@@ -9,7 +9,7 @@ module.exports = {
     secret: "bobby"
   },
   steam: {
-    apiKey: "C2ADE58D74EE6BBA7FB8B62C69EAC121",
+    apiKey: "6906C825D8394AAC1E498BCA7D7A79DC",
     returnURL: "http://localhost:3000/auth/steam/return",
     realm: "http://localhost:3000/"
   },
