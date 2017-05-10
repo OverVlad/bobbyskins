@@ -1,3 +1,7 @@
+const debug = process.env.NODE_ENV !== "production";
+
+console.log('is production:', !debug );
+
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -12,7 +16,27 @@ const options = {
   }
 }
 
+const plugins = [
+  new ExtractTextPlugin({
+    filename: '../css/style.css',
+    allChunks: true,
+    disable: false,
+  })
+]
+
+if (!debug) {
+  plugins.push(new webpack.NoEmitOnErrorsPlugin());
+  plugins.push(new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': process.env.NODE_ENV
+    }
+  }));
+}
+
+
+
 module.exports = {
+  devtool: debug ? 'inline-source-map' : '',
   entry: [options.entry.app, options.entry.css],
   output: {
     path: path.join(__dirname, '/client/public/js'),
@@ -48,21 +72,7 @@ module.exports = {
     ],
   },
 
-  plugins: [
-    new ExtractTextPlugin({
-      filename: '../css/style.css',
-      allChunks: true,
-      disable: false,
-    }),
-  ],
+  plugins: plugins,
 
-  // postcss() {
-  //   return [
-  //     autoprefixer({
-  //       browsers: ['last 2 versions', '> 1%', 'IOS >= 8'],
-  //     }),
-  //   ];
-  // },
-
-  watch: true
+  watch: debug
 };

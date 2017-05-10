@@ -7,7 +7,7 @@
     "start": "node main.js",
     "watch:build": "webpack",
     "watch:server": "nodemon ./server/app.js --ignore node_modules/ --ignore client/",
-    "build:production": "set NODE_ENV=production& webpack",
+    "build:production": "NODE_ENV=production webpack",
     "generate:combinations": "node ./server/utils/generateCombinations.js",
     "dev": "npm-run-all --parallel watch:server watch:build",
     "prod": "node main.js",
