@@ -1,6 +1,7 @@
 /node_modules/
 /server/config.js
-client/public/js/main.js
+/client/public/js/
+/client/public/css/
 pokerCombinations.json
 
 *.log
