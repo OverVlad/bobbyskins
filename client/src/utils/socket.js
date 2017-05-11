@@ -1,7 +1,16 @@
 import io from 'socket.io-client';
 import { refreshBalance } from '../actions/userActions';
 import { sendMessage, joinChatroom, leaveChatroom, updateUsersCounter } from '../actions/chatroomActions';
-import { addBet, finishRound, refreshHistory, joinRoulette, startRoll, startRound, refreshTotalBets, setWiners } from '../actions/rouletteActions';
+import {
+  addBet,
+  finishRound,
+  refreshHistory,
+  joinRoulette,
+  startRoll,
+  startRound,
+  refreshTotalBets,
+  setWiners
+} from '../actions/rouletteActions';
 import store from '../store';
 
 class Socket {
@@ -57,6 +66,7 @@ class Socket {
 
     this.socket.on('start round', function (round) {
       store.dispatch(startRound(round));
+      this.emit('history rolls');
     });
 
     this.socket.on('start roll', function (number) {

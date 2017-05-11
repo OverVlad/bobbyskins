@@ -103,9 +103,10 @@ module.exports = (server) => (sessionMiddleware) => {
       Round
       .find()
       .sort('-createdAt')
-      .limit(10)
+      .limit(11)
       .select('roll')
       .then((rounds) =>  {
+        rounds.slice(0);
         rounds.forEach((round) => {
           if(round.roll !== undefined && round.roll !== null) {
             historyRolls.push(round.roll);
