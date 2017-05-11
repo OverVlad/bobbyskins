@@ -5,11 +5,11 @@ import { Row, Col } from 'react-flexbox-grid';
 import AlertContainer from 'react-alert';
 import moment from 'moment'
 
-import ProgressBar from '../../components/roulette/ProgressBar.jsx'
-import Wheel from '../../components/roulette/Wheel.jsx'
-import Balance from '../../components/roulette/Balance.jsx'
-import BetBlocks from '../../components/roulette/BetBlocks.jsx'
-import HistoryRolls from '../../components/roulette/HistoryRolls.jsx'
+import ProgressBar from '../../components/Roulette/ProgressBar.jsx'
+import Wheel from '../../components/Roulette/Wheel.jsx'
+import Balance from '../../components/Roulette/Balance.jsx'
+import BetBlocks from '../../components/Roulette/BetBlocks.jsx'
+import HistoryRolls from '../../components/Roulette/HistoryRolls.jsx'
 
 import socket from '../../utils/socket';
 import { rolling } from '../../utils/rolling';
