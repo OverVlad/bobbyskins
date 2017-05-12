@@ -3,10 +3,10 @@
 * */
 module.exports = {
   db: {
-    url: "mongodb://localhost:27017/bobby-skins"
+    url: "mongodb://localhost:27017/db_name"
   },
   session: {
-    secret: "bobby"
+    secret: "example"
   },
   steam: {
     apiKey: "API_KEY",
