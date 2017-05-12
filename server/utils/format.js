@@ -11,8 +11,6 @@ exports.formatUserObject = function (userData) {
 exports.formatChatMessage = function (socket, message) {
   const { currentChatroomId, user: { username, avatar, _id } } = socket;
 
-  console.log(currentChatroomId);
-
   return {
     chatroom_id: currentChatroomId,
     text: message,
@@ -34,3 +32,12 @@ exports.formatBet = function (socket, bet) {
     type: bet.type
   };
 };
+
+exports.formatUser = (socket) => {
+  const { user: { username, avatar } } = socket;
+
+  return {
+    username,
+    avatar
+  };
+}

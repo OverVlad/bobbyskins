@@ -22,44 +22,60 @@ class Roulette {
     }
 
     this.totalBets = {
-      'odd': 0,
-      '1-7': 0,
-      '0': 0,
-      '8-14': 0,
-      'even': 0
+      'odd': {
+        amount: 0,
+        people: 0,
+        bets: []
+      },
+      '1-7': {
+        amount: 0,
+        people: 0,
+        bets: []
+      },
+      '0': {
+        amount: 0,
+        people: 0,
+        bets: []
+      },
+      '8-14': {
+        amount: 0,
+        people: 0,
+        bets: []
+      },
+      'even': {
+        amount: 0,
+        people: 0,
+        bets: []
+      }
     };
 
     this._startRoulette();
   }
 
   _startRoulette() {
-    if(!this.pause && this.timer == -1) {
-      console.log('Запуск таймера');
+    if (!this.pause && this.timer == -1) {
       this.timer = this.accept + this.wait;
-      this.timeLeft = this.timer-this.wait;
+      this.timeLeft = this.timer - this.wait;
       this.startTime = new Date();
       this.startNewRound();
 
       const timerID = setInterval(() => {
-        if(!this.pause) this.timeLeft = this.timer-this.wait;
-        if(this.timer === this.wait) {
+        if (!this.pause) this.timeLeft = this.timer - this.wait;
+        if (this.timer === this.wait) {
           this.preroll();
 
           this.pause = true;
-          console.log('Включена пауза');
         }
 
         if (this.timer == this.wait - 2) {
           this.startRoll();
           this.setWinners();
-          console.log('Таймер сработал');
         }
 
-        if(this.timer == 0) {
-          console.log('Обнуление');
+        if (this.timer == 0) {
           this.timer = this.accept + this.wait;
           this.pause = false;
-          this.timeLeft = this.timer-this.wait;
+          this.timeLeft = this.timer - this.wait;
           this.totalBets = []
           this.startNewRound();
         }
@@ -82,6 +98,34 @@ class Roulette {
     this.round = new this.Round({
       roll: number
     });
+
+    this.totalBets = {
+      'odd': {
+        amount: 0,
+        people: 0,
+        bets: []
+      },
+      '1-7': {
+        amount: 0,
+        people: 0,
+        bets: []
+      },
+      '0': {
+        amount: 0,
+        people: 0,
+        bets: []
+      },
+      '8-14': {
+        amount: 0,
+        people: 0,
+        bets: []
+      },
+      'even': {
+        amount: 0,
+        people: 0,
+        bets: []
+      }
+    }
 
     this.round.save().then((round) => {
       this.startTime = new Date();
@@ -127,7 +171,10 @@ class Roulette {
       }
       this.io.emit('start round', formatRound);
     });
+  }
 
+  getTotalBets() {
+    return this.totalBets;
   }
 
   TimeToEnd() {
@@ -142,28 +189,35 @@ class Roulette {
     return this.round._id;
   }
 
+  refreshTotalBets(bet, user) {
+    this.totalBets[bet.type].amount += bet.amount;
+    this.totalBets[bet.type].people += 1;
+    this.totalBets[bet.type].bets.push(user);
+  }
+
+
   getOwnBets(userId) {
     return Bet
-    .find()
-    .where('round_id').equals(this.round._id)
-    .where('user_id').equals(userId)
-    .select('amount type');
+      .find()
+      .where('round_id').equals(this.round._id)
+      .where('user_id').equals(userId)
+      .select('amount type');
   }
 
   getWinTypes() {
     const roll = this.round.roll;
     let winTypes = [];
 
-    if(roll === 0) {
+    if (roll === 0) {
       winTypes = ['0'];
     } else {
-      if(roll > 0 && roll < 8)
-      winTypes.push('1-7');
-      else if(roll >= 8 && roll <= 14) {
+      if (roll > 0 && roll < 8)
+        winTypes.push('1-7');
+      else if (roll >= 8 && roll <= 14) {
         winTypes.push('8-14');
       }
 
-      if(roll % 2 === 0) {
+      if (roll % 2 === 0) {
         winTypes.push('even');
       } else if (roll % 2 !== 0) {
         winTypes.push('odd');
@@ -180,28 +234,28 @@ class Roulette {
     const BetsWin = [];
 
     Bet
-    .find()
-    .where('round_id').equals(this.round._id)
-    .then((bets) => {
-      bets.map((bet) => {
-        winTypes.map((winType) => {
-          if(bet.type === winType) {
-            BetsWin.push(bet);
-          }
-        })
+      .find()
+      .where('round_id').equals(this.round._id)
+      .then((bets) => {
+        bets.map((bet) => {
+          winTypes.map((winType) => {
+            if (bet.type === winType) {
+              BetsWin.push(bet);
+            }
+          })
+        });
+        return this.setWinnerCoins(BetsWin);
       });
-      return this.setWinnerCoins(BetsWin);
-    });
   }
 
   setWinnerCoins(BetsWin) {
     return BetsWin.map((bet) => {
       User
-      .findOne({_id: bet.user_id})
-      .then((user) => {
-        user.balance += bet.amount * this.multipliers[bet.type];
-        user.save();
-      })
+        .findOne({ _id: bet.user_id })
+        .then((user) => {
+          user.balance += bet.amount * this.multipliers[bet.type];
+          user.save();
+        })
     })
   }
 }

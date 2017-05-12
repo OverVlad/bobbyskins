@@ -15,6 +15,14 @@ function rouletteReducer(state = roulette, action) {
         error: false,
         round: action.round
       };
+    case constants.REFRESH_TOTAL_BETS:
+      return {
+        ...state,
+        round: {
+          ...state.round,
+          totalBets: action.totalBets
+        }
+      };
     case constants.FETCH_ROUND_ERROR:
       return {
         ...state,
@@ -24,8 +32,11 @@ function rouletteReducer(state = roulette, action) {
     case constants.START_ROLL:
       return {
         ...state,
-        round: { ...state.round, roll: action.roll },
-        isRoll: true
+        isRoll: true,
+        round: { 
+          ...state.round, 
+          roll: action.roll 
+        }
       };
     case constants.START_ROUND:
     return {

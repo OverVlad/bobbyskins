@@ -9,7 +9,7 @@ import {
   startRoll,
   startRound,
   refreshTotalBets,
-  setWiners
+  setWiners,
 } from '../actions/rouletteActions';
 import store from '../store';
 
@@ -85,6 +85,10 @@ class Socket {
 
     this.socket.on('win types', function (winTypes) {
       store.dispatch(setWiners(winTypes));
+    });
+
+    this.socket.on('refresh totalBets', (totalBets) => {
+      store.dispatch(refreshTotalBets(totalBets));
     });
   }
 

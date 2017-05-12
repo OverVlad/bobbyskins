@@ -36,7 +36,7 @@ if (!debug) {
 
 
 module.exports = {
-  devtool: debug ? 'inline-source-map' : '',
+  devtool: debug ? 'source-map' : '',
   entry: [options.entry.app, options.entry.css],
   output: {
     path: path.join(__dirname, '/client/public/js'),

@@ -44,27 +44,27 @@ const initialState = {
       totalBets: {
         'odd': {
           people: 0,
-          count: 0,
+          amount: 0,
           bets: []
         },
         '1-7': {
           people: 0,
-          count: 0,
+          amount: 0,
           bets: []
         },
         '0': {
           people: 0,
-          count: 0,
+          amount: 0,
           bets: []
         },
         '8-14': {
           people: 0,
-          count: 0,
+          amount: 0,
           bets: []
         },
         'even': {
           people: 0,
-          count: 0,
+          amount: 0,
           bets: []
         }
       },

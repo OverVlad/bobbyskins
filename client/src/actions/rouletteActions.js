@@ -65,6 +65,13 @@ export const addBet = function (bet) {
    }
  }
 
+ export const refreshTotalBets = (totalBets) => {
+  return {
+    type: actions.REFRESH_TOTAL_BETS,
+    totalBets
+  };
+ }
+
  /*
   * HOSTIRY
   * */

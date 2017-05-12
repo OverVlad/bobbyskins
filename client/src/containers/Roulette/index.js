@@ -49,26 +49,26 @@ class Roulette extends Component {
     const action = event.target.dataset.action;
     let bet = this.state.bet;
 
-    if(this.props.user.balance <= bet && action !== 'reset') {
+    if (this.props.user.balance <= bet && action !== 'reset' && action !== 'half') {
       msg.show('You don\'t have anoth money');
       return;
     }
 
-    switch(action) {
+    switch (action) {
       case 'reset':
-      bet = 0;
-      break;
+        bet = 0;
+        break;
       case 'half':
-      bet /= 2;
-      break;
+        bet /= 2;
+        break;
       case 'double':
-      bet *= 2;
-      break;
+        bet *= 2;
+        break;
       case 'max':
-      bet = this.props.user.balance;
-      break;
+        bet = this.props.user.balance;
+        break;
       default:
-      bet += +action;
+        bet += +action;
     }
 
     this.setState({
@@ -80,7 +80,7 @@ class Roulette extends Component {
     const { startTime } = this.props.roulette.round;
     const timeToEnd = (20.00 - moment().diff(moment(startTime), 'seconds', true)).toFixed(2);
 
-    if(timeToEnd < 0) {
+    if (timeToEnd < 0) {
       this.disableBets();
       this.setState({
         text: `Roll was started!`,
@@ -103,12 +103,12 @@ class Roulette extends Component {
       roundId: this.props.roulette.round.id
     }
 
-    if(bet.amount === 0) {
+    if (bet.amount === 0) {
       msg.show('The bet should not be zero');
       return;
     }
 
-    if(this.state.balance < bet.amount) {
+    if (this.state.balance < bet.amount) {
       msg.show('You don\'t have enough coins');
       return;
     }
@@ -160,7 +160,7 @@ class Roulette extends Component {
     const { disabled } = this.state;
 
     for (let i in ownBets) {
-      if(ownBets[i]) {
+      if (ownBets[i]) {
         disabled[i] = true;
         this.setState({ disabled });
       }
@@ -180,7 +180,7 @@ class Roulette extends Component {
 
     for (let i in ownBets) {
       winTypes.map(winType => {
-        if(i === winType) {
+        if (i === winType) {
           ownBets[i] *= multipliers[winType];
         }
       })
@@ -198,32 +198,32 @@ class Roulette extends Component {
   componentWillReceiveProps(nextProps) {
     const { startTime, roll } = nextProps.roulette.round;
 
-    if(startTime) {
+    if (startTime) {
       this.setState({ startTime });
     }
 
-    if(nextProps.roulette.isRoll && this.props.roulette.isRoll !== nextProps.roulette.isRoll) {
+    if (nextProps.roulette.isRoll && this.props.roulette.isRoll !== nextProps.roulette.isRoll) {
       rolling(roll);
     }
 
-    if(nextProps.roulette.isRoll) {
+    if (nextProps.roulette.isRoll) {
       console.log('Here!');
       this.disableBets();
     }
 
-    if(nextProps.roulette.round.id !== this.props.roulette.round.id) {
+    if (nextProps.roulette.round.id !== this.props.roulette.round.id) {
       this.enableBets();
     }
 
-    if(nextProps.roulette.round.winTypes && !nextProps.roulette.isRoll && nextProps.roulette.isRoll !== this.props.roulette.isRoll) {
+    if (nextProps.roulette.round.winTypes && !nextProps.roulette.isRoll && nextProps.roulette.isRoll !== this.props.roulette.isRoll) {
       this.setWinners();
     }
 
-    if(!nextProps.roulette.isRoll && (roll || roll === 0)) {
+    if (!nextProps.roulette.isRoll && (roll || roll === 0)) {
       this.setState({ text: `Roll is ${roll}` });
     }
 
-    if(this.props.roulette.round.startTime && !nextProps.roulette.isRoll && !roll) {
+    if (this.props.roulette.round.startTime && !nextProps.roulette.isRoll && !roll) {
       this.setState({
         startTime: startTime,
         timerEnable: true
@@ -249,7 +249,7 @@ class Roulette extends Component {
       <Row>
         <Col xs={12}>
           <Col xs={12} className="roulette wrapper">
-            { !done ?
+            {!done ?
               <Col xs={12}>Loading...</Col>
               :
               <ProgressBar
@@ -257,7 +257,7 @@ class Roulette extends Component {
                 text={text}
                 timerEnable={timerEnable}
                 progressTimer={this.progressTimer}
-                />
+              />
             }
             <Wheel />
 
@@ -268,7 +268,7 @@ class Roulette extends Component {
               bet={bet}
               handleClick={this.handleBetClick}
               handleChange={this.handleChange}
-              />
+            />
           </Col>
 
           <Col xs={12}>
@@ -277,7 +277,7 @@ class Roulette extends Component {
               totalBets={totalBets}
               ownBets={ownBets}
               disabled={disabled}
-              />
+            />
           </Col>
 
           <AlertContainer ref={(a) => global.msg = a} {...this.alertOptions} />

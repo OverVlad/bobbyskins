@@ -2,7 +2,7 @@ module.exports = (server) => (sessionMiddleware) => {
   const url = require('url');
   const io = require('socket.io')(server);
   const AuthError = require('../errors/AuthError');
-  const { formatChatMessage, formatBet } = require('../utils/format');
+  const { formatChatMessage, formatBet, formatUser } = require('./format');
   const Roulette = require('../games/Roulette');
 
 
@@ -121,9 +121,13 @@ module.exports = (server) => (sessionMiddleware) => {
     });
 
     socket.on('add bet', function (bet) {
+      const betUser = formatUser(socket);
+      betUser.bet = bet;
       const formatedBet = formatBet(socket, bet);
       const newBet = new Bet(formatedBet);
       const id = socket.user._id;
+
+      roulette.refreshTotalBets(formatedBet, betUser);
 
       const user = User.findOne({_id: id})
       .then((user) => {
@@ -136,8 +140,8 @@ module.exports = (server) => (sessionMiddleware) => {
 
           newBet.save()
           .then((bet) => {
-            console.log('balance: ', balance);
             io.emit('add bet', {bet, balance});
+            io.emit('refresh totalBets', roulette.getTotalBets());
           })
           .catch((error) => console.log(error));
         }

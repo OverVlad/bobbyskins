@@ -15,3 +15,4 @@ export const START_ROUND = 'START_ROUND';
 export const FINISH_ROUND = 'FINISH_ROUND';
 
 export const SET_WINNERS = 'SET_WINNERS';
+export const REFRESH_TOTAL_BETS = 'REFRESH_TOTAL_BETS';
