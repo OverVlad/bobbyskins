@@ -47,6 +47,7 @@ function rouletteReducer(state = roulette, action) {
       return {
         ...state,
         done: true,
+        transform: action.transform,
         round: { ...state.round, ...action.round }
       };
     case constants.REFRESH_HISTORY:

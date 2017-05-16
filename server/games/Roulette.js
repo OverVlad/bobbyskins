@@ -12,6 +12,7 @@ class Roulette {
     this.wait = 15;
     this.timer = -1;
     this.timeLeft = 0;
+    this.transform = 0;
 
     this.multipliers = {
       'odd': 2,
@@ -257,6 +258,14 @@ class Roulette {
           user.save();
         })
     })
+  }
+
+  changeTransform(transform) {
+    this.transform = transform;
+  }
+
+  getTransform() {
+    return this.transform;
   }
 }
 

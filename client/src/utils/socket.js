@@ -60,7 +60,7 @@ class Socket {
 
 
     this.socket.on('join roulette', function (data) {
-      store.dispatch(joinRoulette(data.round));
+      store.dispatch(joinRoulette(data.round, data.transform));
       store.dispatch(refreshBalance(data.balance));
     });
 

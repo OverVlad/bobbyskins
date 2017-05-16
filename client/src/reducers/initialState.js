@@ -36,6 +36,7 @@ const initialState = {
   roulette: {
     isRoll: false,
     done: false,
+    transform: 0,
     round: {
       id: '',
       roll: '',

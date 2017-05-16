@@ -10,7 +10,7 @@ import * as actions from '../constants/rouletteConstants';
    };
  };
 
- const fetchRoundSuccess = function (round, time) {
+ const fetchRoundSuccess = function (round) {
    return {
      type: actions.FETCH_ROUND_SUCCESS,
      round
@@ -45,10 +45,11 @@ export const addBet = function (bet) {
    }
  }
 
- export const joinRoulette = function (round) {
+ export const joinRoulette = function (round, transform) {
    return {
      type: actions.JOIN_ROULETTE,
-     round
+     round,
+     transform
    }
  }
 

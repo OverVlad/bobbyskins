@@ -6,12 +6,9 @@ const numbers = [4, 0, 11, 5, 10, 6, 9, 7, 8, 1, 14, 2, 13, 3, 12, 4, 0, 11, 5, 
 
 const stepDeg = 360 / numbers.length;
 
-
 var currentPosition = 0;
-var prevTransform = 0;
 
 function getDifference(number, targetPosition, difference = 0) {
-
   if (numbers[difference] == number) difference = (difference + targetPosition + 1) % numbers.length;
 
   for (let i of numbers) {
@@ -25,9 +22,7 @@ function getDifference(number, targetPosition, difference = 0) {
   return difference;
 }
 
-export const rolling = (number, rounds = 5) => {
-  console.log('rolling number: ', number);
-
+export const rolling = (number, prevTransform, rounds = 5) => {
   let targetPosition = currentPosition + 1;
   for (let i of numbers) {
     if (numbers[targetPosition] == number) {
@@ -51,8 +46,6 @@ export const rolling = (number, rounds = 5) => {
     transform += (prevTransform + (360 - prevTransformDiff));
   }
 
-  console.log(numbers[currentPosition], transform, prevTransform);
-
   prevTransform = transform;
 
   $('#wheel').css('transform', `rotate(${-transform}deg)`);
@@ -60,5 +53,6 @@ export const rolling = (number, rounds = 5) => {
   setTimeout(() => {
     store.dispatch(finishRoll());
     socket.emit('history rolls');
+    socket.emit('change transform', transform);
   }, 7000)
 };

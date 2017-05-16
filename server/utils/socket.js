@@ -45,12 +45,10 @@ module.exports = (server) => (sessionMiddleware) => {
 
 
     socket.on('join roulette', function (round) {
-
-      console.log('join roulette!');
-
       socket.join('roulette');
 
       const userId = socket.user._id;
+      const transform = roulette.getTransform();
 
       roulette.getOwnBets(userId)
       .then((bets) => {
@@ -69,15 +67,20 @@ module.exports = (server) => (sessionMiddleware) => {
         const round = {
           id: roulette.getRoundId(),
           startTime: roulette.getStartTime(),
+          totalBets: roulette.getTotalBets(),
           ownBets
         };
 
         const user = User.findOne({_id: userId}, 'balance')
         .then((user) => {
           const balance = user.balance;
-          io.emit('join roulette', { round, balance });
+          io.emit('join roulette', { round, balance, transform });
         });
       });
+    });
+
+    socket.on('change transform', (transform) => {
+      roulette.changeTransform(transform);
     });
 
 

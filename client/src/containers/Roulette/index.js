@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Row, Col } from 'react-flexbox-grid';
 import AlertContainer from 'react-alert';
-import moment from 'moment'
+import moment from 'moment';
 
-import ProgressBar from '../../components/Roulette/ProgressBar.jsx'
-import Wheel from '../../components/Roulette/Wheel.jsx'
-import Balance from '../../components/Roulette/Balance.jsx'
-import BetBlocks from '../../components/Roulette/BetBlocks.jsx'
-import HistoryRolls from '../../components/Roulette/HistoryRolls.jsx'
+import ProgressBar from '../../components/Roulette/ProgressBar.jsx';
+import Wheel from '../../components/Roulette/Wheel.jsx';
+import Balance from '../../components/Roulette/Balance.jsx';
+import BetBlocks from '../../components/Roulette/BetBlocks.jsx';
+import HistoryRolls from '../../components/Roulette/HistoryRolls.jsx';
 
 import socket from '../../utils/socket';
 import { rolling } from '../../utils/rolling';
@@ -35,8 +35,6 @@ class Roulette extends Component {
         'odd': true
       }
     };
-
-    this.user = props.user;
 
     this.handleBetClick = this.handleBetClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -161,7 +159,15 @@ class Roulette extends Component {
 
     for (let i in ownBets) {
       if (ownBets[i]) {
-        disabled[i] = true;
+        if (i === '1-7' || i === '8-14') {
+          disabled['1-7'] = true;
+          disabled['8-14'] = true;
+        } else if (i === 'even' || i === 'odd') {
+          disabled['odd'] = true;
+          disabled['even'] = true;
+        } else {
+          disabled['0'] = true;
+        }
         this.setState({ disabled });
       }
     }
@@ -196,18 +202,21 @@ class Roulette extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { startTime, roll } = nextProps.roulette.round;
+    const { startTime, roll, ownBets } = nextProps.roulette.round;
 
     if (startTime) {
       this.setState({ startTime });
     }
 
+    if(ownBets) {
+      this.ckeckBets(ownBets);
+    }
+
     if (nextProps.roulette.isRoll && this.props.roulette.isRoll !== nextProps.roulette.isRoll) {
-      rolling(roll);
+      rolling(roll, this.props.roulette.transform);
     }
 
     if (nextProps.roulette.isRoll) {
-      console.log('Here!');
       this.disableBets();
     }
 
