@@ -32,7 +32,6 @@ export default class Deck extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.animationIsGoing !== nextProps.animationIsGoing) {
-      // console.log('Deck will receive props')
       if (this.state.hand !== nextProps.hand) {
         if (!this.props.animationIsGoing) {
           this.setState({ hand: [], newHand: nextProps.hand, ableToGetNew: false })

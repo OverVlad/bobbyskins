@@ -17,7 +17,6 @@ module.exports = (server) => (sessionMiddleware) => {
   const roulette = new Roulette(io, Round);
 
   io.on('connection', function (socket) {
-
     socket.on('join chatroom', function (data) {
       const { id: room } = data;
 
@@ -41,8 +40,6 @@ module.exports = (server) => (sessionMiddleware) => {
 
       socket.leave(room);
     });
-
-
 
     socket.on('join roulette', function (round) {
       socket.join('roulette');
@@ -82,8 +79,6 @@ module.exports = (server) => (sessionMiddleware) => {
     socket.on('change transform', (transform) => {
       roulette.changeTransform(transform);
     });
-
-
 
     socket.on('message', function (message) {
       const tempMessage = formatChatMessage(socket, message);
@@ -157,8 +152,23 @@ module.exports = (server) => (sessionMiddleware) => {
       .then((user) => {
         const balance = user.balance;
 
-        io.emit('refresh balance', balance);
+        io.to('roulette').emit('refresh balance', balance);
       })
+    });
+
+    socket.on('leave roulette', () => {
+      socket.leave('roulette');
+    });
+
+    socket.on('poker round end', (winCount) => {
+      const userId = socket.user._id;
+
+      User.findOne({_id: userId})
+      .then((user) => {
+        user.balance += winCount;
+        user.save()
+        .then(user => socket.emit('refresh balance', user.balance));
+      });
     });
 
 

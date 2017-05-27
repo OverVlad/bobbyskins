@@ -245,7 +245,7 @@ class Roulette extends Component {
       timerEnable: false
     });
 
-    socket.emit('disconnect');
+    socket.emit('leave roulette');
   }
 
   render() {

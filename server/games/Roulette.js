@@ -86,11 +86,11 @@ class Roulette {
   }
 
   preroll() {
-    this.io.emit('preroll');
+    this.io.to('roulette').emit('preroll');
   }
 
   startRoll() {
-    this.io.emit('start roll', this.round.roll);
+    this.io.to('roulette').emit('start roll', this.round.roll);
   }
 
   startNewRound() {
@@ -170,7 +170,7 @@ class Roulette {
           'even': 0
         },
       }
-      this.io.emit('start round', formatRound);
+      this.io.to('roulette').emit('start round', formatRound);
     });
   }
 
@@ -225,7 +225,7 @@ class Roulette {
       }
     }
 
-    this.io.emit('win types', winTypes);
+    this.io.to('roulette').emit('win types', winTypes);
 
     return winTypes;
   }

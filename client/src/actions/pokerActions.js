@@ -1,9 +1,16 @@
+import axios from 'axios';
+import * as constants from '../constants/pokerConstants';
 
-export const changeUserBalance = (bet, win) => (
-  // GOES TO userReducer as specifed in containers/Poker
-  { type: 'CHANGE_BALANCE', bet, win }
-)
+export const rollCards = (cards) => (
+  {
+    type: constants.ROLL_CARDS,
+    cards
+  }
+);
 
-export const rollCards = (bet) => (
-  { type: 'ROLL_CARDS', bet }
-)
+export const getCombination = () => (dispatch) => {
+  axios.get('/api/poker')
+    .then((res) => {
+      dispatch(rollCards(res.data));
+    });
+}

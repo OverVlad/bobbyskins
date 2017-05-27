@@ -8,27 +8,12 @@ const randSector = (spec) => {
   }
 };
 
-exports.generateNumber = () => {
-  const probabilities = [
-    {
-      type: 'zero',
-      probability: 0.4647,
-      numbers: [0]
-    },
-    {
-      type: 'red',
-      probability: 0.0667,
-      numbers: [1, 2, 3, 4, 5, 6, 7]
-    },
-    {
-      type: 'black',
-      propability: 0.0667,
-      numbers: [8, 9, 10, 11, 12, 13, 14]
-    }
-  ];
-
-  const number = randSector({ 0:0.0667, 1:0.0667, 2:0.0667, 3:0.0667, 4:0.0667, 5:0.0667, 6:0.0667, 7:0.0667, 8:0.0667, 9:0.0667, 10:0.0667,
-    11:0.0667, 12:0.0667, 13:0.0667, 14:0.0667 });
-
-  return Math.floor(Math.random() * (14 - 0 + 1)) + 0;
+exports.generateNumber = (max = 14, min = 0) => {
+  return Math.floor(Math.random() * (max - min)) + min;
 };
+
+exports.randCombination = () => {
+    const number = randSector({ 0:0.5898446, 1:0.31, 2:0.0455, 3:0.0297, 4:0.0147, 5:0.007, 6:0.003, 7:0.00024, 8:0.0000139, 9:0.0000015 });
+
+    return number;
+}

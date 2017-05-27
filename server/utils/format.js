@@ -4,7 +4,8 @@ exports.formatUserObject = function (userData) {
     username: userData.username,
     avatar: userData.avatar,
     steamId: userData.steamId,
-    role: userData.role
+    role: userData.role,
+    balance: userData.balance
   };
 };
 

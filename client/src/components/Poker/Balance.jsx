@@ -2,7 +2,7 @@ import React from 'react'
 import formatNumber from '../../utils/formatNumber'
 import separateThousands from '../../utils/separateThousands'
 
-export default props => (
+const Balance = (props) => (
   <div className="balance" style={{ marginLeft: '40px', marginRight: '40px' }}>
     <div className="pokerbets">
       <button
@@ -77,4 +77,6 @@ export default props => (
       </button>
     </div>
   </div>
-)
+);
+
+export default Balance;

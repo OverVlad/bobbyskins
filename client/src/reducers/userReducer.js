@@ -4,6 +4,7 @@ import { UPDATE_USER, KILL_USER, REFRESH_BALANCE } from '../constants/userConsta
 function userReducer(state = user, action) {
   switch(action.type) {
     case UPDATE_USER:
+      console.log(action);
       return {
         ...state,
         id: action.id,
@@ -11,11 +12,12 @@ function userReducer(state = user, action) {
         avatar: action.avatar,
         role: action.role,
         steamId: action.steamId,
+        balance: action.balance
       };
     case 'CHANGE_BALANCE':
       return {
         ...state,
-        balance: (state.balance + (action.bet*action.win)),
+        balance: (state.balance + (action.bet * action.win)),
       }
     case KILL_USER:
       return {
