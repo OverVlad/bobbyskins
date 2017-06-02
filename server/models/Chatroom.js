@@ -16,7 +16,7 @@ const chatroomSchema = mongoose.Schema({
   users: {
     type: String
   },
-  creator_id: {
+  steamId: {
     type: String,
     required: true
   }
@@ -36,7 +36,7 @@ chatroomSchema.statics.getRooms = function (req, res) {
     {
       $project: {
         name: true,
-        creator_id: true,
+        steamId: true,
         createdAt: true
       }
     },
@@ -68,14 +68,14 @@ chatroomSchema.statics.getRooms = function (req, res) {
 };
 
 chatroomSchema.statics.createRoom = function (req, res) {
-  const {name, description, tags} = req.body;
+  const { name } = req.body;
 
   const Chatroom = this;
 
   Chatroom.findOne({name: name})
-    .then(room => {
+    .then((room) => {
       if (!room) {
-        let newRoomObject = {name, description, tags, creator_id: req.user._id};
+        let newRoomObject = {name, steamId: req.user.steamId};
         const newRoom = new Chatroom(newRoomObject);
 
         newRoom.save()

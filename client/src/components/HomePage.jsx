@@ -1,6 +1,6 @@
 import React from 'react';
-import Chat from '../containers/Chat/'
-import Roulette from '../containers/Roulette/'
+import Chat from '../containers/Chat'
+import Roulette from '../containers/Roulette'
 import { Grid, Row, Col } from 'react-flexbox-grid';
 
 

@@ -24,21 +24,10 @@ router.delete('/:roomId', function (req, res, next) {
   const roomId = req.params.roomId;
   const createdBy = req.user._id;
   const isAdmin = req.user.username === "admin";
-  const isFavorite = req.user.favoriteChatrooms.indexOf(roomId) >= 0;
 
   Chatroom.deleteRoom(roomId, createdBy, isAdmin)
     .then(deletedRoom => {
-      if (isFavorite) {
-        req.user.favoriteChatrooms = req.user.favoriteChatrooms.filter(room => room !== roomId);
-
-        req.login(req.user, function (error) {
-          if (!error) {
-            res.status(200).json(`#${deletedRoom._id} deleted from req.login`);
-          }
-        });
-      } else {
         return res.status(200).json(`#${deletedRoom._id} deleted`);
-      }
     })
     .catch(error => {
       return res.status(error instanceof ServerError ? 500 : 400).json(error.message);

@@ -51,9 +51,6 @@ function populateFakeUsers() {
 function populateFakeChatRooms(users) {
   const chatrooms = fakeChatRooms.map(({creator_steamId, name}) => {
     const user = users.find((user) => user.steamId === creator_steamId);
-    console.log('users', users);
-    console.log('user', user);
-    console.log(user);
 
     return (new ChatRoom({creator_id: user._id, name}).save());
 

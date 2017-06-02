@@ -1,6 +1,6 @@
 import React from 'react';
-import Chat from '../containers/Chat/'
-import Poker from '../containers/Poker/'
+import Chat from '../containers/Chat'
+import Poker from '../containers/Poker'
 import { Grid, Row, Col } from 'react-flexbox-grid';
 
 const PokerPage = () => (
