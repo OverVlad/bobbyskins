@@ -5,6 +5,7 @@ import HomePage from './components/HomePage.jsx';
 import DepositPage from './components/DepositPage.jsx';
 import WithdrawPage from './components/WithdrawPage.jsx';
 import PokerPage from './components/PokerPage.jsx'
+import ProfilePage from './components/ProfilePage.jsx'
 
 import { userAuthCheckRequest, authenticateUser } from './actions/authActions';
 import { updateUser } from './actions/userActions';
@@ -55,6 +56,10 @@ const routes = {
     {
       path: '/poker',
       component: PokerPage
+    },
+    {
+      path: '/profile',
+      component: ProfilePage
     }
   ]
 };

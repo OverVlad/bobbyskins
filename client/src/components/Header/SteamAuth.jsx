@@ -1,9 +1,9 @@
 import React from 'react';
 
-const SteamAuth = (user) => (
+const SteamAuth = () => (
   <div className="auth">
     <a href="/auth/steam">
-      <img src="/img/steam_login.png" alt="Auth steam" className="auth-img" />
+      <img src="/img/steam_login.png" alt="Steam Auth" className="auth-img" />
     </a>
   </div>
 );

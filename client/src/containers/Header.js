@@ -4,10 +4,11 @@ import { Row, Col } from 'react-flexbox-grid';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import * as authActions from '../actions/authActions'
+import * as authActions from '../actions/authActions';
 
-import Profile from '../components/Header/Profile.jsx'
-import SteamAuth from '../components/Header/SteamAuth.jsx'
+import UserLogin from '../components/Header/UserLogin.jsx';
+import SteamAuth from '../components/Header/SteamAuth.jsx';
+import GameLink from '../components/GameLink.jsx';
 
 import socket from '../utils/socket';
 
@@ -39,28 +40,29 @@ class Header extends Component {
           </Col>
 
           <Col sm={1} className="profile">
-
+            <UserLogin user={user} isAuthenticated={this.auth} />
           </Col>
 
           <Col sm={1} className="lang">
-            {this.auth ? <Profile user={user} /> : <SteamAuth />}
+
           </Col>
         </Row>
 
         <Row className="games" center="sm">
           <Col sm={2} className="game">
-            <img src="img/rol.png" alt="" className="game-img" />
-            <a href="/" className="game-name">Roulette</a>
+            <GameLink thumb="img/rol.png" title="Roulette" route="/" />
           </Col>
+
           <Col sm={2} className="game">
-            <a href="poker" className="game-name">Poker</a>
+            <GameLink thumb="img/rol.png" title="Poker" route="/poker" />
           </Col>
+
           <Col sm={2} className="game">
-            <a href="#" className="game-name">Game3</a>
+            <GameLink thumb="img/rol.png" title="Game 3" route="/" />
           </Col>
         </Row>
       </div>
-    ) ;
+    );
   }
 }
 
