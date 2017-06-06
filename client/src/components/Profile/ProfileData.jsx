@@ -2,11 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ProfileCommonInfo from './ProfileCommonInfo.jsx';
 import ProfileReferalSystem from './ProfileReferalSystem.jsx';
-import ProfileBetHistory from './ProfileBetHistory.jsx';
+import ProfileRouletteStats from './ProfileRouletteStats.jsx';
+import ProfilePokerStats from './ProfilePokerStats.jsx';
 import ProfileTradeHistory from './ProfileTradeHistory.jsx';
 import ProfileTransferHistory from './ProfileTransferHistory.jsx';
 import ProfileHonestyCheck from './ProfileHonestyCheck.jsx';
-import ProfileSettings from './ProfileBetHistory.jsx';
+import ProfileSettings from './ProfileSettings.jsx';
 
 const ProfileData = ({ section }) => {
   switch (section) {
@@ -14,8 +15,10 @@ const ProfileData = ({ section }) => {
       return <ProfileCommonInfo />
     case "/profile/referal-system":
       return <ProfileReferalSystem />
-    case "/profile/bet-history":
-      return <ProfileBetHistory />
+    case "/profile/roulette-stats":
+      return <ProfileRouletteStats />
+    case "/profile/poker-stats":
+      return <ProfilePokerStats />
     case "/profile/trade-history":
       return <ProfileTradeHistory />
     case "/profile/transfer-history":

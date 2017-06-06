@@ -8,4 +8,4 @@ class ProfilePokerStats extends Component {
   }
 }
 
-export defaultProfilePokerStats;
+export default ProfilePokerStats;

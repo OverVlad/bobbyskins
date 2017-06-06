@@ -66,7 +66,11 @@ const routes = {
       component: ProfilePage
     },
     {
-      path: '/profile/bet-history',
+      path: '/profile/roulette-stats',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/poker-stats',
       component: ProfilePage
     },
     {
