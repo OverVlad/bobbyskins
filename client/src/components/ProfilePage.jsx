@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Grid, Row } from 'react-flexbox-grid';
 import Profile from '../containers/Profile.js';
 
-const ProfilePage = () => (
+const ProfilePage = ({ route }) => (
   <Grid>
-    <Profile />
+    <Profile url={route.path}/>
   </Grid>
 );
 

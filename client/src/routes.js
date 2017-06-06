@@ -58,9 +58,33 @@ const routes = {
       component: PokerPage
     },
     {
-      path: '/profile',
+      path: '/profile/common-info',
       component: ProfilePage
-    }
+    },
+    {
+      path: '/profile/referal-system',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/bet-history',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/trade-history',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/transfer-history',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/honesty-check',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/settings',
+      component: ProfilePage
+    },
   ]
 };
 

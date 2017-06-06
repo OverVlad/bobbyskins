@@ -8,7 +8,13 @@ const initialState = {
     username: '',
     avatar: '',
     role: '',
-    balance: 0
+    balance: 0,
+    isFetching: false,
+    commonInfo: {},
+    tradeHistory: [],
+    referals: [],
+    rouletteStats: [],
+    pokerStats: []
   },
   rooms: {
     visibilityFilter: 'all',

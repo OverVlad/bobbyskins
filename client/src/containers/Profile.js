@@ -6,7 +6,7 @@ import ProfileData from '../components/Profile/ProfileData.jsx';
 
 class Profile extends Component {
   render() {
-    const { user } = this.props;
+    const { user, url } = this.props;
 
     return (
       <Row center="xs" className="profile">
@@ -14,7 +14,7 @@ class Profile extends Component {
           <Sidebar user={user}/>
         </Col>
         <Col xs={12} sm={9}>
-          <ProfileData />
+          <ProfileData section={url}/>
         </Col>
       </Row>
     );
@@ -22,5 +22,4 @@ class Profile extends Component {
 }
 
 const mapStateToProps = ({ user }) => ({ user });
-
 export default connect(mapStateToProps)(Profile);

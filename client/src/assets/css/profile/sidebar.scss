@@ -3,3 +3,25 @@
   height: 400px;
   overflow-y: auto;
 }
+
+.sidebar-list-item {
+  float: left;
+  padding: 5px 10px;
+
+  div {
+    display: inline-block;
+    vertical-align: middle;
+
+    .sidebar-list-item__icon {
+      width: 25px;
+      height: 20px;
+      fill: white;
+    }
+  }
+
+  .sidebar-list-item__title {
+    display: inline-block;
+    vertical-align: middle;
+    padding-left: 10px;
+  }
+}
