@@ -6,7 +6,7 @@ const SidebarListItem = ({path, title, icon_path, expandable=false, sublist=[]})
   if (expandable) {
     const sublistItems = sublist.map((item) =>
       <li key={item.path}>
-        <Link to={item.path}>
+        <Link className="sidebar-list-item__link" activeClassName="sidebar-list-item__link-active" to={item.path}>
           <ReactSVG path={item.icon_path} className="sidebar-list-item__icon" />
           <p className="sidebar-list-item__sublist__item-title">{item.title}</p>
         </Link>
@@ -26,7 +26,7 @@ const SidebarListItem = ({path, title, icon_path, expandable=false, sublist=[]})
 
   return (
     <li className="sidebar-list-item">
-      <Link to={path}>
+      <Link className="sidebar-list-item__link" activeClassName="sidebar-list-item__link-active" to={path}>
         <ReactSVG path={icon_path} className="sidebar-list-item__icon" />
         <p className="sidebar-list-item__title">{title}</p>
       </Link>

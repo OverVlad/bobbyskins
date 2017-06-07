@@ -15,7 +15,7 @@ const SidebarList = () => {
   ];
 
   return (
-    <div className="sidebar wrapper">
+    <div>
       <ul className="sidebar-list">
         <SidebarListItem
           path="/profile/common-info"

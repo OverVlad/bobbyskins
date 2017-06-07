@@ -1,40 +1,97 @@
 .sidebar {
-  padding: 20px 10px 5px;
+  min-width: 250px;
+  padding-left: 0;
+  padding-right: 0;
   overflow-y: auto;
-}
+  font-family: $font-main;
+  font-size: 16px;
 
-.sidebar-list-item {
-  float: left;
-  padding: 5px 10px;
+  .sidebar-list > li {
+    width: 100%;
+    min-width: 210px;
+    text-align: left;
 
-  div {
-    display: inline-block;
-    vertical-align: middle;
+    &:nth-child(3) {
+      padding-top: 5px;
 
-    .sidebar-list-item__icon {
-      width: 25px;
-      height: 20px;
-      fill: white;
+      & > div {
+        padding-left: 10px;
+      }
     }
   }
 
-  .sidebar-list-item__title,
-  .sidebar-list-item__sublist__item-title {
-    display: inline-block;
-    vertical-align: middle;
-    padding-left: 10px;
+  .sidebar-list-item {
+    float: left;
+
+    div {
+      display: inline-block;
+      vertical-align: middle;
+
+      .sidebar-list-item__icon {
+        width: 25px;
+        height: 20px;
+        fill: white;
+      }
+    }
+
+    .sidebar-list-item__link {
+      display: block;
+      padding: 5px 10px;
+
+      &:hover {
+        background-color: $border-bar;
+      }
+    }
+
+    .sidebar-list-item__link-active {
+      background-color: $border-bar;
+      border-left: 3px solid $blue;
+    }
+
+    .sidebar-list-item__title,
+    .sidebar-list-item__sublist__item-title {
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 10px;
+    }
+
+    .sidebar-list-item__sublist {
+      padding-top: 5px;
+
+      li {
+        text-align: left;
+
+        &:last-child {
+          padding-bottom: 0;
+        }
+
+        .sidebar-list-item__link {
+          padding-left: 43px;
+        }
+
+        .sidebar-list-item__link-active {
+          padding-left: 40px;
+        }
+      }
+    }
   }
 
-  .sidebar-list-item__sublist {
-    padding-left: 23px;
+  .sidebar-list-item > .sidebar-list-item__link-active {
+    padding-left: 7px;
+  }
 
-    li {
-      padding: 5px 10px;
-      text-align: left;
+  .sidebar-avatar {
+    padding: 10px 0 40px;
 
-      &:last-child {
-        padding-bottom: 0;
-      }
+    .sidebar-avatar__money {
+      padding-top: 10px;
+      display: inline-block;
+      font-size: 14px;
+    }
+
+    .sidebar-avatar__username {
+      padding-top: 10px;
+      font-size: 20px;
     }
   }
 }
