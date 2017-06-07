@@ -1,6 +1,5 @@
 .sidebar {
   padding: 20px 10px 5px;
-  height: 400px;
   overflow-y: auto;
 }
 
@@ -19,9 +18,23 @@
     }
   }
 
-  .sidebar-list-item__title {
+  .sidebar-list-item__title,
+  .sidebar-list-item__sublist__item-title {
     display: inline-block;
     vertical-align: middle;
     padding-left: 10px;
+  }
+
+  .sidebar-list-item__sublist {
+    padding-left: 23px;
+
+    li {
+      padding: 5px 10px;
+      text-align: left;
+
+      &:last-child {
+        padding-bottom: 0;
+      }
+    }
   }
 }
