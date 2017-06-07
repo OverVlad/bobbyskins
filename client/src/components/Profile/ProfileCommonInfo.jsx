@@ -10,7 +10,7 @@ class ProfileCommonInfo extends Component {
 
   render() {
     return (
-      <div>Content for common-info</div>
+      <div className="wrapper">Content for common-info</div>
     );
   }
 }

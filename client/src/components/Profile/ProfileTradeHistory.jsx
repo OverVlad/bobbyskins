@@ -10,7 +10,7 @@ class ProfileTradeHistory extends Component {
 
   render() {
     return (
-      <div>Content for trade-history</div>
+      <div className="wrapper">Content for trade-history</div>
     );
   }
 }

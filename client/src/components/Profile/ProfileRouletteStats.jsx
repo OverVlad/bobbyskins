@@ -10,7 +10,7 @@ class ProfileRouletteStats extends Component {
 
   render() {
     return (
-      <div>Content for roulette-statsy</div>
+      <div className="wrapper">Content for roulette-statsy</div>
     );
   }
 }

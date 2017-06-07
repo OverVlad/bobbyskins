@@ -10,7 +10,7 @@ class ProfileTransferHistory extends Component {
 
   render() {
     return (
-      <div>Content for transfer-history</div>
+      <div className="wrapper">Content for transfer-history</div>
     );
   }
 }

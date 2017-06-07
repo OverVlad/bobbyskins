@@ -10,7 +10,7 @@ class ProfileReferalSystem extends Component {
 
   render() {
     return (
-      <div>Content for referal-system</div>
+      <div className="wrapper">Content for referal-system</div>
     );
   }
 }
