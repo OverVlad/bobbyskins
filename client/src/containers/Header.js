@@ -9,6 +9,7 @@ import * as authActions from '../actions/authActions';
 import UserLogin from '../components/Header/UserLogin.jsx';
 import SteamAuth from '../components/Header/SteamAuth.jsx';
 import GameLink from '../components/GameLink.jsx';
+import RolImg from '../../public/img/rol.png';
 
 import socket from '../utils/socket';
 
@@ -50,15 +51,15 @@ class Header extends Component {
 
         <Row className="games" center="sm">
           <Col sm={2} className="game">
-            <GameLink thumb="img/rol.png" title="Roulette" route="/" />
+            <GameLink thumb={RolImg} title="Roulette" route="/" />
           </Col>
 
           <Col sm={2} className="game">
-            <GameLink thumb="img/rol.png" title="Poker" route="/poker" />
+            <GameLink thumb={RolImg} title="Poker" route="/poker" />
           </Col>
 
           <Col sm={2} className="game">
-            <GameLink thumb="img/rol.png" title="Game 3" route="/" />
+            <GameLink thumb={RolImg} title="Game 3" route="/" />
           </Col>
         </Row>
       </div>
