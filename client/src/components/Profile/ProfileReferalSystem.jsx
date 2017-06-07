@@ -10,7 +10,48 @@ class ProfileReferalSystem extends Component {
 
   render() {
     return (
-      <div className="wrapper">Content for referal-system</div>
+      <div className="profile-data-wrapper">
+        <div className="wrapper">
+          <div className="common-stats">
+            <table>
+              <tbody>
+                <tr>
+                  <td>Уровень:</td>
+                  <td>Бронза</td>
+                </tr>
+                <tr>
+                  <td>Посетителей:</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>Вкладчики:</td>
+                  <td>0/50 до Серебра</td>
+                </tr>
+                <tr>
+                  <td>Всего ставок:</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>Прибыль за все время:</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>Доступно сейчас:</td>
+                  <td>0</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="collect-earnings">
+          <button>Забрать прибыль</button>
+        </div>
+
+        <div className="wrapper">
+          Content for table
+        </div>
+      </div>
     );
   }
 }

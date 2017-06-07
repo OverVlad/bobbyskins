@@ -1,7 +1,9 @@
 .sidebar {
-  min-width: 250px;
+  width: 230px;
   padding-left: 0;
   padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
   padding-bottom: 20px;
   overflow-y: auto;
   font-family: $font-main;
@@ -83,6 +85,10 @@
 
   .sidebar-avatar {
     padding: 10px 0 40px;
+
+    .sidebar-avatar__pic {
+      height: 147px;
+    }
 
     .sidebar-avatar__money {
       padding-top: 10px;
