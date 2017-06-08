@@ -29,6 +29,19 @@ betSchema.set('timestamps', true);
 * Static methods
 * */
 
+betSchema.statics.getStat = function (req, res) {
+  const Bet = this;
+  const userId = req.params.id;
+
+  Bet.find()
+  .select('_id createdAt round_id amount type collect')
+  .where('user_id').equals(userId)
+  .then(bets => res.status(500).json({ bets }))
+  .catch(error => {
+      return res.status(500).json(error.message || "Error connecting to database");
+  });
+}
+
 
 const BetModel = mongoose.model('Bet', betSchema);
 

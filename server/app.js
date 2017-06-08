@@ -59,8 +59,8 @@ app.use(express.static(path.join(__dirname, '../client/public/')));
 
 // dynamic content
 app.use('/auth', auth);
-app.use('/auth', rooms);
-app.use('/api', checkAuth, api);
+app.use('/rooms', rooms);
+app.use('/api', api);
 app.use('/', index);
 
 // catch 404 and forward to error handler

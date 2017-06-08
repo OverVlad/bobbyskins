@@ -241,6 +241,9 @@ class Roulette {
         bets.map((bet) => {
           winTypes.map((winType) => {
             if (bet.type === winType) {
+              bet.collect = bet.amount * this.multipliers[bet.type];
+              bet.save();
+
               BetsWin.push(bet);
             }
           })

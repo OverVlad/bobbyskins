@@ -1,4 +1,4 @@
-exports.formatUserObject = function (userData) {
+exports.formatUserObject = (userData) => {
   return {
     id: userData._id,
     username: userData.username,
@@ -9,7 +9,7 @@ exports.formatUserObject = function (userData) {
   };
 };
 
-exports.formatChatMessage = function (socket, message) {
+exports.formatChatMessage = (socket, message) => {
   const { currentChatroomId, user: { username, avatar, _id } } = socket;
 
   return {
@@ -23,7 +23,7 @@ exports.formatChatMessage = function (socket, message) {
   };
 };
 
-exports.formatBet = function (socket, bet) {
+exports.formatBet = (socket, bet) => {
   const { user: { username, avatar, _id } } = socket;
 
   return {
@@ -31,6 +31,17 @@ exports.formatBet = function (socket, bet) {
     user_id: _id,
     amount: bet.amount,
     type: bet.type
+  };
+};
+
+exports.formatPokerBet = (socket, pokerBet) => {
+  const { user: { _id } } = socket;
+
+  return {
+    user_id: _id,
+    amount: pokerBet.amount,
+    collect: pokerBet.collect,
+    combination: pokerBet.handRank
   };
 };
 
