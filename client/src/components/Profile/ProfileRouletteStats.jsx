@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import ReactTable from 'react-table'
+import { connect } from 'react-redux';
+import ReactTable from 'react-table';
 import { fetchRouletteStats } from '../../actions/profileActions';
 
 class ProfileRouletteStats extends Component {
@@ -118,10 +118,12 @@ class ProfileRouletteStats extends Component {
           </div>
         </div>
 
-        <div className="wrapper">
+        <div className="table-wrapper">
           <ReactTable
+            className='-striped -highlight'
             data={data}
             columns={columns}
+            defaultPageSize={10}
           />
         </div>
       </div>

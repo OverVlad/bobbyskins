@@ -62,7 +62,7 @@ module.exports = {
       },
       {
         test: /\.(css|scss|sass)$/,
-        include: [options.entry.css, /flexboxgrid/],
+        include: [options.entry.css, /flexboxgrid/, /react-table/],
         loader: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: ['css-loader', 'sass-loader', 'import-glob-loader']

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import ReactTable from 'react-table';
 import { fetchReferals } from '../../actions/profileActions';
 
 class ProfileReferalSystem extends Component {
@@ -9,6 +10,76 @@ class ProfileReferalSystem extends Component {
   // }
 
   render() {
+    const data = [{
+      betId: '123456',
+      round: '12345',
+      time: '14:45:12',
+      betAmount: '13500',
+      bet: 'Нечетные',
+      roll: '10',
+      profit: '10000',
+    },{
+      betId: '123456',
+      round: '12345',
+      time: '14:45:12',
+      betAmount: '13500',
+      bet: 'Нечетные',
+      roll: '10',
+      profit: '55500',
+    },{
+      betId: '123456',
+      round: '12345',
+      time: '14:45:12',
+      betAmount: '13500',
+      bet: 'Нечетные',
+      roll: '10',
+      profit: '55500',
+    },{
+      betId: '123456',
+      round: '12345',
+      time: '14:45:12',
+      betAmount: '13500',
+      bet: 'Нечетные',
+      roll: '10',
+      profit: '55500',
+    },{
+      betId: '123456',
+      round: '12345',
+      time: '14:45:12',
+      betAmount: '13500',
+      bet: 'Нечетные',
+      roll: '10',
+      profit: '55500',
+    }];
+
+    const columns = [{
+      Header: 'Номер ставки',
+      accessor: 'betId'
+    },
+    {
+      Header: 'Номер раунда',
+      accessor: 'round'
+    },
+    {
+      Header: 'Время',
+      accessor: 'time'
+    },
+    {
+      Header: 'Размер ставки',
+      accessor: 'betAmount'
+    },
+    {
+      Header: 'Ставка на',
+      accessor: 'bet'
+    },
+    {
+      Header: 'Выпало',
+      accessor: 'roll'
+    },{
+      Header: 'Прибыль',
+      accessor: 'profit'
+    }];
+
     return (
       <div className="profile-data-wrapper">
         <div className="wrapper">
@@ -49,7 +120,10 @@ class ProfileReferalSystem extends Component {
         </div>
 
         <div className="wrapper">
-          Content for table
+          <ReactTable
+            data={data}
+            columns={columns}
+          />
         </div>
       </div>
     );
