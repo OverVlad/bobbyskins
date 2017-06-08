@@ -32,8 +32,6 @@ class Poker extends Component {
     this.completeAnimation = this.completeAnimation.bind(this)
   }
 
-  getWinForHand = (hand) => (this.winNumbers[this.getRankForHand(hand)])
-
   getRankForHand = (hand) => {
     if (pokersolver.Hand.solve(hand).descr === 'Royal Flush') {
       return 9
@@ -119,7 +117,7 @@ class Poker extends Component {
       disableButtonsForRequest: false,
       handRank: this.getRankForHand(hand),
     }, () => {
-      socket.emit('poker round end', this.state.betAmount * this.winNumbers[this.state.handRank]);
+      socket.emit('poker round end', { amount: this.state.betAmount, handRank: this.state.handRank });
     })
   }
 

@@ -2,12 +2,15 @@ module.exports = (server) => (sessionMiddleware) => {
   const url = require('url');
   const io = require('socket.io')(server);
   const AuthError = require('../errors/AuthError');
-  const { formatChatMessage, formatBet, formatUser } = require('./format');
+  const { formatChatMessage, formatBet, formatUser, formatPokerBet } = require('./format');
+
   const Roulette = require('../games/Roulette');
+  const Poker = require('../games/Poker');
 
 
   const Message = require('../models/Message');
   const Bet = require('../models/Bet');
+  const PokerBet = require('../models/PokerBet');
   const Round = require('../models/Round');
   const User = require('../models/User');
 
@@ -15,6 +18,7 @@ module.exports = (server) => (sessionMiddleware) => {
   io.use(checkAuth);
 
   const roulette = new Roulette(io, Round);
+  const poker = new Poker();
 
   io.on('connection', function (socket) {
     socket.on('join chatroom', function (data) {
@@ -160,14 +164,22 @@ module.exports = (server) => (sessionMiddleware) => {
       socket.leave('roulette');
     });
 
-    socket.on('poker round end', (winCount) => {
+    socket.on('poker round end', (pokerBet) => {
       const userId = socket.user._id;
 
       User.findOne({_id: userId})
       .then((user) => {
-        user.balance += winCount;
-        user.save()
-        .then(user => socket.emit('refresh balance', user.balance));
+        pokerBet.collect = pokerBet.amount * poker.getWinForHand(pokerBet.handRank);
+        formattedPokerBet = formatPokerBet(socket, pokerBet);
+
+        newPokerBet = new PokerBet(formattedPokerBet);
+        newPokerBet.save()
+        .then((pokerBet) => {
+          user.balance += pokerBet.collect;
+          user.save()
+          .then(user => socket.emit('refresh balance', user.balance));
+        })
+        .catch(err => console.log(err));
       });
     });
 
