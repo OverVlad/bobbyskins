@@ -36,24 +36,24 @@ const SidebarList = () => {
           expandable={true}
           sublist={sublist}
         />
-        <SidebarListItem
+        {/* <SidebarListItem
           path="/profile/trade-history"
           title="История обменов"
           icon_path={TradeHistoryImg}
           expandable={false}
-        />
+        /> */}
         <SidebarListItem
           path="/profile/transfer-history"
           title="История переводов"
           icon_path={TransferHistoryImg}
           expandable={false}
         />
-        <SidebarListItem
+        {/* <SidebarListItem
           path="/profile/honesty-check"
           title="Проверка честности"
           icon_path={HonestyCheckImg}
           expandable={false}
-        />
+        /> */}
         <SidebarListItem
           path="/profile/settings"
           title="Настройки"

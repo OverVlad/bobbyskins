@@ -43,6 +43,8 @@
 }
 
 .collect-earnings {
+  margin-bottom: 18px;
+
   button {
     background: #5cb85c;
     border-color: #5cb85c;
@@ -126,6 +128,22 @@
 
     .-pagination {
       background-color: $bg-color;
+      box-shadow: none;
+      border-top: none;
+      padding: 3px 0;
+
+      .-pageJump > input,
+      .-pageSizeOptions > select {
+        background-color: $block-color;
+        color: $white;
+        border: 1px solid $border-bar;
+      }
+
+      button {
+        background-color: $block-color;
+        color: $white;
+        border: 1px solid $border-bar;
+      }
     }
 
     .-odd {

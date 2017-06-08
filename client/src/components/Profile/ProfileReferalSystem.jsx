@@ -10,74 +10,32 @@ class ProfileReferalSystem extends Component {
   // }
 
   render() {
-    const data = [{
-      betId: '123456',
-      round: '12345',
-      time: '14:45:12',
-      betAmount: '13500',
-      bet: 'Нечетные',
-      roll: '10',
-      profit: '10000',
-    },{
-      betId: '123456',
-      round: '12345',
-      time: '14:45:12',
-      betAmount: '13500',
-      bet: 'Нечетные',
-      roll: '10',
-      profit: '55500',
-    },{
-      betId: '123456',
-      round: '12345',
-      time: '14:45:12',
-      betAmount: '13500',
-      bet: 'Нечетные',
-      roll: '10',
-      profit: '55500',
-    },{
-      betId: '123456',
-      round: '12345',
-      time: '14:45:12',
-      betAmount: '13500',
-      bet: 'Нечетные',
-      roll: '10',
-      profit: '55500',
-    },{
-      betId: '123456',
-      round: '12345',
-      time: '14:45:12',
-      betAmount: '13500',
-      bet: 'Нечетные',
-      roll: '10',
-      profit: '55500',
-    }];
+    let data = [];
+    
+    for (let i = 0; i < 55; i++) {
+      data.push({
+        steamId: '123456',
+        joined: '01.01.2016',
+        totalBet: '666 000',
+        comission: '6600',
+      });
+    }
 
     const columns = [{
-      Header: 'Номер ставки',
-      accessor: 'betId'
+      Header: 'Steam ID',
+      accessor: 'steamId'
     },
     {
-      Header: 'Номер раунда',
-      accessor: 'round'
+      Header: 'Зарегистрировался',
+      accessor: 'joined'
     },
     {
-      Header: 'Время',
-      accessor: 'time'
+      Header: 'Общая сумма ставок',
+      accessor: 'totalBet'
     },
     {
-      Header: 'Размер ставки',
-      accessor: 'betAmount'
-    },
-    {
-      Header: 'Ставка на',
-      accessor: 'bet'
-    },
-    {
-      Header: 'Выпало',
-      accessor: 'roll'
-    },{
-      Header: 'Прибыль',
-      accessor: 'profit'
+      Header: 'Комиссия',
+      accessor: 'comission'
     }];
 
     return (
@@ -119,10 +77,12 @@ class ProfileReferalSystem extends Component {
           <button>Забрать прибыль</button>
         </div>
 
-        <div className="wrapper">
+        <div className="table-wrapper">
           <ReactTable
+            className='-striped -highlight'
             data={data}
             columns={columns}
+            defaultPageSize={10}
           />
         </div>
       </div>

@@ -10,47 +10,19 @@ class ProfileRouletteStats extends Component {
   // }
 
   render() {
-    const data = [{
-      betId: '123456',
-      round: '12345',
-      time: '14:45:12',
-      betAmount: '13500',
-      bet: 'Нечетные',
-      roll: '10',
-      profit: '10000',
-    },{
-      betId: '123456',
-      round: '12345',
-      time: '14:45:12',
-      betAmount: '13500',
-      bet: 'Нечетные',
-      roll: '10',
-      profit: '55500',
-    },{
-      betId: '123456',
-      round: '12345',
-      time: '14:45:12',
-      betAmount: '13500',
-      bet: 'Нечетные',
-      roll: '10',
-      profit: '55500',
-    },{
-      betId: '123456',
-      round: '12345',
-      time: '14:45:12',
-      betAmount: '13500',
-      bet: 'Нечетные',
-      roll: '10',
-      profit: '55500',
-    },{
-      betId: '123456',
-      round: '12345',
-      time: '14:45:12',
-      betAmount: '13500',
-      bet: 'Нечетные',
-      roll: '10',
-      profit: '55500',
-    }];
+    let data = [];
+    
+    for (let i = 0; i < 55; i++) {
+      data.push({
+        betId: '123456',
+        round: '12345',
+        time: '14:45:12',
+        betAmount: '13500',
+        bet: 'Нечетные',
+        roll: '10',
+        profit: '10000',
+      });
+    }
 
     const columns = [{
       Header: 'Номер ставки',
