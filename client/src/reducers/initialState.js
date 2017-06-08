@@ -1,3 +1,5 @@
+import faqBoxes from '../../configs/faqBoxes';
+
 const initialState = {
   auth: {
     isAuthenticated: false,
@@ -84,7 +86,8 @@ const initialState = {
       }
     },
     historyRolls: []
-  }
+  },
+  support: faqBoxes
 };
 
 export default initialState;

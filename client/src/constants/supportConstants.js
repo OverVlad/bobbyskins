@@ -1,0 +1,1 @@
+export const TOGGLE_FAQBOX = 'TOGGLE_FAQBOX';
