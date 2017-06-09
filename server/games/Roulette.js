@@ -200,8 +200,8 @@ class Roulette {
   getOwnBets(userId) {
     return Bet
       .find()
-      .where('round_id').equals(this.round._id)
-      .where('user_id').equals(userId)
+      .where('round').equals(this.round._id)
+      .where('user').equals(userId)
       .select('amount type');
   }
 
@@ -236,7 +236,7 @@ class Roulette {
 
     Bet
       .find()
-      .where('round_id').equals(this.round._id)
+      .where('round').equals(this.round._id)
       .then((bets) => {
         bets.map((bet) => {
           winTypes.map((winType) => {
@@ -255,7 +255,7 @@ class Roulette {
   setWinnerCoins(BetsWin) {
     return BetsWin.map((bet) => {
       User
-        .findOne({ _id: bet.user_id })
+        .findOne({ _id: bet.user })
         .then((user) => {
           user.balance += bet.amount * this.multipliers[bet.type];
           user.save();
