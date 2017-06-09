@@ -8,7 +8,10 @@ function faqBox(state = {}, action) {
         return state;
       }
 
-      return Object.assign(state, {}, { opened: !state.opened });
+      return {
+        ...state,
+        opened: !state.opened
+      }
     default:
       return state;
   }
