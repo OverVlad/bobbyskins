@@ -4,7 +4,8 @@ import userReducer from './userReducer';
 import roomsReducer from './roomsReducer';
 import chatroomReducer from './chatroomReducer';
 import rouletteReducer from './rouletteReducer';
-import pokerReducer from './pokerReducer'
+import pokerReducer from './pokerReducer';
+import supportReducer from './supportReducer';
 
 export default combineReducers({
   chatroom: chatroomReducer,
@@ -13,4 +14,5 @@ export default combineReducers({
   rooms: roomsReducer,
   roulette: rouletteReducer,
   poker: pokerReducer,
+  support: supportReducer
 });

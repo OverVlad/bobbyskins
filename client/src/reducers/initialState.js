@@ -1,3 +1,5 @@
+import faqBoxes from '../../configs/faqBoxes';
+
 const initialState = {
   auth: {
     isAuthenticated: false,
@@ -8,7 +10,13 @@ const initialState = {
     username: '',
     avatar: '',
     role: '',
-    balance: 0
+    balance: 0,
+    isFetching: false,
+    commonInfo: {},
+    tradeHistory: [],
+    referals: [],
+    rouletteStats: [],
+    pokerStats: []
   },
   rooms: {
     visibilityFilter: 'all',
@@ -78,7 +86,8 @@ const initialState = {
       }
     },
     historyRolls: []
-  }
+  },
+  support: faqBoxes
 };
 
 export default initialState;
