@@ -4,7 +4,10 @@ import Base from './components/Base.jsx';
 import HomePage from './components/HomePage.jsx';
 import DepositPage from './components/DepositPage.jsx';
 import WithdrawPage from './components/WithdrawPage.jsx';
-import PokerPage from './components/PokerPage.jsx'
+import RulesPage from './components/RulesPage.jsx';
+import Support from './containers/Support.js';
+import PokerPage from './components/PokerPage.jsx';
+import ProfilePage from './components/ProfilePage.jsx';
 
 import { userAuthCheckRequest, authenticateUser } from './actions/authActions';
 import { updateUser } from './actions/userActions';
@@ -55,7 +58,47 @@ const routes = {
     {
       path: '/poker',
       component: PokerPage
-    }
+    },
+    {
+      path: '/rules',
+      component: RulesPage
+    },
+    {
+      path: '/support',
+      component: Support
+    },
+    {
+      path: '/profile/common-info',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/referal-system',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/roulette-stats',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/poker-stats',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/trade-history',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/transfer-history',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/honesty-check',
+      component: ProfilePage
+    },
+    {
+      path: '/profile/settings',
+      component: ProfilePage
+    },
   ]
 };
 

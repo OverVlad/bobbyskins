@@ -5,6 +5,7 @@ import { browserHistory, Router } from 'react-router';
 import axios from 'axios';
 import store from './store/index';
 import routes from './routes';
+import 'react-table/react-table.css';
 
 // Heroku fix
 axios.defaults.headers.post['Access-Control-Allow-Methods'] = 'PATCH, DELETE, POST, GET, OPTIONS';

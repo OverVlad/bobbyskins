@@ -12,6 +12,7 @@ const options = {
     css: path.join(__dirname, '/client/src/assets/css/main.scss'),
     js: path.join(__dirname,'/client/assets/'),
     fonts: path.join(__dirname,'/client/assets/fonts/'),
+    images: path.join(__dirname, '/client/public/img'),
     app: path.join(__dirname, '/client/src/app.jsx')
   }
 }
@@ -32,8 +33,6 @@ if (!debug) {
     }
   }));
 }
-
-
 
 module.exports = {
   devtool: debug ? 'source-map' : '',
@@ -63,11 +62,15 @@ module.exports = {
       },
       {
         test: /\.(css|scss|sass)$/,
-        include: [options.entry.css, /flexboxgrid/],
+        include: [options.entry.css, /flexboxgrid/, /react-table/],
         loader: ExtractTextPlugin.extract({
           fallback: "style-loader",
           use: ['css-loader', 'sass-loader', 'import-glob-loader']
         }),
+      },
+      {
+        test: /\.(png|jpg)$/,
+        loader: "file-loader?name=../img/[name].[ext]"
       },
     ],
   },

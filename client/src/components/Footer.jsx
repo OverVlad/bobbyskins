@@ -1,14 +1,18 @@
 import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
 import { Link } from 'react-router';
+import SteamImg from '../../public/img/steam.png';
+import VkImg from '../../public/img/vk.png';
+import TwitterImg from '../../public/img/twitter.png';
+import FacebookImg from '../../public/img/facebook.png';
 
 const Footer = () => (
   <Row center="xs" className="footer">
     <Col sm={2}>
-      <Link className="footer-social"><img src="img/steam.png" alt="" className="footer-icon" /></Link>
-      <Link className="footer-social"><img src="img/vk.png" alt=""/></Link>
-      <Link className="footer-social"><img src="img/twitter.png" alt=""/></Link>
-      <Link className="footer-social"><img src="img/facebook.png" alt=""/></Link>
+      <Link className="footer-social"><img src={SteamImg} alt="" className="footer-icon" /></Link>
+      <Link className="footer-social"><img src={VkImg} alt=""/></Link>
+      <Link className="footer-social"><img src={TwitterImg} alt=""/></Link>
+      <Link className="footer-social"><img src={FacebookImg} alt=""/></Link>
     </Col>
     <Col sm={3}>
       <p className="copyright">2017 Copyright ©. All rights reserved</p>

@@ -1,0 +1,101 @@
+.sidebar {
+  width: 230px;
+  padding-left: 0;
+  padding-right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  padding-bottom: 20px;
+  overflow-y: auto;
+  font-family: $font-main;
+  font-size: 16px;
+
+  .sidebar-list-item {
+    float: left;
+    width: 100%;
+    min-width: 210px;
+    text-align: left;
+
+    &:nth-child(3) {
+      padding-top: 5px;
+
+      & > div {
+        padding-left: 10px;
+      }
+    }
+
+    div {
+      display: inline-block;
+      vertical-align: middle;
+
+      .sidebar-list-item__icon {
+        width: 25px;
+        height: 20px;
+        fill: white;
+      }
+    }
+
+    .sidebar-list-item__link {
+      display: block;
+      padding: 5px 10px;
+
+      &:hover {
+        background-color: $border-bar;
+      }
+    }
+
+    .sidebar-list-item__link-active {
+      background-color: $border-bar;
+      border-left: 3px solid $blue;
+    }
+
+    .sidebar-list-item__title,
+    .sidebar-list-item__sublist__item-title {
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 10px;
+    }
+
+    .sidebar-list-item__sublist {
+      padding-top: 5px;
+
+      .sidebar-list-sublist-item {
+        text-align: left;
+
+        &:last-child {
+          padding-bottom: 0;
+        }
+
+        .sidebar-list-item__link {
+          padding-left: 43px;
+        }
+
+        .sidebar-list-item__link-active {
+          padding-left: 40px;
+        }
+      }
+    }
+  }
+
+  .sidebar-list-item > .sidebar-list-item__link-active {
+    padding-left: 7px;
+  }
+
+  .sidebar-avatar {
+    padding: 10px 0 40px;
+
+    .sidebar-avatar__pic {
+      height: 147px;
+    }
+
+    .sidebar-avatar__money {
+      padding-top: 10px;
+      display: inline-block;
+      font-size: 14px;
+    }
+
+    .sidebar-avatar__username {
+      padding-top: 10px;
+      font-size: 20px;
+    }
+  }
+}

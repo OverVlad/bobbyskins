@@ -5,7 +5,7 @@ import Inventory from './Deposit/Inventory.jsx'
 import Withdraw from './Deposit/Withdraw.jsx'
 
 
-const DepositPage = () => (
+const WithdrawPage = () => (
   <Grid>
     <Row center="xs">
       <Col xs={12} sm={7}>
@@ -19,4 +19,4 @@ const DepositPage = () => (
   </Grid>
 );
 
-export default DepositPage;
+export default WithdrawPage;
