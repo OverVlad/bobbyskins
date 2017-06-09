@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 const SidebarListItem = ({path, title, icon_path, expandable=false, sublist=[]}) => {
   if (expandable) {
     const sublistItems = sublist.map((item) =>
-      <li key={item.path}>
+      <li className="sidebar-list-sublist-item" key={item.path}>
         <Link className="sidebar-list-item__link" activeClassName="sidebar-list-item__link-active" to={item.path}>
           <ReactSVG path={item.icon_path} className="sidebar-list-item__icon" />
           <p className="sidebar-list-item__sublist__item-title">{item.title}</p>

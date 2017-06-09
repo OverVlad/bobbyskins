@@ -11,7 +11,7 @@ class ProfileRouletteStats extends Component {
 
   render() {
     let data = [];
-    
+
     for (let i = 0; i < 55; i++) {
       data.push({
         betId: '123456',
@@ -54,33 +54,33 @@ class ProfileRouletteStats extends Component {
 
     return (
       <div className="profile-data-wrapper">
-        <h2>История ставок в рулетке</h2>
+        <h2 className="stats-header">История ставок в рулетке</h2>
 
         <div className="wrapper">
           <div className="common-stats">
-            <table>
-              <tbody>
-                <tr>
-                  <td>Общее количество ставок:</td>
-                  <td>164</td>
+            <table className="common-stats-table">
+              <tbody className="common-stats-tbody">
+                <tr className="common-stats-tr">
+                  <td className="common-stats-td">Общее количество ставок:</td>
+                  <td className="common-stats-td">164</td>
                 </tr>
-                <tr>
-                  <td>Общая сумма ставок:</td>
-                  <td>
+                <tr className="common-stats-tr">
+                  <td className="common-stats-td">Общая сумма ставок:</td>
+                  <td className="common-stats-td">
                     <p className="amount">194 500</p>
                     <i className="fa fa-diamond" aria-hidden="true"></i>
                   </td>
                 </tr>
-                <tr>
-                  <td>Наибольший выигрыш:</td>
-                  <td>
+                <tr className="common-stats-tr">
+                  <td className="common-stats-td">Наибольший выигрыш:</td>
+                  <td className="common-stats-td">
                     <p className="amount">140 000</p>
                     <i className="fa fa-diamond" aria-hidden="true"></i>
                   </td>
                 </tr>
-                <tr>
-                  <td>Общий выигрыш:</td>
-                  <td>
+                <tr className="common-stats-tr">
+                  <td className="common-stats-td">Общий выигрыш:</td>
+                  <td className="common-stats-td">
                     <p className="amount">276 300</p>
                     <i className="fa fa-diamond" aria-hidden="true"></i>
                   </td>

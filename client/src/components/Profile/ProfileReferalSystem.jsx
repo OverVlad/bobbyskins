@@ -11,7 +11,7 @@ class ProfileReferalSystem extends Component {
 
   render() {
     let data = [];
-    
+
     for (let i = 0; i < 55; i++) {
       data.push({
         steamId: '123456',
@@ -74,7 +74,7 @@ class ProfileReferalSystem extends Component {
         </div>
 
         <div className="collect-earnings">
-          <button>Забрать прибыль</button>
+          <button className="collect-earnings-button">Забрать прибыль</button>
         </div>
 
         <div className="table-wrapper">
