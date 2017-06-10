@@ -11,12 +11,13 @@ const initialState = {
     avatar: '',
     role: '',
     balance: 0,
-    isFetching: false,
     commonInfo: {},
     tradeHistory: [],
     referals: [],
     rouletteStats: [],
-    pokerStats: []
+    rouletteStatsIsFetching: false,
+    pokerStats: [],
+    pokerStatsIsFetching: false
   },
   rooms: {
     visibilityFilter: 'all',

@@ -65,27 +65,43 @@ function userReducer(state = user, action) {
         isFetching: false,
         tradeHistory: action.tradeHistory
       }
-    case profile.REQUEST_ROULETTE_STATS:
+    case profile.FETCH_ROULETTE_STATS_REQUEST:
       return {
         ...state,
-        isFetching: true
+        rouletteStatsIsFetching: true,
+        rouletteStatsFetchingError: null
       }
-    case profile.RECEIVE_ROULETTE_STATS:
+    case profile.FETCH_ROULETTE_STATS_SUCCESS:
       return {
         ...state,
-        isFetching: false,
-        rouletteStats: action.rouletteStats
+        rouletteStatsIsFetching: false,
+        rouletteStats: action.rouletteStats,
+        rouletteStatsFetchingError: null
       }
-    case profile.REQUEST_POKER_STATS:
+    case profile.FETCH_ROULETTE_STATS_FAILURE:
       return {
         ...state,
-        isFetching: true
+        rouletteStatsIsFetching: false,
+        rouletteStatsFetchingError: action.message
       }
-    case profile.RECEIVE_POKER_STATS:
+    case profile.FETCH_POKER_STATS_REQUEST:
       return {
         ...state,
-        isFetching: false,
-        pokerStats: action.pokerStats
+        pokerStatsIsFetching: true,
+        pokerStatsFetchingError: null
+      }
+    case profile.FETCH_POKER_STATS_SUCCESS:
+      return {
+        ...state,
+        pokerStatsIsFetching: false,
+        pokerStats: action.pokerStats,
+        pokerStatsFetchingError: null
+      }
+    case profile.FETCH_POKER_STATS_FAILURE:
+      return {
+        ...state,
+        pokerStatsIsFetching: false,
+        pokerStatsFetchingError: action.message
       }
     default:
       return state;

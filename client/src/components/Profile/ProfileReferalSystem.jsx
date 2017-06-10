@@ -74,7 +74,7 @@ class ProfileReferalSystem extends Component {
         </div>
 
         <div className="collect-earnings">
-          <button className="collect-earnings-button">Забрать прибыль</button>
+          <button className="cta-button">Забрать прибыль</button>
         </div>
 
         <div className="table-wrapper">
