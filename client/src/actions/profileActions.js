@@ -48,36 +48,6 @@ function receiveTradeHistory(user, res) {
   }
 }
 
-function requestRouletteStats(user) {
-  return {
-    type: actions.REQUEST_ROULETTE_STATS,
-    user
-  }
-}
-
-function receiveRouletteStats(user, res) {
-  return {
-    type: actions.RECEIVE_ROULETTE_STATS,
-    user,
-    rouletteStats: res
-  }
-}
-
-function requestPokerStats(user) {
-  return {
-    type: actions.REQUEST_POKER_STATS,
-    user
-  }
-}
-
-function receivePokerStats(user, res) {
-  return {
-    type: actions.RECEIVE_POKER_STATS,
-    user,
-    pokerStats: res
-  }
-}
-
 export const fetchCommonInfo = (user) => (dispatch) => {
   dispatch(requestCommonInfo(user));
 
@@ -100,20 +70,37 @@ export const fetchTradeHistory = (user) => (dispatch) => {
 }
 
 export const fetchRouletteStats = (user) => (dispatch) => {
-  dispatch(requestRouletteStats(user));
+  dispatch({
+    type: actions.FETCH_ROULETTE_STATS_REQUEST,
+    user
+  });
 
-  return axios.get(`/api/profile/${user.id}/roulette-stats`)
-    .then(res => {
+  return axios.get(`/api/profile/${user.id}/roulette-stats`).then(
+    res => {
       const rouletteStats = res.data.bets.map((i) => ( {...i, createdAt: formatDate(i.createdAt)} ));
-      dispatch(receiveRouletteStats(user, rouletteStats));
-    })
+      dispatch({
+        type: actions.FETCH_ROULETTE_STATS_SUCCESS,
+        user,
+        rouletteStats
+      });
+    }, error => {
+      dispatch({
+        type: actions.FETCH_ROULETTE_STATS_FAILURE,
+        user,
+        message: error.message || 'Something went wrong.'
+      });
+    }
+  );
 }
 
 export const fetchPokerStats = (user) => (dispatch) => {
-  dispatch(requestPokerStats(user));
+  dispatch({
+    type: actions.FETCH_POKER_STATS_REQUEST,
+    user
+  });
 
-  return axios.get(`/api/profile/${user.id}/poker-stats`)
-    .then(res => {
+  return axios.get(`/api/profile/${user.id}/poker-stats`).then(
+    res => {
       const pokerStats = res.data.pokerBets.map((i) => {
         return {
           ...i,
@@ -122,6 +109,17 @@ export const fetchPokerStats = (user) => (dispatch) => {
         }
       });
 
-      dispatch(receivePokerStats(user, pokerStats));
-    })
+      dispatch({
+        type: actions.FETCH_POKER_STATS_SUCCESS,
+        user,
+        pokerStats
+      });
+    }, error => {
+      dispatch({
+        type: actions.FETCH_POKER_STATS_FAILURE,
+        user,
+        message: error.message || 'Something went wrong.'
+      });
+    }
+  );
 }

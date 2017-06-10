@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ReactTable from 'react-table';
 import ProfileDataLoading from './ProfileDataLoading.jsx';
 import ProfileDataNoData from './ProfileDataNoData.jsx';
+import FetchError from './FetchError.jsx';
 import { fetchRouletteStats } from '../../actions/profileActions';
 import rouletteStatsColumns from '../../../configs/rouletteStatsColumns';
 
@@ -13,7 +14,16 @@ class ProfileRouletteStats extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, dispatch } = this.props;
+
+    if (user.rouletteStatsFetchingError) {
+      return (
+        <FetchError
+          message={user.rouletteStatsFetchingError}
+          onRetry={() => dispatch(fetchRouletteStats(user))}
+        />
+      )
+    }
 
     return (
       <div className="profile-data-wrapper">

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ReactTable from 'react-table';
 import ProfileDataLoading from './ProfileDataLoading.jsx';
 import ProfileDataNoData from './ProfileDataNoData.jsx';
+import FetchError from './FetchError.jsx';
 import { fetchPokerStats } from '../../actions/profileActions';
 import pokerStatsColumns from '../../../configs/pokerStatsColumns';
 
@@ -13,7 +14,17 @@ class ProfilePokerStats extends Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { user, dispatch } = this.props;
+
+    if (user.pokerStatsFetchingError) {
+      return (
+        <FetchError
+          message={user.pokerStatsFetchingError}
+          onRetry={() => dispatch(fetchPokerStats(user))}
+        />
+      )
+    }
+
     return (
       <div className="profile-data-wrapper">
         <h2 className="stats-header">История ставок в покере</h2>

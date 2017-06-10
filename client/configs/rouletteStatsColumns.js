@@ -9,7 +9,8 @@ export default [
   },
   {
     Header: 'Время ставки',
-    accessor: 'createdAt'
+    accessor: 'createdAt',
+    minWidth: 130
   },
   {
     Header: 'Размер ставки',
