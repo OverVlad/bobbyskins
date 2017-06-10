@@ -1,48 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactTable from 'react-table';
+import ProfileDataLoading from './ProfileDataLoading.jsx';
+import ProfileDataNoData from './ProfileDataNoData.jsx';
 import { fetchPokerStats } from '../../actions/profileActions';
+import pokerStatsColumns from '../../../configs/pokerStatsColumns';
 
 class ProfilePokerStats extends Component {
-  // componentDidMount() {
-  //   const { dispatch, user } = this.props
-  //   dispatch(fetchPokerStats(user));
-  // }
+  componentDidMount() {
+    const { dispatch, user } = this.props
+    dispatch(fetchPokerStats(user));
+  }
 
   render() {
-    let data = [];
-
-    for (let i = 0; i < 55; i++) {
-      data.push({
-        betId: '123456',
-        time: '14:45:12',
-        betAmount: '13500',
-        combination: '10',
-        profit: '10000',
-      });
-    }
-
-    const columns = [{
-      Header: 'Номер ставки',
-      accessor: 'betId'
-    },
-    {
-      Header: 'Время',
-      accessor: 'time'
-    },
-    {
-      Header: 'Размер ставки',
-      accessor: 'betAmount'
-    },
-    {
-      Header: 'Выпавшая комбинация',
-      accessor: 'combination'
-    }
-    ,{
-      Header: 'Прибыль',
-      accessor: 'profit'
-    }];
-
+    const { user } = this.props;
     return (
       <div className="profile-data-wrapper">
         <h2 className="stats-header">История ставок в покере</h2>
@@ -84,9 +55,12 @@ class ProfilePokerStats extends Component {
         <div className="table-wrapper">
           <ReactTable
             className='-striped -highlight'
-            data={data}
-            columns={columns}
+            data={user.pokerStats}
+            columns={pokerStatsColumns}
             defaultPageSize={10}
+            loading={user.pokerStatsIsFetching}
+            LoadingComponent={ProfileDataLoading}
+            NoDataComponent={ProfileDataNoData}
           />
         </div>
       </div>

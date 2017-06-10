@@ -1,56 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ReactTable from 'react-table';
+import ProfileDataLoading from './ProfileDataLoading.jsx';
+import ProfileDataNoData from './ProfileDataNoData.jsx';
 import { fetchRouletteStats } from '../../actions/profileActions';
+import rouletteStatsColumns from '../../../configs/rouletteStatsColumns';
 
 class ProfileRouletteStats extends Component {
-  // componentDidMount() {
-  //   const { dispatch, user } = this.props
-  //   dispatch(fetchRouletteStats(user));
-  // }
+  componentDidMount() {
+    const { dispatch, user } = this.props
+    dispatch(fetchRouletteStats(user));
+  }
 
   render() {
-    let data = [];
-
-    for (let i = 0; i < 55; i++) {
-      data.push({
-        betId: '123456',
-        round: '12345',
-        time: '14:45:12',
-        betAmount: '13500',
-        bet: 'Нечетные',
-        roll: '10',
-        profit: '10000',
-      });
-    }
-
-    const columns = [{
-      Header: 'Номер ставки',
-      accessor: 'betId'
-    },
-    {
-      Header: 'Номер раунда',
-      accessor: 'round'
-    },
-    {
-      Header: 'Время',
-      accessor: 'time'
-    },
-    {
-      Header: 'Размер ставки',
-      accessor: 'betAmount'
-    },
-    {
-      Header: 'Ставка на',
-      accessor: 'bet'
-    },
-    {
-      Header: 'Выпало',
-      accessor: 'roll'
-    },{
-      Header: 'Прибыль',
-      accessor: 'profit'
-    }];
+    const { user } = this.props;
 
     return (
       <div className="profile-data-wrapper">
@@ -93,9 +56,12 @@ class ProfileRouletteStats extends Component {
         <div className="table-wrapper">
           <ReactTable
             className='-striped -highlight'
-            data={data}
-            columns={columns}
+            data={user.rouletteStats}
+            columns={rouletteStatsColumns}
             defaultPageSize={10}
+            loading={user.rouletteStatsIsFetching}
+            LoadingComponent={ProfileDataLoading}
+            NoDataComponent={ProfileDataNoData}
           />
         </div>
       </div>

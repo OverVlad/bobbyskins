@@ -68,23 +68,23 @@ function userReducer(state = user, action) {
     case profile.REQUEST_ROULETTE_STATS:
       return {
         ...state,
-        isFetching: true
+        rouletteStatsIsFetching: true
       }
     case profile.RECEIVE_ROULETTE_STATS:
       return {
         ...state,
-        isFetching: false,
+        rouletteStatsIsFetching: false,
         rouletteStats: action.rouletteStats
       }
     case profile.REQUEST_POKER_STATS:
       return {
         ...state,
-        isFetching: true
+        pokerStatsIsFetching: true
       }
     case profile.RECEIVE_POKER_STATS:
       return {
         ...state,
-        isFetching: false,
+        pokerStatsIsFetching: false,
         pokerStats: action.pokerStats
       }
     default:

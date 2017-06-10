@@ -1,5 +1,7 @@
 import axios from 'axios';
 import * as actions from '../constants/profileConstants';
+import formatDate from '../utils/formatDate';
+import getPokerCombination from '../utils/getPokerCombination';
 
 function requestCommonInfo(user) {
   return {
@@ -8,11 +10,11 @@ function requestCommonInfo(user) {
   }
 }
 
-function receiveCommonInfo(user, json) {
+function receiveCommonInfo(user, res) {
   return {
     type: actions.RECEIVE_COMMON_INFO,
     user,
-    commonInfo: json.data
+    commonInfo: res.data
   }
 }
 
@@ -23,11 +25,11 @@ function requestReferals(user) {
   }
 }
 
-function receiveReferals(user, json) {
+function receiveReferals(user, res) {
   return {
     type: actions.RECEIVE_REFERALS,
     user,
-    referals: json.data
+    referals: res.data
   }
 }
 
@@ -38,11 +40,11 @@ function requestTradeHistory(user) {
   }
 }
 
-function receiveTradeHistory(user, json) {
+function receiveTradeHistory(user, res) {
   return {
     type: actions.RECEIVE_TRADE_HISTORY,
     user,
-    tradeHistory: json.data
+    tradeHistory: res.data
   }
 }
 
@@ -53,11 +55,11 @@ function requestRouletteStats(user) {
   }
 }
 
-function receiveRouletteStats(user, json) {
+function receiveRouletteStats(user, res) {
   return {
     type: actions.RECEIVE_ROULETTE_STATS,
     user,
-    rouletteStats: json.data
+    rouletteStats: res
   }
 }
 
@@ -68,50 +70,58 @@ function requestPokerStats(user) {
   }
 }
 
-function receivePokerStats(user, json) {
+function receivePokerStats(user, res) {
   return {
     type: actions.RECEIVE_POKER_STATS,
     user,
-    pokerStats: json.data
+    pokerStats: res
   }
 }
 
 export const fetchCommonInfo = (user) => (dispatch) => {
-  dispatch(requestCommonInfo(user))
+  dispatch(requestCommonInfo(user));
 
   return axios.get(`/api/profile/${user.id}/common-info`)
-    .then(res => res.json())
-    .then(json => dispatch(receiveCommonInfo(user, json)))
+    .then(res => dispatch(receiveCommonInfo(user, res)))
 }
 
 export const fetchReferals = (user) => (dispatch) => {
-  dispatch(requestReferals(user))
+  dispatch(requestReferals(user));
 
   return axios.get(`/api/profile/${user.id}/referals`)
-    .then(res => res.json())
-    .then(json => dispatch(receiveReferals(user, json)))
+    .then(res => dispatch(receiveReferals(user, res)))
 }
 
 export const fetchTradeHistory = (user) => (dispatch) => {
-  dispatch(requestTradeHistory(user))
+  dispatch(requestTradeHistory(user));
 
   return axios.get(`/api/profile/${user.id}/trade-history`)
-    .then(res => res.json())
-    .then(json => dispatch(receiveTradeHistory(user, json)))
+    .then(res => dispatch(receiveTradeHistory(user, res)))
 }
 
 export const fetchRouletteStats = (user) => (dispatch) => {
-  dispatch(requestRouletteStats(user))
+  dispatch(requestRouletteStats(user));
 
   return axios.get(`/api/profile/${user.id}/roulette-stats`)
-    .then(res => res.json())
-    .then(json => dispatch(receiveRouletteStats(user, json)))
+    .then(res => {
+      const rouletteStats = res.data.bets.map((i) => ( {...i, createdAt: formatDate(i.createdAt)} ));
+      dispatch(receiveRouletteStats(user, rouletteStats));
+    })
 }
 
 export const fetchPokerStats = (user) => (dispatch) => {
-  dispatch(requestPokerStats(user))
+  dispatch(requestPokerStats(user));
 
   return axios.get(`/api/profile/${user.id}/poker-stats`)
-    .then(res => res.json())
-    .then(json => dispatch(receivePokerStats(user, json)))
+    .then(res => {
+      const pokerStats = res.data.pokerBets.map((i) => {
+        return {
+          ...i,
+          createdAt: formatDate(i.createdAt),
+          combination: getPokerCombination(i.combination)
+        }
+      });
+
+      dispatch(receivePokerStats(user, pokerStats));
+    })
 }
