@@ -12,7 +12,7 @@ export default [
     accessor: 'amount'
   },
   {
-    Header: 'Выпавшая комбинация',
+    Header: 'Выпало',
     accessor: 'combination'
   },
   {
